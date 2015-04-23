@@ -1,0 +1,3 @@
+[submodule "libIRC"]
+	path = libIRC
+	url = http://github.com/Ethiraric/libIRC.git
