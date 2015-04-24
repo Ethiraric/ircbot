@@ -1,23 +1,25 @@
 ##
 ## Makefile for  in /home/sabour_f/rendu/ircbot/main
-## 
+##
 ## Made by Florian SABOURIN
 ## Login   <sabour_f@epitech.net>
-## 
+##
 ## Started on  Thu Apr 23 23:22:50 2015 Florian SABOURIN
 ## Last update Thu Apr 23 23:28:06 2015 Florian SABOURIN
 ##
 
 NAME		=	../IRCBot
 CC		=	gcc
-override CFLAGS	+=	-W -Wall -Iinclude -D_GNU_SOURCE
+override CFLAGS	+=	-W -Wall -Iinclude -I../libIRC/include -D_GNU_SOURCE
 export CFLAGS
-LDFLAGS		=	-L../libIRC -lIRC
+LDFLAGS		=	-ldl -L../libIRC -lIRC
 RM		=	@rm -vf
 MAKE		+=	--no-print-directory
 LIBIRC		=	../libIRC/libIRC.a
 
 SRC		=	src/main.c
+SRC		+=	src/vector.c
+
 OBJ		=	$(SRC:.c=.o)
 
 %.o:	%.c
@@ -35,7 +37,7 @@ clean:
 	$(RM) $(OBJ)
 
 fclean: clean
-	$(RM) $(NAME) 
+	$(RM) $(NAME)
 
 re:	fclean all
 
