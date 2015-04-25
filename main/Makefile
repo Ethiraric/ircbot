@@ -19,6 +19,7 @@ LIBIRC		=	../libIRC/libIRC.a
 
 SRC		=	src/main.c
 SRC		+=	src/vector.c
+SRC		+=	src/select.c
 
 OBJ		=	$(SRC:.c=.o)
 

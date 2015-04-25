@@ -17,14 +17,27 @@
 # include "irc.h"
 # include "vector.h"
 
-typedef struct	s_bot
+typedef struct	s_net
+{
+  fd_set	rfds;
+  fd_set	wfds;
+  int		fdmax;
+}		t_net;
+
+typedef struct	s_bot t_bot;
+struct	s_bot
 {
   struct timeval	timeout;
   struct timeval	*timeptr;
   t_vector	conns;
+  t_net		net;
+  bool		running;
   void		*dlhandle;
   void		*handler_data;
-  int		(*handler_fct)(t_ircconnection *, void *);
-}		t_bot;
+  int		(*handler_fct)(t_bot *, t_ircconnection *, void *);
+  int		(*handler_input_fct)(t_bot *, void *);
+};
+
+int		bot_select(t_bot *bot);
 
 #endif /* !IRCBOT_H_ */
