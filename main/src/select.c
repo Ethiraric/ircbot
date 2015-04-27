@@ -19,11 +19,13 @@ static int	handle_stdin(t_bot *bot)
 
   if (FD_ISSET(0, &bot->net.rfds))
     {
-      if (getline(&input, &len, stdin) == (ssize_t)(-1))
+      input = NULL;
+      if (getline(&input, &len, stdin) == -1)
 	return (1);
-      len = 0;
-      if (bot->handler_input_fct)
+      if (*input)
 	len = bot->handler_input_fct(bot, bot->handler_data);
+      else
+	len = 0;
       free(input);
       return (len);
     }
@@ -51,16 +53,11 @@ static int	handle_conns(t_bot *bot)
 	return (1);
       else
 	{
-	  if (irc_parse_command(co))
+	  if (irc_parse_command(co) ||
+	      (irc_get_command(co) &&
+	       (irc_eval_cmd(co) || irc_handle_cmd(co, false) ||
+		bot->handler_fct(bot, co,bot->handler_data))))
 	    return (1);
-	  if (irc_get_command(co))
-	    {
-	      if (irc_eval_cmd(co) ||
-		  (bot->handler_fct &&
-		   bot->handler_fct(bot, co,bot->handler_data)) ||
-		  irc_handle_cmd(co, false))
-		return (1);
-	    }
 	  ++i;
 	}
     }

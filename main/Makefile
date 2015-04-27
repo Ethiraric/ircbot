@@ -12,7 +12,7 @@ NAME		=	../IRCBot
 CC		=	gcc
 override CFLAGS	+=	-W -Wall -Iinclude -I../libIRC/include -D_GNU_SOURCE
 export CFLAGS
-LDFLAGS		=	-ldl -L../libIRC -lIRC
+LDFLAGS		=	-ldl -L../libIRC -lIRC -rdynamic
 RM		=	@rm -vf
 MAKE		+=	--no-print-directory
 LIBIRC		=	../libIRC/libIRC.a
@@ -20,6 +20,7 @@ LIBIRC		=	../libIRC/libIRC.a
 SRC		=	src/main.c
 SRC		+=	src/vector.c
 SRC		+=	src/select.c
+SRC		+=	src/AI.c
 
 OBJ		=	$(SRC:.c=.o)
 

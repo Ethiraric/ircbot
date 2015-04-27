@@ -17,6 +17,19 @@
 # include "irc.h"
 # include "vector.h"
 
+# ifndef SYM_GET
+#  define SYM_GET	"irc_data_get"
+# endif
+# ifndef SYM_IRC
+#  define SYM_IRC	"irc_on_mess"
+# endif
+# ifndef SYM_STDIN
+#  define SYM_STDIN	"irc_stdin"
+# endif
+# ifndef SYM_DEL
+#  define SYM_DEL	"irc_data_delete"
+# endif
+
 typedef struct	s_net
 {
   fd_set	rfds;
@@ -39,5 +52,10 @@ struct	s_bot
 };
 
 int		bot_select(t_bot *bot);
+
+  /* AI handling */
+int		loadAI(t_bot *bot, char *filename);
+int		handler_fct_none(t_bot *bot, t_ircconnection *co, void *dat);
+int		handler_input_fct_none(t_bot *bot, void *dat);
 
 #endif /* !IRCBOT_H_ */
