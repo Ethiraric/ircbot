@@ -81,7 +81,7 @@ void		vector_pop_back(t_vector *vec)
 
 int		vector_push_back(t_vector *vec, void *elem)
 {
-  if (vec->len + 1 < vec->allocd &&
+  if (vec->len + 1 > vec->allocd &&
       vector_realloc(vec, vec->allocd + vec->alloc_step))
     return (1);
   vec->tab[vec->len] = elem;

@@ -21,6 +21,7 @@ SRC		=	src/main.c
 SRC		+=	src/vector.c
 SRC		+=	src/select.c
 SRC		+=	src/AI.c
+SRC		+=	src/botutils.c
 
 OBJ		=	$(SRC:.c=.o)
 

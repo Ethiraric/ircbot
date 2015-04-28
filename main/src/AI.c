@@ -23,21 +23,24 @@ int	handler_fct_none(t_bot *bot, t_ircconnection *co, void *dat)
   return (0);
 }
 
-int	handler_input_fct_none(t_bot *bot, void *dat)
+int	handler_input_fct_none(t_bot *bot, char *input, void *dat)
 {
+  // TODO: Add sample commands, "load", "quit"...
   /* Supress warnings */
   (void)(bot);
+  (void)(input);
   (void)(dat);
   /* Everything is fine */
   return (0);
 }
 
-static void	unloadAI(t_bot *bot)
+void		unloadAI(t_bot *bot)
 {
   void		(*deleter)(void *data);
 
   if (bot->dlhandle)
     {
+      printf("uHandle: %p\n", bot->dlhandle);
       deleter = dlsym(bot->dlhandle, SYM_DEL);
       if (!deleter)
 	fprintf(stderr, "dlsym: %s\n", dlerror());
@@ -54,10 +57,11 @@ static void	unloadAI(t_bot *bot)
 
 int		loadAI(t_bot *bot, char *filename)
 {
-  void		*dlhandle;
   void		*(*handler_data_getter)();
+  void		*dlhandle;
+  void		*data;
   int		(*handler_fct)(t_bot *, t_ircconnection *, void *);
-  int		(*handler_input_fct)(t_bot *, void *);
+  int		(*handler_input_fct)(t_bot *, char *, void *);
 
   /* Try to load a brand new AI */
   dlhandle = dlopen(filename, RTLD_NOW);
@@ -67,7 +71,7 @@ int		loadAI(t_bot *bot, char *filename)
       return (1);
     }
 
-  /* Return 1 if we can't load a symbol */
+  /* Return 1 if we can't load a symbol or datas */
   if (!(handler_fct = dlsym(dlhandle, SYM_IRC)) ||
       !(handler_input_fct = dlsym(dlhandle, SYM_STDIN)) ||
       !(handler_data_getter = dlsym(dlhandle, SYM_GET)))
@@ -77,12 +81,19 @@ int		loadAI(t_bot *bot, char *filename)
 	fprintf(stderr, "dlclose: %s\n", dlerror());
       return (1);
     }
+  if (!(data = handler_data_getter()))
+    {
+      if (dlclose(dlhandle))
+	fprintf(stderr, "dlclose: %s\n", dlerror());
+      return (1);
+    }
 
   /* Everything is fine, change the AI */
   unloadAI(bot);
-  bot->handler_data = handler_data_getter();
+  bot->handler_data = data;
   bot->dlhandle = dlhandle;
   bot->handler_fct = handler_fct;
   bot->handler_input_fct = handler_input_fct;
+  printf("Handle: %p\n", bot->dlhandle);
   return (0);
 }

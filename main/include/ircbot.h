@@ -38,7 +38,7 @@ typedef struct	s_net
 }		t_net;
 
 typedef struct	s_bot t_bot;
-struct	s_bot
+struct		s_bot
 {
   struct timeval	timeout;
   struct timeval	*timeptr;
@@ -48,14 +48,18 @@ struct	s_bot
   void		*dlhandle;
   void		*handler_data;
   int		(*handler_fct)(t_bot *, t_ircconnection *, void *);
-  int		(*handler_input_fct)(t_bot *, void *);
+  int		(*handler_input_fct)(t_bot *, char *, void *);
 };
 
 int		bot_select(t_bot *bot);
+int	bot_connect(t_bot *bot, const char *hostname, unsigned short port,
+		    const char *nick, const char *user, const char *realname,
+		    const char *pass);
 
   /* AI handling */
 int		loadAI(t_bot *bot, char *filename);
+void		unloadAI(t_bot *bot);
 int		handler_fct_none(t_bot *bot, t_ircconnection *co, void *dat);
-int		handler_input_fct_none(t_bot *bot, void *dat);
+int		handler_input_fct_none(t_bot *bot, char *input, void *dat);
 
 #endif /* !IRCBOT_H_ */

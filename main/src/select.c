@@ -21,9 +21,15 @@ static int	handle_stdin(t_bot *bot)
     {
       input = NULL;
       if (getline(&input, &len, stdin) == -1)
-	return (1);
+	{
+	  free(input);
+	  return (1);
+	}
       if (*input)
-	len = bot->handler_input_fct(bot, bot->handler_data);
+	{
+	  *((char *)rawmemchr(input, '\n')) = '\0';
+	  len = bot->handler_input_fct(bot, input, bot->handler_data);
+	}
       else
 	len = 0;
       free(input);
@@ -98,6 +104,6 @@ int		bot_select(t_bot *bot)
   ret = select(bot->net.fdmax, &bot->net.rfds, &bot->net.wfds, NULL,
 	       bot->timeptr);
   if (ret == -1)
-    return (-1);
+    return (1);
   return (handle_select(bot));
 }

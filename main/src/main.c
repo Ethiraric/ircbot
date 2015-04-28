@@ -10,6 +10,7 @@
 
 #include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "ircbot.h"
 
@@ -37,13 +38,30 @@ static int	exec(t_bot *bot)
   return (0);
 }
 
+static int	terminate(t_bot *bot)
+{
+  size_t	i;
+
+  unloadAI(bot);
+  while (i < vector_size(&bot->conns))
+    {
+      irc_co_delete(vector_at(&bot->conns, i));
+      free(vector_at(&bot->conns, i));
+      ++i;
+    }
+  vector_delete(&bot->conns, false);
+  return (0);
+}
+
+
 static void	usage()
 {
-  fprintf(stderr,
-	  "Usage : %s [lib]\n"
-	  "\tlib: a shared library containing particular symbols to interact "
-	  "with irc\n",
-	  program_invocation_name);
+  static const char	*fmt =
+      "Usage : %s [lib]\n"
+      "\tlib: a shared library containing particular symbols to interact "
+      "with irc\n";
+
+  fprintf(stderr, fmt, program_invocation_name);
 }
 
 int		main(int argc, char **argv)
@@ -59,5 +77,6 @@ int		main(int argc, char **argv)
   if (init(&bot) || (argc == 2 && loadAI(&bot, argv[1])))
     return (1);
   ret = exec(&bot);
+  ret |= terminate(&bot);
   return (ret);
 }
