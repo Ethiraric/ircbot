@@ -10,7 +10,7 @@
 
 NAME		=	../AI.so
 CC		=	gcc
-override CFLAGS	+=	-W -Wall -fpic -Iinclude -I../main/include
+override CFLAGS	+=	-fpic -Iinclude -I../main/include
 override CFLAGS	+=	-I../libIRC/include -D_GNU_SOURCE
 LDFLAGS		=	-shared -lsqlite3
 RM		=	@rm -vf
@@ -19,6 +19,9 @@ SRC		=	src/luneth.c
 SRC		+=	src/input.c
 SRC		+=	src/in_list.c
 SRC		+=	src/in_connect.c
+SRC		+=	src/in_disconnect.c
+SRC		+=	src/message.c
+SRC		+=	src/mess_join.c
 
 
 OBJ		=	$(SRC:.c=.o)

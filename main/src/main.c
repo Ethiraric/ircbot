@@ -43,6 +43,7 @@ static int	terminate(t_bot *bot)
   size_t	i;
 
   unloadAI(bot);
+  i = 0;
   while (i < vector_size(&bot->conns))
     {
       irc_co_delete(vector_at(&bot->conns, i));

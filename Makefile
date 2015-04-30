@@ -10,6 +10,8 @@
 
 MAKE		+=	--no-print-directory
 
+CFLAGS		=	-W -Wall -Wshadow
+export CFLAGS
 
 all:	libIRC AI IRCBot
 

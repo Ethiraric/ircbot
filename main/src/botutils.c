@@ -36,5 +36,32 @@ int	bot_connect(t_bot *bot, const char *hostname, unsigned short port,
       free(co);
       return (1);
     }
+  if (irc_get_socket(co) >= bot->net.fdmax)
+    bot->net.fdmax = irc_get_socket(co) + 1;
+  return (0);
+}
+
+int		bot_disconnect(t_bot *bot, size_t pos)
+{
+  t_ircconnection	*co;
+  size_t	i;
+  int		ret;
+
+  co = vector_at(&bot->conns, pos);
+  if (co)
+    {
+      ret = irc_disconnect(co);
+      irc_co_delete(co);
+      free(co);
+      vector_erase(&bot->conns, pos);
+      bot->net.fdmax = 1;
+      while (i < vector_size(&bot->conns))
+	{
+	  if (irc_get_socket(vector_at(&bot->conns, i)) >= bot->net.fdmax)
+	    bot->net.fdmax = irc_get_socket(vector_at(&bot->conns, i));
+	  ++i;
+	}
+      return (ret);
+    }
   return (0);
 }

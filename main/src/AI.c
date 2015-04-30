@@ -40,7 +40,6 @@ void		unloadAI(t_bot *bot)
 
   if (bot->dlhandle)
     {
-      printf("uHandle: %p\n", bot->dlhandle);
       deleter = dlsym(bot->dlhandle, SYM_DEL);
       if (!deleter)
 	fprintf(stderr, "dlsym: %s\n", dlerror());
@@ -94,6 +93,5 @@ int		loadAI(t_bot *bot, char *filename)
   bot->dlhandle = dlhandle;
   bot->handler_fct = handler_fct;
   bot->handler_input_fct = handler_input_fct;
-  printf("Handle: %p\n", bot->dlhandle);
   return (0);
 }

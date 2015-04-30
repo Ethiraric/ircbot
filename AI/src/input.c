@@ -12,12 +12,12 @@
 
 static const char	*cmds[] =
 {
-  "list", "connect", NULL
+  "list", "connect", "disconnect", NULL
 };
 
 static int	(* const fcts[])(t_bot *, t_luneth *) =
 {
-  &in_list, &in_connect, NULL
+  &in_list, &in_connect, &in_disconnect, NULL
 };
 
 int		handle_input(t_bot *bot, char *cmd, t_luneth *luneth)

@@ -19,12 +19,13 @@ int		in_connect(t_bot *bot, t_luneth *luneth)
   (void)luneth;
   if (!(hostname = strtok(NULL, " ")) || !(sport = strtok(NULL, " ")) ||
       !(nick = strtok(NULL, " ")) || !(user = strtok(NULL, " ")) ||
-      !(realname = strtok(NULL, " ")) || !(pass = strtok(NULL, " ")))
+      !(realname = strtok(NULL, " ")))
     {
-      fprintf(stderr, "/connect <host> <port> <nick> <user> <realname> <pass>"
-	      "\n");
+      fprintf(stderr, "/connect <host> <port> <nick> <user> <realname>"
+		      "[<pass>]\n");
       return (0);
     }
+  pass = strtok(NULL, " ");
   if (bot_connect(bot, hostname, atoi(sport), nick, user, realname, pass))
     fprintf(stderr, "Failed to connect to %s\n", hostname);
   return (0);

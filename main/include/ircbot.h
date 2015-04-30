@@ -55,6 +55,7 @@ int		bot_select(t_bot *bot);
 int	bot_connect(t_bot *bot, const char *hostname, unsigned short port,
 		    const char *nick, const char *user, const char *realname,
 		    const char *pass);
+int		bot_disconnect(t_bot *bot, size_t pos);
 
   /* AI handling */
 int		loadAI(t_bot *bot, char *filename);

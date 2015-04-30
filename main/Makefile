@@ -10,9 +10,10 @@
 
 NAME		=	../IRCBot
 CC		=	gcc
-override CFLAGS	+=	-W -Wall -Iinclude -I../libIRC/include -D_GNU_SOURCE
+override CFLAGS	+=	-Iinclude -I../libIRC/include -D_GNU_SOURCE
 export CFLAGS
-LDFLAGS		=	-ldl -L../libIRC -lIRC -rdynamic
+LDFLAGS		=	-ldl -L../libIRC -rdynamic
+LDFLAGS		+=	-Wl,--whole-archive -lIRC -Wl,--no-whole-archive
 RM		=	@rm -vf
 MAKE		+=	--no-print-directory
 LIBIRC		=	../libIRC/libIRC.a

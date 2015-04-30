@@ -23,10 +23,8 @@ void		*irc_data_get()
 
 int		irc_on_mess(t_bot *bot, t_ircconnection *co, void *luneth)
 {
-  (void)(bot);
-  (void)(co);
-  (void)(luneth);
-  return (0);
+  printf("%s said: %s\n", str_str(&co->servername), irc_get_command(co));
+  return (handle_message(bot, co, luneth));
 }
 
 int		irc_stdin(t_bot *bot, char *input, void *luneth)

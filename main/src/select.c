@@ -38,34 +38,62 @@ static int	handle_stdin(t_bot *bot)
   return (0);
 }
 
-static int	handle_conns(t_bot *bot)
+static int	handle_co_write(t_bot *bot, t_ircconnection *co)
 {
-  t_ircconnection	*co;
-  unsigned int	i;
+  /* If there is an error, the connection will be closed in handle_co_read */
+  if (irc_send_buff_len(co) && FD_ISSET(irc_get_socket(co), &bot->net.wfds))
+    irc_send(co);
+  return (0);
+}
+
+static int	handle_co_read(t_bot *bot, t_ircconnection *co, size_t *i)
+{
   int		ret;
 
-  i = 0;
-  while (i < vector_size(&bot->conns))
+  if (FD_ISSET(irc_get_socket(co), &bot->net.rfds))
     {
-      co = vector_at(&bot->conns, i);
       ret = irc_recv(co);
       /* If connection has been closed, delete it */
       if (ret == -1)
 	{
 	  irc_co_delete(co);
-	  vector_erase(&bot->conns, i);
+	  vector_erase(&bot->conns, *i);
 	}
       else if (ret == 1)
 	return (1);
       else
 	{
-	  if (irc_parse_command(co) ||
-	      (irc_get_command(co) &&
-	       (irc_eval_cmd(co) || irc_handle_cmd(co, false) ||
-		bot->handler_fct(bot, co,bot->handler_data))))
-	    return (1);
-	  ++i;
+	  do
+	    {
+	      if (irc_parse_command(co))
+		return (1);
+	      if (irc_get_command(co))
+		{
+		  if (irc_eval_cmd(co) || irc_handle_cmd(co, false) ||
+		      bot->handler_fct(bot, co,bot->handler_data))
+		    return (1);
+		}
+	    } while (irc_get_command(co));
+	  ++(*i);
 	}
+    }
+  else
+    ++(*i);
+  return (0);
+}
+
+static int	handle_conns(t_bot *bot)
+{
+  t_ircconnection	*co;
+  size_t	i;
+
+  i = 0;
+  while (i < vector_size(&bot->conns))
+    {
+      co = vector_at(&bot->conns, i);
+      if (handle_co_write(bot, co) ||
+	  handle_co_read(bot, co, &i))
+	return (1);
     }
   return (0);
 }
