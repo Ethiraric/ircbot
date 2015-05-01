@@ -55,6 +55,7 @@ int		bot_disconnect(t_bot *bot, size_t pos)
       free(co);
       vector_erase(&bot->conns, pos);
       bot->net.fdmax = 1;
+      i = 0;
       while (i < vector_size(&bot->conns))
 	{
 	  if (irc_get_socket(vector_at(&bot->conns, i)) >= bot->net.fdmax)

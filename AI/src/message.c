@@ -26,7 +26,8 @@ int		handle_message(t_bot *bot, t_ircconnection *co,
 {
   unsigned int	i;
 
-  /* if (!strcasecmp(co->cmd.cmd, "PRIVMSG")) */
+  if (!strcasecmp(co->cmd.cmd, "PRIVMSG"))
+    return (mess_privmsg(bot, co, luneth));
   i = 0;
   while (cmdtab[i])
     {

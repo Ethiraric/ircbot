@@ -22,6 +22,8 @@ SRC		+=	src/in_connect.c
 SRC		+=	src/in_disconnect.c
 SRC		+=	src/message.c
 SRC		+=	src/mess_join.c
+SRC		+=	src/mess_privmsg.c
+SRC		+=	src/command_ping.c
 
 
 OBJ		=	$(SRC:.c=.o)
