@@ -11,10 +11,12 @@
 #ifndef LUNETH_H_
 # define LUNETH_H_
 
+# include "database.h"
 # include "ircbot.h"
 
 typedef struct	s_luneth
 {
+  t_db		*db;
   int		foo;
 }		t_luneth;
 
@@ -34,5 +36,9 @@ int		handle_message(t_bot *bot, t_ircconnection *co,
   /* commands through PRIVMSG handling */
 int		command_ping(t_bot *bot, t_ircconnection *co,
 			     t_luneth *luneth);
+int		command_action(t_bot *bot, t_ircconnection *co,
+			       t_luneth *luneth);
+int		command_songid(t_bot *bot, t_ircconnection *co,
+			       t_luneth *luneth);
 
 #endif /* !LUNETH_H_ */

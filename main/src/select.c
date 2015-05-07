@@ -129,6 +129,7 @@ int		bot_select(t_bot *bot)
   int		ret;
 
   set_fds(bot);
+  bot->timeout = bot->timeref;
   ret = select(bot->net.fdmax, &bot->net.rfds, &bot->net.wfds, NULL,
 	       bot->timeptr);
   if (ret == -1)

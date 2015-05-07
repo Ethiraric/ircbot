@@ -17,6 +17,14 @@ void		*irc_data_get()
   t_luneth	*ret;
 
   ret = malloc(sizeof(t_luneth));
+  if (!ret)
+    return (NULL);
+  ret->db = database_new("db");
+  if (!ret->db)
+    {
+      free(ret);
+      return (NULL);
+    }
   ret->foo = 0;
   return (ret);
 }
@@ -35,5 +43,6 @@ int		irc_stdin(t_bot *bot, char *input, void *luneth)
 
 void		irc_data_delete(void *luneth)
 {
+  database_delete(((t_luneth *)luneth)->db);
   free(luneth);
 }

@@ -40,6 +40,7 @@ typedef struct	s_net
 typedef struct	s_bot t_bot;
 struct		s_bot
 {
+  struct timeval	timeref;
   struct timeval	timeout;
   struct timeval	*timeptr;
   t_vector	conns;

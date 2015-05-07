@@ -12,12 +12,12 @@
 
 const char	*cmds[] =
 {
-  "ping", NULL
+  "ping", "action", "songid", NULL
 };
 
 int	(* const fcttab[])(t_bot *, t_ircconnection *, t_luneth *) =
 {
-  &command_ping, NULL
+  &command_ping, &command_action, &command_songid, NULL
 };
 
 int		mess_privmsg(t_bot *bot, t_ircconnection *co, t_luneth *luneth)

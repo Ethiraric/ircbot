@@ -17,9 +17,9 @@
 static int	init(t_bot *bot)
 {
   memset(bot, 0, sizeof(t_bot));
-  bot->timeout.tv_sec = 0;
-  bot->timeout.tv_usec = 100000000; // 0.1sec
-  bot->timeptr = &bot->timeout;
+  bot->timeref.tv_sec = 0;
+  bot->timeref.tv_usec = 100000; // 0.1sec
+  bot->timeptr = &(bot->timeout);
   vector_new(&bot->conns);
   bot->net.fdmax = 1;
   bot->handler_fct = &handler_fct_none;
