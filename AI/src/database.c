@@ -8,6 +8,7 @@
 ** Last update Sat May  2 00:03:49 2015 Florian SABOURIN
 */
 
+#include <errno.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -15,6 +16,15 @@
 
 #define TABLE_MESSAGES		"messages"
 #define TABLE_SONGS		"musics"
+#define TABLE_PEOPLE		"authors"
+
+static int	callback_nothing(__attribute__((unused))void *param,
+				 __attribute__((unused))int argc,
+				 __attribute__((unused))char **argv,
+				 __attribute__((unused))char **column_names)
+{
+  return (0);
+}
 
 static char	*escape_quotes(const char *in)
 {
@@ -199,6 +209,69 @@ void		database_delete(t_db *db)
     }
 }
 
+t_people	*database_get_ppl_fromnickchan(t_db *db, const char *nick,
+					       const char *chan)
+{
+  t_mapstring	*res;
+  t_people	*ppl;
+  char		*enick;
+  char		*echan;
+  char		*req;
+  int		ret;
+
+  enick = escape_quotes(nick);
+  echan = escape_quotes(chan);
+  if (!enick || !echan)
+    {
+      free(enick);
+      return (NULL);
+    }
+  ret = asprintf(&req, "SELECT * FROM " TABLE_PEOPLE " WHERE "
+		 "nick='%s' AND channel='%s';", enick, echan);
+  free(enick);
+  free(echan);
+  if (ret == -1)
+    return (NULL);
+  res = select_exec(db, req);
+  free(req);
+  if (!res || !mapstring_size(res))
+    return (NULL);
+  ppl = ppl_from_db(res, 0);
+  select_free_res(res);
+  return (ppl);
+}
+
+t_id		database_insert_ppl(t_db *db, const char *nick,
+				     const char *chan)
+{
+  char		*enick;
+  char		*echan;
+  char		*req;
+  int		ret;
+
+  enick = escape_quotes(nick);
+  echan = escape_quotes(chan);
+  if (!enick || !echan)
+    {
+      free(echan);
+      return (0);
+    }
+  ret = asprintf(&req, "INSERT INTO " TABLE_PEOPLE " (nick, channel) VALUES "
+		 "('%s', '%s');", enick, echan);
+  free(enick);
+  free(echan);
+  if (ret == -1)
+    return (0);
+  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &enick);
+  if (ret != SQLITE_OK)
+    {
+      sqlite3_free(enick);
+      ret = 1;
+    }
+  free(req);
+  return (sqlite3_last_insert_rowid(db->handler));
+}
+
 t_song		*database_get_song_fromcode(t_db *db, unsigned int id)
 {
   t_mapstring	*res;
@@ -218,13 +291,32 @@ t_song		*database_get_song_fromcode(t_db *db, unsigned int id)
   return (song);
 }
 
-/*int		database_insert_msg(const char *chan, const char *auth,
-				    const char *msg)
+t_id		database_pplid(t_db *db, const char *nick, const char *chan)
+{
+  t_people	*ppl;
+  t_id		ret;
+
+  ppl = database_get_ppl_fromnickchan(db, nick, chan);
+  if (!ppl && errno == ENOMEM)
+    return (0);
+  if (ppl)
+    {
+      ret = ppl->id;
+      ppl_delete(ppl, true);
+      return (ret);
+    }
+  return (database_insert_ppl(db, nick, chan));
+}
+
+/*
+int		database_insert_msg(t_db *db, const char *chan,
+				    const char *auth, const char *msg)
 {
   char		*request;
   char		*echan;
   char		*eauth;
   char		*emsg;
+  char		*err;
   int		ret;
 
   echan = escape_quotes(chan);
@@ -241,5 +333,24 @@ t_song		*database_get_song_fromcode(t_db *db, unsigned int id)
       free(eauth);
       return (1);
     }
-  //ret = asprintf(&request, "")
-}*/
+  ret = asprintf(&request, "INSERT INTO " TABLE_MESSAGES " (author, channel, "
+		 "message, date) VALUES ('%s', '%s', '%s', DATETIME());",
+		 eauth, echan, emsg);
+  if (ret != -1)
+    {
+      ret = sqlite3_exec(db->handler, request, &callback_nothing, NULL, &err);
+      if (ret != SQLITE_OK)
+	{
+	  sqlite3_free(err);
+	  ret = 1;
+	}
+      free(request);
+    }
+  else
+    ret = 1;
+  free(echan);
+  free(eauth);
+  free(emsg);
+  return (ret);
+}
+*/

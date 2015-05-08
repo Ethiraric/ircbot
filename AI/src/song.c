@@ -21,11 +21,10 @@ t_song		*song_from_db(t_mapstring *res, unsigned int it)
   if (!ret)
     return (NULL);
   memset(ret, 0, sizeof(t_song));
-  curr = mapstring_findcstr(res, "id");
   if ((curr = mapstring_findcstr(res, "id")))
     ret->id = atoi(vector_at(curr, it));
   if ((curr = mapstring_findcstr(res, "author")) && vector_at(curr, it))
-    ret->author = atoi(vector_at(curr, it));
+    ret->authid = atoi(vector_at(curr, it));
   if ((curr = mapstring_findcstr(res, "code")) && vector_at(curr, it))
     if (!(ret->code = strdup(vector_at(curr, it))))
       return (NULL + song_delete(ret, true));
@@ -47,7 +46,7 @@ int		song_delete(t_song *song, bool free_struct)
   free(song->category);
   song->category = 0;
   song->id = 0;
-  song->author = 0;
+  song->authid = 0;
   if (free_struct)
     free(song);
   return (0);

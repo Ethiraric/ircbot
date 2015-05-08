@@ -21,7 +21,7 @@ int		in_connect(t_bot *bot, t_luneth *luneth)
       !(nick = strtok(NULL, " ")) || !(user = strtok(NULL, " ")) ||
       !(realname = strtok(NULL, " ")))
     {
-      fprintf(stderr, "/connect <host> <port> <nick> <user> <realname>"
+      fprintf(stderr, "/connect <host> <port> <nick> <user> <realname> "
 		      "[<pass>]\n");
       return (0);
     }

@@ -21,7 +21,7 @@ typedef unsigned int t_id;
 typedef struct	s_song
 {
   t_id		id;
-  t_id		author;
+  t_id		authid;
   char		*title;
   char		*code;
   char		*category;
@@ -29,6 +29,17 @@ typedef struct	s_song
 
 t_song		*song_from_db(t_mapstring *res, unsigned int it);
 int		song_delete(t_song *song, bool free_struct);
+
+typedef struct	s_people
+{
+  t_id		id;
+  char		*nick;
+  char		*channel;
+  unsigned int	score;
+}		t_people;
+
+t_people	*ppl_from_db(t_mapstring *res, unsigned int it);
+int		ppl_delete(t_people *ppl, bool free_struct);
 
 typedef struct	s_db
 {
@@ -38,5 +49,6 @@ typedef struct	s_db
 t_db		*database_new(const char *filename);
 void		database_delete(t_db *db);
 t_song		*database_get_song_fromcode(t_db *db, unsigned int id);
+t_id		database_pplid(t_db *db, const char *nick, const char *chan);
 
 #endif /* DATABASE_H_ */
