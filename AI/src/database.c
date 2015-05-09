@@ -48,7 +48,7 @@ static char	*escape_quotes(const char *in)
       ++curr;
     }
   /* Add size of the string (including '\0') */
-  len += curr - in;
+  len += curr - in + 1;
   ret = malloc(len);
   if (!ret)
     return (NULL);
@@ -376,6 +376,33 @@ t_song		*database_select_random_song(t_db *db)
 
   ret = asprintf(&req, "SELECT * FROM " TABLE_SONGS " ORDER BY RANDOM() "
 		 "LIMIT 1;");
+  if (ret == -1)
+    return (NULL);
+  res = select_exec(db, req);
+  free(req);
+  if (!res || !mapstring_size(res))
+    return (NULL);
+  song = song_from_db(res, 0);
+  select_free_res(res);
+  return (song);
+}
+
+t_song		*database_select_random_songcateg(t_db *db, const char *categ)
+{
+  t_mapstring	*res;
+  t_song	*song;
+  char		*req;
+  char		*ecateg;
+  int		ret;
+
+  if (!categ)
+    return (database_select_random_song(db));
+  ecateg = escape_quotes(categ);
+  if (!ecateg)
+    return (NULL);
+  ret = asprintf(&req, "SELECT * FROM " TABLE_SONGS " WHERE category='%s' "
+		 " ORDER BY RANDOM() LIMIT 1;", ecateg);
+  free(ecateg);
   if (ret == -1)
     return (NULL);
   res = select_exec(db, req);

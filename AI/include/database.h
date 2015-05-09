@@ -73,6 +73,7 @@ t_id		database_insert_chan(t_db *db, const char *serv,
   // Song
 t_song		*database_get_song_fromid(t_db *db, unsigned int id);
 t_song		*database_select_random_song(t_db *db);
+t_song		*database_select_random_songcateg(t_db *db, const char *categ);
 
   // DB helpers
 t_id		database_pplid(t_db *db, const char *nick, const char *chan);
