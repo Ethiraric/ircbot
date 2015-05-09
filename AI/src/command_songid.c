@@ -8,10 +8,10 @@
 ** Last update Wed May  6 12:05:23 2015 Florian SABOURIN
 */
 
+#include <errno.h>
 #include <stdlib.h>
 #include "luneth.h"
 
-#include <stdio.h>
 int		command_songid(t_bot *bot, t_ircconnection *co,
 			       t_luneth *luneth)
 {
@@ -20,12 +20,11 @@ int		command_songid(t_bot *bot, t_ircconnection *co,
   char		*nb;
 
   (void)(bot);
-  (void)(luneth);
   nb = strtok(NULL, " ");
   if (nb && !strtok(NULL, " "))
     {
       val = atoi(nb);
-      song = database_get_song_fromcode(luneth->db, val);
+      song = database_get_song_fromid(luneth->db, val);
       if (song)
 	{
 	  irc_msgf(co, co->cmd.args[0],
@@ -34,8 +33,10 @@ int		command_songid(t_bot *bot, t_ircconnection *co,
 	      song->title ? song->title : "");
 	  song_delete(song, true);
 	}
-      else
-	irc_msgf(co, co->cmd.args[0], "No song with id #%i", val);
+      else if (errno == ENOMEM)
+	return (1);
+      else if (irc_msgf(co, co->cmd.args[0], "No song with id #%i", val))
+	return (1);
     }
   return (0);
 }

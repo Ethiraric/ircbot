@@ -40,5 +40,7 @@ int		command_action(t_bot *bot, t_ircconnection *co,
 			       t_luneth *luneth);
 int		command_songid(t_bot *bot, t_ircconnection *co,
 			       t_luneth *luneth);
+int		command_song(t_bot *bot, t_ircconnection *co,
+			     t_luneth *luneth);
 
 #endif /* !LUNETH_H_ */

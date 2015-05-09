@@ -26,9 +26,11 @@ SRC		+=	src/mess_privmsg.c
 SRC		+=	src/command_ping.c
 SRC		+=	src/command_action.c
 SRC		+=	src/command_songid.c
+SRC		+=	src/command_song.c
 SRC		+=	src/database.c
 SRC		+=	src/song.c
 SRC		+=	src/people.c
+SRC		+=	src/chan.c
 
 OBJ		=	$(SRC:.c=.o)
 

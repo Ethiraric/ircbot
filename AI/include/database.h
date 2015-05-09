@@ -18,6 +18,16 @@
 
 typedef unsigned int t_id;
 
+typedef struct	s_chan
+{
+  t_id		id;
+  char		*channel;
+  char		*server;
+}		t_chan;
+
+int		chan_delete(t_chan *chan, bool free_struct);
+t_chan		*chan_from_db(t_mapstring *res, unsigned int it);
+
 typedef struct	s_song
 {
   t_id		id;
@@ -48,7 +58,24 @@ typedef struct	s_db
 
 t_db		*database_new(const char *filename);
 void		database_delete(t_db *db);
-t_song		*database_get_song_fromcode(t_db *db, unsigned int id);
+
+  // People
+t_song		*database_get_song_fromid(t_db *db, unsigned int id);
+t_id		database_insert_ppl(t_db *db, const char *nick,
+				     const char *chan);
+
+  // Channel
+t_chan		*database_get_chan_fromchanserv(t_db *db, const char *serv,
+						const char *chan);
+t_id		database_insert_chan(t_db *db, const char *serv,
+				     const char *chan);
+
+  // Song
+t_song		*database_get_song_fromid(t_db *db, unsigned int id);
+t_song		*database_select_random_song(t_db *db);
+
+  // DB helpers
 t_id		database_pplid(t_db *db, const char *nick, const char *chan);
+t_id		database_chanid(t_db *db, const char *serv, const char *chan);
 
 #endif /* DATABASE_H_ */
