@@ -17,7 +17,6 @@
 typedef struct	s_luneth
 {
   t_db		*db;
-  int		foo;
 }		t_luneth;
 
   /* stdin handling */

@@ -80,6 +80,20 @@ static char	*code_from_link(const char *link)
   return (code);
 }
 
+static bool	is_code(const char *link)
+{
+  if (strlen(link) != 11)
+    return (false);
+  while (*link)
+    {
+      if (!((*link <= 'z' && *link >= 'a') || (*link <= 'Z' && *link >= 'A') ||
+	    (*link <= '9' && *link >= '0') || *link == '_' || *link == '-'))
+	return (false);
+      ++link;
+    }
+  return (true);
+}
+
 static int	song_add(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
 {
   t_song	*song;
@@ -127,6 +141,41 @@ static int	song_help(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   return (irc_msgf(co, co->cmd.args[0], msg));
 }
 
+static int	song_edit(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
+{
+  char		*code;
+  char		*category;
+
+  (void)(bot);
+  code = strtok(NULL, " ");
+  category = strtok(NULL, " ");
+  if (!code || !category || strtok(NULL, " "))
+    return (0);
+  if (!is_code(code))
+    return (irc_msgf(co, co->cmd.args[0], "Invalid code %s", code));
+  if (database_edit_category(luneth->db, code, category))
+    return (irc_msgf(co, co->cmd.args[0], "Failed to edit %s", code));
+  return (irc_msgf(co, co->cmd.args[0], "%s is now %s", code, category));
+}
+
+static int	song_whois(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
+{
+  t_people	*ppl;
+  char		*code;
+  int		ret;
+
+  (void)(bot);
+  code = strtok(NULL, " ");
+  if (!code || strtok(NULL, " ") || !is_code(code))
+    return (0);
+  ppl = database_get_song_auth(luneth->db, code);
+  if (!ppl)
+    return (irc_msgf(co, co->cmd.args[0], "Unknown author for %s", code));
+  ret = irc_msgf(co, co->cmd.args[0], "Author for %s is %s", code, ppl->nick);
+  ppl_delete(ppl, true);
+  return (ret);
+}
+
 int		command_song(t_bot *bot, t_ircconnection *co,
 			     t_luneth *luneth)
 {
@@ -139,8 +188,13 @@ int		command_song(t_bot *bot, t_ircconnection *co,
     {
       if (!strcasecmp(category, "add"))
 	return (song_add(bot, co, luneth));
+      else if (!strcasecmp(category, "edit"))
+	return (song_edit(bot, co, luneth));
+      else if (!strcasecmp(category, "whois"))
+	return (song_whois(bot, co, luneth));
       else if (!strcasecmp(category, "help"))
 	return (song_help(bot, co, luneth));
+      // RM
     }
   song = database_select_random_songcateg(luneth->db, category);
   if (song)

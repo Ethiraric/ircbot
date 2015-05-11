@@ -25,7 +25,6 @@ void		*irc_data_get()
       free(ret);
       return (NULL);
     }
-  ret->foo = 0;
   return (ret);
 }
 

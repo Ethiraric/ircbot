@@ -63,6 +63,7 @@ void		database_delete(t_db *db);
 t_song		*database_get_song_fromid(t_db *db, unsigned int id);
 t_id		database_insert_ppl(t_db *db, const char *nick,
 				     const char *chan);
+t_people	*database_ppl_fromid(t_db *db, t_id id);
 
   // Channel
 t_chan		*database_get_chan_fromchanserv(t_db *db, const char *serv,
@@ -77,9 +78,12 @@ t_id		database_insert_song(t_db *db, const char *code,
 t_song		*database_get_song_fromid(t_db *db, unsigned int id);
 t_song		*database_select_random_song(t_db *db);
 t_song		*database_select_random_songcateg(t_db *db, const char *categ);
+int		database_edit_category(t_db *db, const char *code,
+				       const char *categ);
 
   // DB helpers
 t_id		database_pplid(t_db *db, const char *nick, const char *chan);
 t_id		database_chanid(t_db *db, const char *serv, const char *chan);
+t_people	*database_get_song_auth(t_db *db, const char *code);
 
 #endif /* DATABASE_H_ */

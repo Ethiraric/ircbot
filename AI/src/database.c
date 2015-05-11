@@ -286,7 +286,26 @@ t_id		database_insert_ppl(t_db *db, const char *nick,
   return (sqlite3_last_insert_rowid(db->handler));
 }
 
-// Chans
+t_people	*database_ppl_fromid(t_db *db, t_id id)
+{
+  t_mapstring	*res;
+  t_people	*ppl;
+  char		*req;
+  int		ret;
+
+  ret = asprintf(&req, "SELECT * FROM " TABLE_PEOPLE " WHERE id='%u';", id);
+  if (ret == -1)
+    return (NULL);
+  res = select_exec(db, req);
+  free(req);
+  if (!res || !mapstring_size(res))
+    return (NULL);
+  ppl = ppl_from_db(res, 0);
+  select_free_res(res);
+  return (ppl);
+}
+
+  // Chans
 t_chan		*database_get_chan_fromchanserv(t_db *db, const char *serv,
 						const char *chan)
 {
@@ -350,7 +369,7 @@ t_id		database_insert_chan(t_db *db, const char *serv,
   return (sqlite3_last_insert_rowid(db->handler));
 }
 
-// Songs
+  // Songs
 t_song		*database_get_song_fromcode(t_db *db, const char *code)
 {
   t_mapstring	*res;
@@ -478,6 +497,31 @@ t_song		*database_select_random_songcateg(t_db *db, const char *categ)
   return (song);
 }
 
+int		database_edit_category(t_db *db, const char *code,
+				       const char *categ)
+{
+  char		*ecateg;
+  char		*req;
+  int		ret;
+
+  ecateg = escape_quotes(categ);
+  if (!ecateg)
+    return (0);
+  ret = asprintf(&req, "UPDATE " TABLE_SONGS " SET category='%s' WHERE "
+		 "code='%s';", ecateg, code);
+  free(ecateg);
+  if (ret == -1)
+    return (1);
+  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &ecateg);
+  free(req);
+  if (ret != SQLITE_OK)
+    {
+      sqlite3_free(ecateg);
+      return (1);
+    }
+  return (0);
+}
+
 /*
 ** DB helpers
 */
@@ -562,4 +606,18 @@ t_id		database_add_song(t_db *db, const char *code,
       return (0);
     }
   return (database_insert_song(db, code, categ, auth));
+}
+
+t_people	*database_get_song_auth(t_db *db, const char *code)
+{
+  // TODO: CAN BE DONE WITH ONE REQUEST
+  t_song	*song;
+  t_people	*ret;
+
+  song = database_get_song_fromcode(db, code);
+  if (!song)
+    return (NULL);
+  ret = database_ppl_fromid(db, song->authid);
+  song_delete(song, true);
+  return (ret);
 }
