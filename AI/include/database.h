@@ -71,6 +71,9 @@ t_id		database_insert_chan(t_db *db, const char *serv,
 				     const char *chan);
 
   // Song
+t_song		*database_get_song_fromcode(t_db *db, const char *code);
+t_id		database_insert_song(t_db *db, const char *code,
+				     const char *categ, t_id auth);
 t_song		*database_get_song_fromid(t_db *db, unsigned int id);
 t_song		*database_select_random_song(t_db *db);
 t_song		*database_select_random_songcateg(t_db *db, const char *categ);

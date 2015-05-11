@@ -222,6 +222,7 @@ void		database_delete(t_db *db)
 ** General operations
 */
 
+  // People
 t_people	*database_get_ppl_fromnickchan(t_db *db, const char *nick,
 					       const char *chan)
 {
@@ -285,25 +286,7 @@ t_id		database_insert_ppl(t_db *db, const char *nick,
   return (sqlite3_last_insert_rowid(db->handler));
 }
 
-t_song		*database_get_song_fromid(t_db *db, unsigned int id)
-{
-  t_mapstring	*res;
-  t_song	*song;
-  char		*req;
-  int		ret;
-
-  ret = asprintf(&req, "SELECT * FROM " TABLE_SONGS " WHERE id=%u;", id);
-  if (ret == -1)
-    return (NULL);
-  res = select_exec(db, req);
-  free(req);
-  if (!res || !mapstring_size(res))
-    return (NULL);
-  song = song_from_db(res, 0);
-  select_free_res(res);
-  return (song);
-}
-
+// Chans
 t_chan		*database_get_chan_fromchanserv(t_db *db, const char *serv,
 						const char *chan)
 {
@@ -365,6 +348,87 @@ t_id		database_insert_chan(t_db *db, const char *serv,
     }
   free(req);
   return (sqlite3_last_insert_rowid(db->handler));
+}
+
+// Songs
+t_song		*database_get_song_fromcode(t_db *db, const char *code)
+{
+  t_mapstring	*res;
+  t_song	*song;
+  char		*req;
+  char		*ecode;
+  int		ret;
+
+  ecode = escape_quotes(code);
+  if (!ecode)
+    return (NULL);
+  ret = asprintf(&req, "SELECT * FROM " TABLE_SONGS " WHERE code='%s';", ecode);
+  free(ecode);
+  if (ret == -1)
+    return (NULL);
+  res = select_exec(db, req);
+  free(req);
+  if (!res || !mapstring_size(res))
+    return (NULL);
+  song = song_from_db(res, 0);
+  select_free_res(res);
+  return (song);
+}
+
+t_id		database_insert_song(t_db *db, const char *code,
+				     const char *categ, t_id auth)
+{
+  char		*ecode;
+  char		*ecateg;
+  char		*req;
+  int		ret;
+
+  ecode = escape_quotes(code);
+  if (categ && !(ecateg = escape_quotes(categ)))
+    {
+      free(ecode);
+      return (0);
+    }
+  if (categ)
+    {
+      ret = asprintf(&req, "INSERT INTO " TABLE_SONGS
+		     " (code, author, category) VALUES ('%s', %u, '%s');",
+		     ecode, auth, ecateg);
+      free(ecateg);
+    }
+  else
+    ret = asprintf(&req, "INSERT INTO " TABLE_SONGS
+		   " (code, author) VALUES ('%s', %u);", ecode, auth);
+  free(ecode);
+  if (ret == -1)
+    return (0);
+  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &ecode);
+  if (ret != SQLITE_OK)
+    {
+      sqlite3_free(ecode);
+      return (0);
+    }
+  free(req);
+  return (sqlite3_last_insert_rowid(db->handler));
+}
+
+t_song		*database_get_song_fromid(t_db *db, unsigned int id)
+{
+  t_mapstring	*res;
+  t_song	*song;
+  char		*req;
+  int		ret;
+
+  ret = asprintf(&req, "SELECT * FROM " TABLE_SONGS " WHERE id=%u;", id);
+  if (ret == -1)
+    return (NULL);
+  res = select_exec(db, req);
+  free(req);
+  if (!res || !mapstring_size(res))
+    return (NULL);
+  song = song_from_db(res, 0);
+  select_free_res(res);
+  return (song);
 }
 
 t_song		*database_select_random_song(t_db *db)
@@ -484,4 +548,18 @@ t_id		database_insert_msg(t_db *db, const char *nick,
       return (0);
     }
   return (sqlite3_last_insert_rowid(db->handler));
+}
+
+t_id		database_add_song(t_db *db, const char *code,
+				  const char *categ, t_id auth)
+{
+  t_song	*song;
+
+  song = database_get_song_fromcode(db, code);
+  if (song)
+    {
+      song_delete(song, true);
+      return (0);
+    }
+  return (database_insert_song(db, code, categ, auth));
 }
