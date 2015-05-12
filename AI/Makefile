@@ -32,6 +32,7 @@ SRC		+=	src/song.c
 SRC		+=	src/people.c
 SRC		+=	src/chan.c
 SRC		+=	src/youtube_title.c
+SRC		+=	src/PokemonDB.c
 
 OBJ		=	$(SRC:.c=.o)
 

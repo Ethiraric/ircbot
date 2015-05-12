@@ -100,7 +100,6 @@ static char	*cat_codes(t_vector *songs)
   size_t	i;
   char		*mess;
   char		*end;
-  int		ret;
 
   len = 0;
   i = 0;
@@ -111,7 +110,6 @@ static char	*cat_codes(t_vector *songs)
     }
   len += i + 16;
   mess = malloc(len);
-  ret = 0;
   if (mess)
     {
       end = stpcpy(mess, "Codes: ");
