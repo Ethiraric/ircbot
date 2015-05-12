@@ -134,7 +134,9 @@ static int	song_add(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
 
 static int	song_help(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
 {
-  const char	*msg = "song [help | add <link> [category]]";
+  const char	*msg =
+      "song [ help | add <link> [category] | edit <code> <category> | "
+	     "title <code> | whois <code> ]";
 
   (void)(bot);
   (void)(luneth);
@@ -176,6 +178,27 @@ static int	song_whois(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   return (ret);
 }
 
+static int	song_title(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
+{
+  char		*code;
+  char		*title;
+  int		ret;
+
+  (void)(bot);
+  (void)(luneth);
+  code = strtok(NULL, " ");
+  if (!code || strtok(NULL, " "))
+    return (0);
+  title = youtube_title(code);
+  if (!title)
+    return (irc_msgf(co, co->cmd.args[0],
+		     "Failed to find title for %s", code));
+  ret = irc_msgf(co, co->cmd.args[0],
+		 "Title for %s is %s", code, title);
+  free(title);
+  return (ret);
+}
+
 int		command_song(t_bot *bot, t_ircconnection *co,
 			     t_luneth *luneth)
 {
@@ -192,6 +215,8 @@ int		command_song(t_bot *bot, t_ircconnection *co,
 	return (song_edit(bot, co, luneth));
       else if (!strcasecmp(category, "whois"))
 	return (song_whois(bot, co, luneth));
+      else if (!strcasecmp(category, "title"))
+	return (song_title(bot, co, luneth));
       else if (!strcasecmp(category, "help"))
 	return (song_help(bot, co, luneth));
       // RM

@@ -11,3 +11,4 @@
 *.tasks
 *.gcda
 db
+AI/include/dev_key.h

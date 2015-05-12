@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "luneth.h"
+#include <curl.h>
 
 void		*irc_data_get()
 {
@@ -42,6 +43,7 @@ int		irc_stdin(t_bot *bot, char *input, void *luneth)
 
 void		irc_data_delete(void *luneth)
 {
+  curl_global_cleanup();
   database_delete(((t_luneth *)luneth)->db);
   free(luneth);
 }

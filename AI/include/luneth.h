@@ -19,6 +19,8 @@ typedef struct	s_luneth
   t_db		*db;
 }		t_luneth;
 
+char		*youtube_title(const char *code);
+
   /* stdin handling */
 int		in_list(t_bot *bot, t_luneth *luneth);
 int		in_connect(t_bot *bot, t_luneth *luneth);

@@ -12,7 +12,7 @@ NAME		=	../AI.so
 CC		=	gcc
 override CFLAGS	+=	-fpic -Iinclude -I../main/include
 override CFLAGS	+=	-I../libIRC/include -D_GNU_SOURCE
-LDFLAGS		=	-shared -lsqlite3
+LDFLAGS		=	-shared -lsqlite3 -lcurl -lz -lcrypto -lssl
 RM		=	@rm -vf
 
 SRC		=	src/luneth.c
@@ -31,6 +31,7 @@ SRC		+=	src/database.c
 SRC		+=	src/song.c
 SRC		+=	src/people.c
 SRC		+=	src/chan.c
+SRC		+=	src/youtube_title.c
 
 OBJ		=	$(SRC:.c=.o)
 
