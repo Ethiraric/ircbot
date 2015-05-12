@@ -38,7 +38,6 @@ static char	*extract_code(t_buffer *json)
   ret = NULL;
   pos = memmem(buffer_data(json), buffer_size(json),
 	       "\"title\": \"", 10);
-  printf("Extracting code :\n%s\n", (char *)buffer_data(json));
   if (pos)
     {
       pos += 10;
@@ -58,7 +57,6 @@ char		*youtube_title(const char *code)
 
   ret = asprintf(&url, "https://www.googleapis.com/youtube/v3/videos?key="
 		 YOUTUBE_KEY "&part=snippet&id=%s", code);
-  printf("URL:%s\n", url);
   if (ret == -1)
     return (NULL);
   handler = curl_easy_init();

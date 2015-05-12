@@ -111,3 +111,15 @@ void		*vector_at(t_vector *v, size_t pos)
 {
   return (v->tab[pos]);
 }
+
+void		vector_foreach(t_vector *v, void (*fct)(void *))
+{
+  size_t	it;
+
+  it = 0;
+  while (it < v->len)
+    {
+      fct(v->tab[it]);
+      ++it;
+    }
+}

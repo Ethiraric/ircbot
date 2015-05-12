@@ -39,6 +39,7 @@ typedef struct	s_song
 
 t_song		*song_from_db(t_mapstring *res, unsigned int it);
 int		song_delete(t_song *song, bool free_struct);
+t_vector	*song_tab_from_db(t_mapstring *res);
 
 typedef struct	s_people
 {
@@ -80,6 +81,9 @@ t_song		*database_select_random_song(t_db *db);
 t_song		*database_select_random_songcateg(t_db *db, const char *categ);
 int		database_edit_category(t_db *db, const char *code,
 				       const char *categ);
+int		database_edit_title(t_db *db, const char *code,
+				    const char *title);
+t_vector	*database_search_song(t_db *db, const char *pattern);
 
   // DB helpers
 t_id		database_pplid(t_db *db, const char *nick, const char *chan);

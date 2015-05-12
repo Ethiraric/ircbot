@@ -522,6 +522,99 @@ int		database_edit_category(t_db *db, const char *code,
   return (0);
 }
 
+int		database_edit_title(t_db *db, const char *code,
+				    const char *title)
+{
+  char		*etitle;
+  char		*req;
+  int		ret;
+
+  etitle = escape_quotes(title);
+  if (!etitle)
+    return (0);
+  ret = asprintf(&req, "UPDATE " TABLE_SONGS " SET title='%s' WHERE "
+		 "code='%s';", etitle, code);
+  free(etitle);
+  if (ret == -1)
+    return (1);
+  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &etitle);
+  free(req);
+  if (ret != SQLITE_OK)
+    {
+      sqlite3_free(etitle);
+      return (1);
+    }
+  return (0);
+}
+
+t_id		database_insert_msg(t_db *db, const char *nick,
+				    const char *chan, const char *serv,
+				    const char *msg)
+{
+  t_id		pplid;
+  t_id		chanid;
+  char		*emsg;
+  char		*req;
+  int		ret;
+
+  pplid = database_pplid(db, nick, chan);
+  if (!pplid)
+    return (0);
+  chanid = database_chanid(db, serv, chan);
+  if (!chanid)
+    return (0);
+  emsg = escape_quotes(msg);
+  if (!emsg)
+    return (0);
+  ret = asprintf(&req, "INSERT INTO " TABLE_MESSAGES " (author, channel, "
+		 "message, date) VALUES ('%u', '%u', '%s', DATETIME());",
+		 pplid, chanid, emsg);
+  free(emsg);
+  if (ret == -1)
+    return (0);
+  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &emsg);
+  if (ret != SQLITE_OK)
+    {
+      free(req);
+      return (0);
+    }
+  return (sqlite3_last_insert_rowid(db->handler));
+}
+
+t_vector	*database_search_song(t_db *db, const char *pattern)
+{
+  t_mapstring	*res;
+  t_vector	*songs;
+  char		*req;
+  char		*patt;
+  int		ret;
+
+  patt = NULL;
+  if (pattern)
+    if (!(patt = escape_quotes(pattern)))
+      return (NULL);
+  ret = 0;
+  if (patt)
+    ret = asprintf(&req, "SELECT * FROM " TABLE_SONGS " WHERE title"
+		   " LIKE('%%%s%%');", patt);
+  else
+    ret = asprintf(&req, "SELECT * FROM " TABLE_SONGS " WHERE title"
+		   " IS NULL;");
+  free(patt);
+  if (ret == -1)
+    return (NULL);
+  res = select_exec(db, req);
+  free(req);
+  if (!res || !mapstring_size(res))
+    {
+      free(res);
+      return (NULL);
+    }
+  songs = song_tab_from_db(res);
+  select_free_res(res);
+  return (songs);
+}
+
 /*
 ** DB helpers
 */
@@ -558,40 +651,6 @@ t_id		database_chanid(t_db *db, const char *serv, const char *chan)
       return (ret);
     }
   return (database_insert_chan(db, serv, chan));
-}
-
-t_id		database_insert_msg(t_db *db, const char *nick,
-				    const char *chan, const char *serv,
-				    const char *msg)
-{
-  t_id		pplid;
-  t_id		chanid;
-  char		*emsg;
-  char		*req;
-  int		ret;
-
-  pplid = database_pplid(db, nick, chan);
-  if (!pplid)
-    return (0);
-  chanid = database_chanid(db, serv, chan);
-  if (!chanid)
-    return (0);
-  emsg = escape_quotes(msg);
-  if (!emsg)
-    return (0);
-  ret = asprintf(&req, "INSERT INTO " TABLE_MESSAGES " (author, channel, "
-		 "message, date) VALUES ('%u', '%u', '%s', DATETIME());",
-		 pplid, chanid, emsg);
-  free(emsg);
-  if (ret == -1)
-    return (0);
-  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &emsg);
-  if (ret != SQLITE_OK)
-    {
-      free(req);
-      return (0);
-    }
-  return (sqlite3_last_insert_rowid(db->handler));
 }
 
 t_id		database_add_song(t_db *db, const char *code,

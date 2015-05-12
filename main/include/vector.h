@@ -32,5 +32,6 @@ unsigned int	vector_find(t_vector *vec, void *elem);
 int		vector_realloc(t_vector *v, size_t size);
 size_t		vector_size(const t_vector *v);
 void		*vector_at(t_vector *v, size_t pos);
+void		vector_foreach(t_vector *v, void (*fct)(void *));
 
 #endif /* !VECTOR_H_ */

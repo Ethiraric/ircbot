@@ -51,3 +51,37 @@ int		song_delete(t_song *song, bool free_struct)
     free(song);
   return (0);
 }
+
+t_vector	*song_tab_from_db(t_mapstring *res)
+{
+  t_vector	*ret;
+  t_song	*song;
+  size_t	len;
+  size_t	it;
+
+  len = vector_size(mapstring_findcstr(res, "id"));
+  ret = malloc(sizeof(t_vector));
+  if (!ret)
+    return (NULL);
+  it = 0;
+  vector_new(ret);
+  while (it < len)
+    {
+      song = song_from_db(res, it);
+      if (!song)
+	{
+	  vector_foreach(ret, &free);
+	  vector_delete(ret, true);
+	  return (NULL);
+	}
+      if (vector_push_back(ret, song))
+	{
+	  song_delete(song, true);
+	  vector_foreach(ret, &free);
+	  vector_delete(ret, true);
+	  return (NULL);
+	}
+      ++it;
+    }
+  return (ret);
+}
