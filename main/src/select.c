@@ -132,7 +132,8 @@ int		bot_select(t_bot *bot)
   bot->timeout = bot->timeref;
   ret = select(bot->net.fdmax, &bot->net.rfds, &bot->net.wfds, NULL,
 	       bot->timeptr);
-  if (ret == -1)
+  if (ret == -1 || handle_select(bot) ||
+      bot->handler_nothing_fct(bot, bot->handler_data))
     return (1);
-  return (handle_select(bot));
+  return (0);
 }

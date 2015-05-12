@@ -11,11 +11,27 @@
 #ifndef LUNETH_H_
 # define LUNETH_H_
 
+# include <time.h>
+# include "Pokemon.h"
 # include "database.h"
 # include "ircbot.h"
 
+# define HINT_DELAY	2
+
+typedef struct	s_pokequizz
+{
+  t_ircconnection *co;
+  time_t	next_hint;
+  char		*ans;
+  char		*question;
+  char		*hint;
+  char		*chan;
+  bool		on;
+}		t_pokequizz;
+
 typedef struct	s_luneth
 {
+  t_pokequizz	pk;
   t_db		*db;
 }		t_luneth;
 
@@ -43,5 +59,14 @@ int		command_songid(t_bot *bot, t_ircconnection *co,
 			       t_luneth *luneth);
 int		command_song(t_bot *bot, t_ircconnection *co,
 			     t_luneth *luneth);
+int		command_pokemon(t_bot *bot, t_ircconnection *co,
+				t_luneth *luneth);
+
+  /* pokemon quizz */
+void		pkq_terminate(t_luneth *luneth);
+int		pkq_check_hint(t_luneth *luneth);
+int		pkq_check_ans(t_luneth *luneth, t_ircconnection *co);
+  /* question getters */
+int		pkq_pfrname(t_luneth *luneth);
 
 #endif /* !LUNETH_H_ */

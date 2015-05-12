@@ -166,7 +166,7 @@ static int	song_add(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
 
 static int	song_help(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
 {
-  const char	*msg =
+  static const char	*msg =
       "song [ help | add <link> [category] | edit <code> <category> | "
 	     "title <code> | whois <code> ]";
 

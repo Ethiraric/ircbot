@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "ircbot.h"
 
 static int	init(t_bot *bot)
@@ -67,6 +68,7 @@ static void	usage()
 
 int		main(int argc, char **argv)
 {
+  struct timeval t;
   t_bot		bot;
   int		ret;
 
@@ -75,6 +77,8 @@ int		main(int argc, char **argv)
       usage();
       return (1);
     }
+  gettimeofday(&t, NULL);
+  srand(t.tv_usec);
   if (init(&bot) || (argc == 2 && loadAI(&bot, argv[1])))
     return (1);
   ret = exec(&bot);

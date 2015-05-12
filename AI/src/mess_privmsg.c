@@ -12,12 +12,13 @@
 
 const char	*cmds[] =
 {
-  "ping", "action", "songid", "song", NULL
+  "ping", "action", "songid", "song", "pokemon", NULL
 };
 
 int	(* const fcttab[])(t_bot *, t_ircconnection *, t_luneth *) =
 {
-  &command_ping, &command_action, &command_songid, &command_song, NULL
+  &command_ping, &command_action, &command_songid, &command_song,
+    &command_pokemon, NULL
 };
 
 int		mess_privmsg(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
@@ -28,6 +29,8 @@ int		mess_privmsg(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   if (co->cmd.argc < 2)
     return (0);
   i = 0;
+  if (pkq_check_ans(luneth, co))
+    return (1);
   cmd = strtok(co->cmd.args[co->cmd.argc - 1], " ");
   while (cmds[i])
     {

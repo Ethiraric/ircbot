@@ -10,6 +10,10 @@
 
 #ifndef POKEMON_H_
 # define POKEMON_H_
+
+# include <sys/types.h>
+# include <stdbool.h>
+
 # define None 0
 
 typedef enum
@@ -66,7 +70,7 @@ typedef struct
     bool	OHKO;
     int		prob;
     e_status	stat;
-} Ability_Ability;
+} t_ability;
 
 typedef enum
   {
@@ -124,5 +128,10 @@ typedef struct
     int		espeed;
     const char	*name;
 } t_poke;
+
+extern const t_poke	pokemons_db[];
+extern const t_ability	abilities_db[];
+extern const size_t pk_entries;
+extern const size_t ab_entries;
 
 #endif /* !POKEMON_H_ */

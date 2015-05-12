@@ -34,6 +34,15 @@ int	handler_input_fct_none(t_bot *bot, char *input, void *dat)
   return (0);
 }
 
+int	handler_nothing_none(t_bot *bot, void *dat)
+{
+  /* Supress warnings */
+  (void)(bot);
+  (void)(dat);
+  /* Everything is fine */
+  return (0);
+}
+
 void		unloadAI(t_bot *bot)
 {
   void		(*deleter)(void *data);
@@ -51,6 +60,7 @@ void		unloadAI(t_bot *bot)
       bot->handler_data = NULL;
       bot->handler_fct = &handler_fct_none;
       bot->handler_input_fct = &handler_input_fct_none;
+      bot->handler_nothing_fct = &handler_nothing_none;
     }
 }
 
@@ -61,6 +71,7 @@ int		loadAI(t_bot *bot, char *filename)
   void		*data;
   int		(*handler_fct)(t_bot *, t_ircconnection *, void *);
   int		(*handler_input_fct)(t_bot *, char *, void *);
+  int		(*handler_none_fct)(t_bot *, void *);
 
   /* Try to load a brand new AI */
   dlhandle = dlopen(filename, RTLD_NOW);
@@ -73,7 +84,8 @@ int		loadAI(t_bot *bot, char *filename)
   /* Return 1 if we can't load a symbol or datas */
   if (!(handler_fct = dlsym(dlhandle, SYM_IRC)) ||
       !(handler_input_fct = dlsym(dlhandle, SYM_STDIN)) ||
-      !(handler_data_getter = dlsym(dlhandle, SYM_GET)))
+      !(handler_data_getter = dlsym(dlhandle, SYM_GET)) ||
+      !(handler_none_fct = dlsym(dlhandle, SYM_PING)))
     {
       fprintf(stderr, "dlsym: %s\n", dlerror());
       if (dlclose(dlhandle))
@@ -93,5 +105,6 @@ int		loadAI(t_bot *bot, char *filename)
   bot->dlhandle = dlhandle;
   bot->handler_fct = handler_fct;
   bot->handler_input_fct = handler_input_fct;
+  bot->handler_nothing_fct = handler_none_fct;
   return (0);
 }
