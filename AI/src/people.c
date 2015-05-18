@@ -25,11 +25,10 @@ t_people	*ppl_from_db(t_mapstring *res, unsigned int it)
     ret->id = atoi(vector_at(curr, it));
   if ((curr = mapstring_findcstr(res, "score")))
     ret->score = atoi(vector_at(curr, it));
+  if ((curr = mapstring_findcstr(res, "channel")) && vector_at(curr, it))
+    ret->channel = atoi(vector_at(curr, it));
   if ((curr = mapstring_findcstr(res, "nick")) && vector_at(curr, it))
     if (!(ret->nick = strdup(vector_at(curr, it))))
-      return (NULL + ppl_delete(ret, true));
-  if ((curr = mapstring_findcstr(res, "channel")) && vector_at(curr, it))
-    if (!(ret->channel = strdup(vector_at(curr, it))))
       return (NULL + ppl_delete(ret, true));
   return (ret);
 }
@@ -38,7 +37,6 @@ int		ppl_delete(t_people *ppl, bool free_struct)
 {
   free(ppl->nick);
   ppl->nick = 0;
-  free(ppl->channel);
   ppl->channel = 0;
   ppl->id = 0;
   ppl->score = 0;

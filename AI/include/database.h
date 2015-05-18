@@ -44,13 +44,30 @@ t_vector	*song_tab_from_db(t_mapstring *res);
 typedef struct	s_people
 {
   t_id		id;
+  t_id		channel;
   char		*nick;
-  char		*channel;
   unsigned int	score;
 }		t_people;
 
 t_people	*ppl_from_db(t_mapstring *res, unsigned int it);
 int		ppl_delete(t_people *ppl, bool free_struct);
+
+typedef struct	s_message
+{
+  t_id		id;
+  t_id		author;
+  char		*message;
+}		t_message;
+
+typedef struct	s_cmd
+{
+  t_id		id;
+  char		*cmd;
+  char		*text;
+}		t_cmd;
+
+t_cmd		*cmd_from_db(t_mapstring *res, unsigned int it);
+int		cmd_delete(t_cmd *cmd, bool free_struct);
 
 typedef struct	s_db
 {
@@ -61,9 +78,9 @@ t_db		*database_new(const char *filename);
 void		database_delete(t_db *db);
 
   // People
-t_song		*database_get_song_fromid(t_db *db, unsigned int id);
-t_id		database_insert_ppl(t_db *db, const char *nick,
-				     const char *chan);
+t_people	*database_get_ppl_fromnickchan(t_db *db, const char *nick,
+					       t_id chan);
+t_id		database_insert_ppl(t_db *db, const char *nick, t_id chan);
 t_people	*database_ppl_fromid(t_db *db, t_id id);
 
   // Channel
@@ -85,8 +102,21 @@ int		database_edit_title(t_db *db, const char *code,
 				    const char *title);
 t_vector	*database_search_song(t_db *db, const char *pattern);
 
+  // Message
+t_id		database_insert_msg(t_db *db, const char *nick,
+				    const char *chan, const char *serv,
+				    const char *msg);
+
+  // Commands
+bool		database_is_command(t_db *db, const char *cmd);
+t_id		database_insert_command(t_db *db, const char *cmd,
+					const char *text);
+t_cmd		*database_get_cmd(t_db *db, const char *cmd);
+int		database_rm_cmd(t_db *db, const char *cmd);
+
   // DB helpers
-t_id		database_pplid(t_db *db, const char *nick, const char *chan);
+t_id		database_pplid(t_db *db, const char *nick, const char *serv,
+			       const char *chan);
 t_id		database_chanid(t_db *db, const char *serv, const char *chan);
 t_people	*database_get_song_auth(t_db *db, const char *code);
 

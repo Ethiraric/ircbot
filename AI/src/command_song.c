@@ -139,7 +139,8 @@ static int	song_add(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   category = strtok(NULL, " ");
   if (strtok(NULL, ""))
     return (0);
-  auth = database_pplid(luneth->db, co->cmd.prefixnick, co->cmd.args[0]);
+  auth = database_pplid(luneth->db, co->cmd.prefixnick,
+			str_str(&co->servername), co->cmd.args[0]);
   if (!auth)
     return (1);
   code = code_from_link(link);

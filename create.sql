@@ -1,0 +1,34 @@
+CREATE TABLE messages
+(id INTEGER PRIMARY KEY,
+ author INT,
+ message VARCHAR(512),
+ date TIMESTAMP);
+
+CREATE TABLE chans
+(id INTEGER PRIMARY KEY,
+ server VARCHAR(256),
+ channel VARCHAR(256));
+
+CREATE TABLE musics
+(id INTEGER PRIMARY KEY,
+ code VARCHAR(11),
+ author INT,
+ title VARCHAR(256),
+ category VARCHAR(64));
+
+CREATE TABLE authors
+(id INTEGER PRIMARY KEY,
+ nick VARCHAR(128),
+ channel INT,
+ score INT DEFAULT 0 NOT NULL);
+
+CREATE TABLE lyrics
+(id INTEGER PRIMARY KEY,
+ artist VARCHAR(128),
+ title VARCHAR(128),
+ filename VARCHAR(128));
+
+CREATE TABLE cmd
+(id INTEGER PRIMARY KEY,
+ cmd VARCHAR(128),
+ text VARCHAR(128));

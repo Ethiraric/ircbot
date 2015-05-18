@@ -62,6 +62,8 @@ int		command_song(t_bot *bot, t_ircconnection *co,
 			     t_luneth *luneth);
 int		command_pokemon(t_bot *bot, t_ircconnection *co,
 				t_luneth *luneth);
+int		command_cmd(t_bot *bot, t_ircconnection *co,
+			    t_luneth *luneth);
 
   /* pokemon quizz */
 void		pkq_terminate(t_luneth *luneth);

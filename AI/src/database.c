@@ -18,6 +18,7 @@
 #define TABLE_SONGS		"musics"
 #define TABLE_PEOPLE		"authors"
 #define TABLE_CHANS		"chans"
+#define TABLE_CMD		"cmd"
 
 /*
 ** sqlite3 helpers
@@ -224,26 +225,20 @@ void		database_delete(t_db *db)
 
   // People
 t_people	*database_get_ppl_fromnickchan(t_db *db, const char *nick,
-					       const char *chan)
+					       t_id chan)
 {
   t_mapstring	*res;
   t_people	*ppl;
   char		*enick;
-  char		*echan;
   char		*req;
   int		ret;
 
   enick = escape_quotes(nick);
-  echan = escape_quotes(chan);
-  if (!enick || !echan)
-    {
-      free(enick);
-      return (NULL);
-    }
+  if (!enick)
+    return (NULL);
   ret = asprintf(&req, "SELECT * FROM " TABLE_PEOPLE " WHERE "
-		 "nick='%s' AND channel='%s';", enick, echan);
+		 "nick='%s' AND channel=%u;", enick, chan);
   free(enick);
-  free(echan);
   if (ret == -1)
     return (NULL);
   res = select_exec(db, req);
@@ -255,25 +250,18 @@ t_people	*database_get_ppl_fromnickchan(t_db *db, const char *nick,
   return (ppl);
 }
 
-t_id		database_insert_ppl(t_db *db, const char *nick,
-				     const char *chan)
+t_id		database_insert_ppl(t_db *db, const char *nick, t_id chan)
 {
   char		*enick;
-  char		*echan;
   char		*req;
   int		ret;
 
   enick = escape_quotes(nick);
-  echan = escape_quotes(chan);
-  if (!enick || !echan)
-    {
-      free(echan);
+  if (!enick)
       return (0);
-    }
   ret = asprintf(&req, "INSERT INTO " TABLE_PEOPLE " (nick, channel) VALUES "
-		 "('%s', '%s');", enick, echan);
+		 "('%s', %u);", enick, chan);
   free(enick);
-  free(echan);
   if (ret == -1)
     return (0);
   ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &enick);
@@ -293,7 +281,7 @@ t_people	*database_ppl_fromid(t_db *db, t_id id)
   char		*req;
   int		ret;
 
-  ret = asprintf(&req, "SELECT * FROM " TABLE_PEOPLE " WHERE id='%u';", id);
+  ret = asprintf(&req, "SELECT * FROM " TABLE_PEOPLE " WHERE id=%u;", id);
   if (ret == -1)
     return (NULL);
   res = select_exec(db, req);
@@ -324,7 +312,7 @@ t_chan		*database_get_chan_fromchanserv(t_db *db, const char *serv,
       return (NULL);
     }
   ret = asprintf(&req, "SELECT * FROM " TABLE_CHANS " WHERE "
-		 "chan='%s' AND serv='%s';", echan, eserv);
+		 "channel='%s' AND server='%s';", echan, eserv);
   free(eserv);
   free(echan);
   if (ret == -1)
@@ -547,40 +535,6 @@ int		database_edit_title(t_db *db, const char *code,
   return (0);
 }
 
-t_id		database_insert_msg(t_db *db, const char *nick,
-				    const char *chan, const char *serv,
-				    const char *msg)
-{
-  t_id		pplid;
-  t_id		chanid;
-  char		*emsg;
-  char		*req;
-  int		ret;
-
-  pplid = database_pplid(db, nick, chan);
-  if (!pplid)
-    return (0);
-  chanid = database_chanid(db, serv, chan);
-  if (!chanid)
-    return (0);
-  emsg = escape_quotes(msg);
-  if (!emsg)
-    return (0);
-  ret = asprintf(&req, "INSERT INTO " TABLE_MESSAGES " (author, channel, "
-		 "message, date) VALUES ('%u', '%u', '%s', DATETIME());",
-		 pplid, chanid, emsg);
-  free(emsg);
-  if (ret == -1)
-    return (0);
-  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &emsg);
-  if (ret != SQLITE_OK)
-    {
-      free(req);
-      return (0);
-    }
-  return (sqlite3_last_insert_rowid(db->handler));
-}
-
 t_vector	*database_search_song(t_db *db, const char *pattern)
 {
   t_mapstring	*res;
@@ -615,16 +569,147 @@ t_vector	*database_search_song(t_db *db, const char *pattern)
   return (songs);
 }
 
+  // Message
+t_id		database_insert_msg(t_db *db, const char *nick,
+				    const char *chan, const char *serv,
+				    const char *msg)
+{
+  t_id		pplid;
+  char		*emsg;
+  char		*req;
+  int		ret;
+
+  pplid = database_pplid(db, nick, serv, chan);
+  if (!pplid)
+    return (0);
+  emsg = escape_quotes(msg);
+  if (!emsg)
+    return (0);
+  ret = asprintf(&req, "INSERT INTO " TABLE_MESSAGES " (author, "
+		 "message, date) VALUES (%u, '%s', DATETIME());",
+		 pplid, emsg);
+  free(emsg);
+  if (ret == -1)
+    return (0);
+  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &emsg);
+  free(req);
+  if (ret != SQLITE_OK)
+    return (0);
+  return (sqlite3_last_insert_rowid(db->handler));
+}
+
+  // Commands
+bool		database_is_command(t_db *db, const char *cmd)
+{
+  t_mapstring	*res;
+  char		*req;
+  char		*ecmd;
+  int		ret;
+
+  ecmd = escape_quotes(cmd);
+  if (!ecmd)
+    return (false);
+  ret = asprintf(&req, "SELECT id FROM " TABLE_CMD " WHERE cmd='%s';",
+		 ecmd);
+  free(ecmd);
+  if (ret == -1)
+    return (false);
+  res = select_exec(db, req);
+  free(req);
+  if (!res || !mapstring_size(res))
+    return (false);
+  select_free_res(res);
+  return (true);
+}
+
+t_id		database_insert_command(t_db *db, const char *cmd,
+					const char *text)
+{
+  char		*ecmd;
+  char		*etext;
+  char		*req;
+  int		ret;
+
+  errno = 0;
+  if (!(ecmd = escape_quotes(cmd)) || !(etext = escape_quotes(text)))
+    {
+      free(ecmd);
+      return (0);
+    }
+  ret = asprintf(&req,"INSERT INTO " TABLE_CMD " (cmd, text) "
+		 "VALUES ('%s', '%s');", ecmd, etext);
+  free(ecmd);
+  free(etext);
+  if (ret == -1)
+    return (0);
+  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &ecmd);
+  free(req);
+  if (ret != SQLITE_OK)
+    return (0);
+  return (sqlite3_last_insert_rowid(db->handler));
+}
+
+t_cmd		*database_get_cmd(t_db *db, const char *cmd)
+{
+  t_mapstring	*res;
+  t_cmd		*cmdr;
+  char		*req;
+  char		*ecmd;
+  int		ret;
+
+  ecmd = escape_quotes(cmd);
+  if (!ecmd)
+    return (NULL);
+  ret = asprintf(&req, "SELECT * FROM " TABLE_CMD " WHERE cmd='%s';",
+		 ecmd);
+  free(ecmd);
+  if (ret == -1)
+    return (NULL);
+  res = select_exec(db, req);
+  free(req);
+  if (!res || !mapstring_size(res))
+    return (NULL);
+  cmdr = cmd_from_db(res, 0);
+  select_free_res(res);
+  return (cmdr);
+}
+
+int		database_rm_cmd(t_db *db, const char *cmd)
+{
+  char		*ecmd;
+  char		*req;
+  int		ret;
+
+  errno = 0;
+  ecmd = escape_quotes(cmd);
+  if (!ecmd)
+    return (1);
+  ret = asprintf(&req,"DELETE FROM " TABLE_CMD " WHERE cmd='%s';", ecmd);
+  free(ecmd);
+  if (ret == -1)
+    return (1);
+  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &ecmd);
+  free(req);
+  if (ret != SQLITE_OK)
+    return (1);
+  return (0);
+}
+
 /*
 ** DB helpers
 */
 
-t_id		database_pplid(t_db *db, const char *nick, const char *chan)
+t_id		database_pplid(t_db *db, const char *nick, const char *serv,
+			       const char *chan)
 {
   t_people	*ppl;
+  t_id	chanid;
   t_id		ret;
 
-  ppl = database_get_ppl_fromnickchan(db, nick, chan);
+  chanid = database_chanid(db, serv, chan);
+  if (!chanid)
+    return (0);
+  ppl = database_get_ppl_fromnickchan(db, nick, chanid);
   if (!ppl && errno == ENOMEM)
     return (0);
   if (ppl)
@@ -633,7 +718,7 @@ t_id		database_pplid(t_db *db, const char *nick, const char *chan)
       ppl_delete(ppl, true);
       return (ret);
     }
-  return (database_insert_ppl(db, nick, chan));
+  return (database_insert_ppl(db, nick, chanid));
 }
 
 t_id		database_chanid(t_db *db, const char *serv, const char *chan)
