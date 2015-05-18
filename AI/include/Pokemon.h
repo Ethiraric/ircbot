@@ -59,7 +59,7 @@ typedef enum
 
 typedef struct
 {
-    const char	*name;
+    const char	*nom;
     int		type;
     int		categ;
     int		PP;
@@ -70,6 +70,7 @@ typedef struct
     bool	OHKO;
     int		prob;
     e_status	stat;
+    const char	*name;
 } t_ability;
 
 typedef enum

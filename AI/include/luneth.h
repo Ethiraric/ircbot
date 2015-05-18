@@ -16,13 +16,14 @@
 # include "database.h"
 # include "ircbot.h"
 
-# define HINT_DELAY	2
+# define HINT_DELAY		15
 
 typedef struct	s_pokequizz
 {
   t_ircconnection *co;
   time_t	next_hint;
   char		*ans;
+  char		*ans2;
   char		*question;
   char		*hint;
   char		*chan;
@@ -68,5 +69,10 @@ int		pkq_check_hint(t_luneth *luneth);
 int		pkq_check_ans(t_luneth *luneth, t_ircconnection *co);
   /* question getters */
 int		pkq_pfrname(t_luneth *luneth);
+int		pkq_penname(t_luneth *luneth);
+int		pkq_ptype(t_luneth *luneth);
+int		pkq_afrname(t_luneth *luneth);
+int		pkq_aenname(t_luneth *luneth);
+int		pkq_atype(t_luneth *luneth);
 
 #endif /* !LUNETH_H_ */

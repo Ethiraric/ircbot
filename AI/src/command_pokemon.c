@@ -17,7 +17,9 @@ void		pkq_terminate(t_luneth *luneth)
   free(luneth->pk.question);
   luneth->pk.question = 0;
   free(luneth->pk.ans);
-  luneth->pk.ans  = 0;
+  luneth->pk.ans = 0;
+  free(luneth->pk.ans2);
+  luneth->pk.ans2 = 0;
   free(luneth->pk.hint);
   luneth->pk.hint = 0;
   free(luneth->pk.chan);
@@ -78,14 +80,15 @@ int		pkq_check_hint(t_luneth *luneth)
 
 static int (*const quizz_fct[])(t_luneth *luneth) =
 {
-  &pkq_pfrname
+  &pkq_pfrname, &pkq_penname, &pkq_ptype,
+  &pkq_afrname, &pkq_aenname, &pkq_atype
 };
 
 static int	pkq_get_question(t_luneth *luneth)
 {
   unsigned int	num;
 
-  num = rand() % sizeof(quizz_fct) / sizeof(quizz_fct);
+  num = rand() % sizeof(quizz_fct) / sizeof(quizz_fct[0]);
   if (quizz_fct[num](luneth))
     return (1);
   luneth->pk.hint = strdup(luneth->pk.ans);
@@ -119,12 +122,16 @@ int		pkq_check_ans(t_luneth *luneth, t_ircconnection *co)
   if (!luneth->pk.on ||
       co != luneth->pk.co || strcmp(co->cmd.args[0], luneth->pk.chan))
     return (0);
-  if (!strcasecmp(luneth->pk.ans, co->cmd.args[co->cmd.argc - 1]))
+  if (!strcasecmp(luneth->pk.ans, co->cmd.args[co->cmd.argc - 1]) ||
+      (luneth->pk.ans2 &&
+       !strcasecmp(luneth->pk.ans2, co->cmd.args[co->cmd.argc - 1])))
     {
       if (irc_msgf(co, co->cmd.args[0], "WP %s ! %s -> %s",
 		   co->cmd.prefixnick, luneth->pk.question, luneth->pk.ans))
 	return (1);
       free(luneth->pk.ans);
+      free(luneth->pk.ans2);
+      luneth->pk.ans2 = NULL;
       free(luneth->pk.hint);
       free(luneth->pk.question);
       if (pkq_get_question(luneth) || pkq_show_question(luneth))
@@ -173,9 +180,9 @@ int		command_pokemon(t_bot *bot, t_ircconnection *co,
   command = strtok(NULL, " ");
   if (!command || strtok(NULL, " "))
     return (0);
-  if (!strcasecmp(command, "on"))
+  if (!strcasecmp(command, "on") || !strcasecmp(command, "go"))
     return (pokemon_on(co, luneth));
-  if (!strcasecmp(command, "off"))
+  if (!strcasecmp(command, "off") || !strcasecmp(command, "tg"))
     return (pokemon_off(co, luneth));
   if (!strcasecmp(command, "help"))
     return (pokemon_help(co));

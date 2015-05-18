@@ -273,258 +273,258 @@ const t_poke pokemons_db[] =
 const t_ability		abilities_db[] =
 {
   // Class Name			Type              Category              PP/Pow/Acc/Crit/turn/OHKO
-  {	"Unused",		None,		Ability_None,		0, 0, 0, 0, 0, false,		0,None		},	// Unused
-  {	"Ecras'Face",		Normal,		Ability_Physical,	35, 40, 100, 0, 1, false,	0,None		},	// Pound
-  {	"Poing Karate",		Combat,		Ability_Physical,	25, 50, 100, 2, 1, false,	0,None		},	// Karate Chop
-  {	"Torgnoles",		Normal,		Ability_Physical,	10, 15, 85, 0, 1, false,	0,None		},	// Double Slap
-  {	"Poing Comete",		Normal,		Ability_Physical,	15, 18, 85, 0, 1, false,	0,None		},	// Comet Punch
-  {	"Ultimapoing",		Normal,		Ability_Physical,	20, 80, 85, 0, 1, false,	0,None		},	// Mega Punch
-  {	"Jackpot",		Normal,		Ability_Physical,	20, 40, 100, 0, 1, false,	0,None		},	// Pay day
-  {	"Poing de feu",		Feu,		Ability_Physical,	15, 75, 100, 0, 1, false,	10, Status_BRN	},	// Fire Punch
-  {	"Poinglace",		Glace,		Ability_Physical,	15, 75, 100, 0, 1, false,	10, Status_FRZ	},	// Ice Punch
-  {	"Poing Eclair",		Electric,	Ability_Physical,	15, 75, 100, 0, 1, false,	10, Status_PAR	},	// Thunder Punch
-  {	"Griffe",		Normal,		Ability_Physical,	35, 40, 100, 0, 1, false,	0,None		},	// Scrach
-  {	"Force Poigne",		Normal,		Ability_Physical,	30, 55, 100, 0, 1, false,	0,None		},	// Vice Grip
-  {	"Guillotine",		Normal,		Ability_Physical,	5, 0, 0, 0, 1, true,		0,None		},	// Guillotine
-  {	"Coupe-Vent",		Normal,		Ability_Special,	10, 80, 100, 2, 2, false,	0,None		},	// Razor Wind
-  {	"Danse-Lames",		Normal,		Ability_Status,		0, 2, 0, 0, 1, false,		0,None		},	// Swords Dance
-  {	"Coupe",		Normal,		Ability_Physical,	30, 50, 95, 0, 1, false,	0,None		},	// Cut
-  {	"Tornade",		Vol,		Ability_Special,	35, 40, 100, 0, 1, false,	0,None		},	// Fly
-  {	"Cru-Aile",		Vol,		Ability_Physical,	35, 60, 100, 0, 1, false,	0,None		},	// Wing Attack
-  {	"Cyclone",		Vol,		Ability_Status,		0, 0, 100, 0, 1, false,		0,None		},	// Whirlwind
-  {	"Vol",			Vol,		Ability_Physical,	15, 70, 95, 0, 2, false,	0,None		},	// Fly
-  {	"Etreinte",		Normal,		Ability_Physical,	10, 15, 70, 0, 1, false,	0,None		},	// Bind
-  {	"Souplesse",		Normal,		Ability_Physical,	20, 80, 75, 0, 1, false,	0,None		},	// Slam
-  {	"Fouet Lianes",		Plante,		Ability_Physical,	10, 35, 100, 0, 1, false,	0,None		},	// Vine Whip
-  {	"Ecrasement",		Normal,		Ability_Physical,	20, 65, 100, 0, 1, false,	0,None		},	// Stomp
-  {	"Double Pied",		Combat,		Ability_Physical,	30, 30, 100, 0, 1, false,	0,None		},	// Double Kick
-  {	"Ultimawashi",		Normal,		Ability_Physical,	5, 120, 75, 0, 1, false,	0,None		},	// Mega Kick
-  {	"Pied Saute",		Combat,		Ability_Physical,	25, 70, 95, 0, 1, false,	0,None		},	// Jump Kick
-  {	"Mawashi Geri",		Combat,		Ability_Physical,	15, 60, 85, 0, 1, false,	0,None		},	// Rolling Kick
-  {	"Jet de sable",		Sol,		Ability_Status,		5, 1, 100, 0, 1, false,		0,None		},	// Sand Attack
-  {	"Coup d'Boule",		Normal,		Ability_Physical,	15, 70, 100, 0, 1, false,	0,None		},	// Headbutt
-  {	"Koud'Korne",		Normal,		Ability_Physical,	25, 65, 100, 0, 1, false,	0,None		},	// Horn Attack
-  {	"Furie",		Normal,		Ability_Physical,	20, 15, 85, 0, 1, false,	0,None		},	// Fury Attack
-  {	"Empal'Korne",		Normal,		Ability_Physical,	5, 0, 0, 0, 1, true,		0,None		},	// Horn Drill
-  {	"Charge",		Normal,		Ability_Physical,	35, 35, 95, 0, 1, false,	0,None		},	// Tackle
-  {	"Plaquage",		Normal,		Ability_Physical,	15, 85, 100, 0, 1, false,	30, Status_PAR	},	// Body Slam
-  {	"Ligotage",		Normal,		Ability_Physical,	20, 15, 85, 0, 1, false,	0,None		},	// Wrap
-  {	"Belier",		Normal,		Ability_Physical,	20, 90, 85, 0, 1, false,	0,None		},	// Take Down
-  {	"Mania",		Normal,		Ability_Physical,	20, 90, 100, 0, 2, false,	0,None		},	// Thrash
-  {	"Damocles",		Normal,		Ability_Physical,	15, 120, 100, 0, 1, false,	0,None		},	// Double-Edge
-  {	"Mimi-Queue",		Normal,		Ability_Status,		0, 1, 100, 0, 1, false,		0,None		},	// Tail Whip
-  {	"Dard-Venin",		Poison,		Ability_Physical,	35, 15, 100, 0, 1, false,	30, Status_PSN	},	// Poison Sting
-  {	"Double-Dard",		Insecte,	Ability_Physical,	20, 25, 100, 0, 1, false,	20, Status_PSN	},	// Twineedle
-  {	"Dard-Nuee",		Insecte,	Ability_Physical,	20, 14, 85, 0, 1, false,	0,None		},	// Pin Missile
-  {	"Groz'Yeux",		Normal,		Ability_Status,		0, 1, 100, 0, 1, false,		0,None		},	// Leer
-  {	"Morsure",		Tenebres,	Ability_Special,	25, 60, 100, 0, 1, false,	0,None		},	// Bite
-  {	"Rugissement",		Normal,		Ability_Status,		0, 1, 100, 0, 1, false,		0,None		},	// Growl
-  {	"Hurlement",		Normal,		Ability_Status,		0, 0, 100, 0, 1, false,		0,None		},	// Roar
-  {	"Berceuse",		Normal,		Ability_Status,		5, 0, 55, 0, 1, false,		0,None		},	// Sing
-  {	"Ultrason",		Normal,		Ability_Status,		0, 0, 55, 0, 1, false,		0,None		},	// Supersonic
-  {	"Sonicboom",		Normal,		Ability_Special,	20, 20, 90, 0, 1, false,	0,None		},	// Sonic Boom
-  {	"Entrave",		Normal,		Ability_Status,		0, 0, 55, 0, 1, false,		0,None		},	// Disable
-  {	"Acide",		Poison,		Ability_Special,	30, 40, 100, 0, 1, false,	0,None		},	// Acid
-  {	"Flammeche",		Feu,		Ability_Special,	25, 40, 100, 0, 1, false,	10, Status_BRN	},	// Ember
-  {	"Lance-Flamme",		Feu,		Ability_Special,	15, 90, 100, 0, 1, false,	10, Status_BRN	},	// Flamethrower
-  {	"Brume",		Glace,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Mist
-  {	"Pistolet A O",		Eau,		Ability_Special,	25, 40, 100, 0, 1, false,	0,None		},	// Water Gun
-  {	"Hydrocanon",		Eau,		Ability_Special,	5, 110, 80, 0, 1, false,	0,None		},	// Hydro Pump
-  {	"Surf",			Eau,		Ability_Special,	15, 90, 100, 0, 1, false,	0,None		},	// Surf
-  {	"Laser Glace",		Glace,		Ability_Special,	10, 90, 100, 0, 1, false,	10, Status_FRZ	},	// Ice Beam
-  {	"Blizzard",		Glace,		Ability_Special,	5, 120, 90, 0, 1, false,	10, Status_FRZ	},	// Blizzard
-  {	"Rafale Psy",		Psy,		Ability_Special,	20, 65, 100, 0, 1, false,	0,None		},	// Psybeam
-  {	"Bulles d'O",		Eau,		Ability_Special,	20, 65, 100, 0, 1, false,	0,None		},	// Bubble beam
-  {	"Onde Boreale",		Glace,		Ability_Special,	20, 65, 100, 0, 1, false,	0,None		},	// Aurora Beam
-  {	"Ultralaser",		Normal,		Ability_Special,	5, 150, 90, 0, 2, false,	0,None		},	// Hyper Beam
-  {	"Picpic",		Vol,		Ability_Physical,	35, 35, 100, 0, 1, false,	0,None		},	// Peck
-  {	"Bec Vrille",		Vol,		Ability_Physical,	20, 80, 100, 0, 1, false,	0,None		},	// Drill Peck
-  {	"Sacrifice",		Combat,		Ability_Physical,	25, 80, 80, 0, 1, false,	0,None		},	// Submission
-  {	"Balayage",		Combat,		Ability_Physical,	20, 50, 100, 0, 1, false,	0,None		},	// Low Kick
-  {	"Riposte",		Combat,		Ability_Physical,	20, 0, 100, 0, 1, false,	0,None		},	// Counter
-  {	"Frappe Atlas",		Combat,		Ability_Physical,	20, 0, 100, 0, 1, false,	0,None		},	// Seismic Toss
-  {	"Force",		Normal,		Ability_Physical,	15, 80, 100, 0, 1, false,	0,None		},	// Strength
-  {	"Vol-Vie",		Plante,		Ability_Special,	20, 20, 100, 0, 1, false,	0,None		},	// Absorb
-  {	"Mega-Sangsue",		Plante,		Ability_Special,	10, 40, 100, 0, 1, false,	0,None		},	// Mega Drain
-  {	"Vampigraine",		Plante,		Ability_Status,		0, 0, 90, 0, 1, false,		0,None		},	// Leech Seed
-  {	"Croissance",		Normal,		Ability_Status,		0, 1, 0, 0, 1, false,		0,None		},	// Growth
-  {	"Tranch'herbe",		Plante,		Ability_Physical,	25, 55, 95, 2, 1, false,	0,None		},	// Razor Leaf
-  {	"Lance-Soleil",		Plante,		Ability_Special,	10, 120, 100, 0, 2, false,	0,None		},	// Solar Beam
-  {	"Poudre Toxik",		Poison,		Ability_Status,		5, 0, 75, 0, 1, false,		100, Status_PSN	},	// Poison Powder
-  {	"Para Spore",		Plante,		Ability_Status,		0, 0, 75, 0, 1, false,		100, Status_PAR	},	// Stun Spore
-  {	"Poudre Dodo",		Plante,		Ability_Status,		5, 0, 75, 0, 1, false,		100, Status_SLP	},	// Sleep Powder
-  {	"Danse-Fleur",		Plante,		Ability_Special,	20, 70, 100, 0, 2, false,	0,None		},	// Petal Dance
-  {	"Secretion",		Insecte,	Ability_Status,		0, 1, 95, 0, 1, false,		0,None		},	// String Shot
-  {	"Draco-Rage",		Dragon,		Ability_Special,	10, 40, 100, 0, 1, false,	0,None		},	// Dragon Rage
-  {	"Danseflamme",		Feu,		Ability_Special,	15, 15, 70, 0, 1, false,	0,None		},	// Fire Spin
-  {	"Eclair",		Electric,	Ability_Special,	30, 40, 100, 0, 1, false,	10, Status_PAR	},	// Thunder Shock
-  {	"Tonnerre",		Electric,	Ability_Special,	15, 95, 100, 0, 1, false,	10, Status_PAR	},	// Thunderbolt
-  {	"Cage-Eclair",		Electric,	Ability_Status,		0, 0, 100, 0, 1, false,		100, Status_PAR	},	// Thunder Wave
-  {	"Fatal-Foudre",		Electric,	Ability_Status,		0, 120, 70, 0, 1, false,	30, Status_PAR	},	// Thunder
-  {	"Jet-Pierres",		Roche,		Ability_Physical,	15, 50, 90, 0, 1, false,	0,None		},	// Rock Throw
-  {	"Seisme",		Sol,		Ability_Physical,	10, 100, 100, 0, 1, false,	0,None		},	// Earthquake
-  {	"Abime",		Sol,		Ability_Physical,	5, 0, 0, 0, 1, true,		0,None		},	// Fissure
-  {	"Tunnel",		Sol,		Ability_Physical,	10, 60, 100, 0, 2, false,	0,None		},	// Dig
-  {	"Toxik",		Poison,		Ability_Status,		0, 0, 85, 0, 1, false,		100, Status_BPSN},	// Toxic
-  {	"Choc Mental",		Psy,		Ability_Special,	25, 50, 100, 1, 1, false,	0,None		},	// Confusion
-  {	"Psyko",		Psy,		Ability_Special,	10, 90, 100, 0, 1, false,	0,None		},	// Psychic
-  {	"Hypnose",		Psy,		Ability_Status,		0, 0, 60, 0, 1, false,		100, Status_SLP	},	// Hypnosis
-  {	"Meditation",		Psy,		Ability_Status,		0, 1, 0, 0, 1, false,		0,None		},	// Meditate
-  {	"Hate",			Psy,		Ability_Status,		0, 2, 0, 0, 1, false,		0,None		},	// Agility
-  {	"Vive-Attaque",		Normal,		Ability_Physical,	30, 40, 100, 0, 1, false,	0,None		},	// Quick Attack
-  {	"Frenesie",		Normal,		Ability_Physical,	20, 20, 100, 0, 1, false,	0,None		},	// Rage
-  {	"Teleport",		Psy,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Teleport
-  {	"Tenebres",		Spectre,	Ability_Special,	20, 0, 100, 0, 1, false,	0,None		},	// Night Shade
-  {	"Copie",		Normal,		Ability_Status,		10, 0, 0, 0, 1, false,		0,None		},	// Mimic
-  {	"Grincement",		Normal,		Ability_Status,		0, 2, 85, 0, 1, false,		0,None		},	// Screech
-  {	"Esquive",		Normal,		Ability_Status,		5, 1, 0, 0, 1, false,		0,None		},	// Double Team
-  {	"Soin",			Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Recover
-  {	"Armure",		Normal,		Ability_Status,		0, 1, 0, 0, 1, false,		0,None		},	// Harden
-  {	"Lilliput",		Normal,		Ability_Status,		0, 1, 0, 0, 1, false,		0,None		},	// Minimize
-  {	"Brouillard",		Normal,		Ability_Status,		0, 1, 100, 0, 1, false,		0,None		},	// Smokescreen
-  {	"Onde Folie",		Spectre,	Ability_Status,		0, 0, 100, 0, 1, false,		0,None		},	// Confuse ray
-  {	"Replis",		Eau,		Ability_Status,		0, 1, 0, 0, 1, false,		0,None		},	// Withdraw
-  {	"Boul'Armure",		Normal,		Ability_Status,		0, 1, 0, 0, 1, false,		0,None		},	// Defense Curl
-  {	"Bouclier",		Psy,		Ability_Status,		0, 2, 0, 0, 1, false,		0,None		},	// Barrier
-  {	"Mur Lumiere",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Light Screen
-  {	"Buee Noire",		Glace,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Haze
-  {	"Protection",		Psy,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Reflect
-  {	"Puissance",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Focus Energy
-  {	"Patience",		Normal,		Ability_Physical,	10, 0, 0, 0, 1, false,		0,None		},	// Bide
-  {	"Metronome",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Metroneme
-  {	"Mimique",		Vol,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Mirror Move
-  {	"Destruction",		Normal,		Ability_Physical,	5, 200, 100, 0, 1, false,	0,None		},	// Self-Destruct
-  {	"Bomb'oeuf",		Normal,		Ability_Physical,	10, 100, 75, 0, 1, false,	0,None		},	// Egg Bomb
-  {	"Lechouille",		Spectre,	Ability_Physical,	30, 30, 100, 0, 1, false,	30, Status_PAR	},	// Lick
-  {	"Puredpois",		Poison,		Ability_Special,	20, 20, 70, 0, 1, false,	40, Status_PSN	},	// Smog
-  {	"Detritus",		Poison,		Ability_Special,	20, 65, 100, 0, 1, false,	30, Status_PAR	},	// Sludge
-  {	"Massd'os",		Sol,		Ability_Physical,	20, 65, 85, 0, 1, false,	0,None		},	// Bone Club
-  {	"Deflagration",		Feu,		Ability_Special,	5, 120, 85, 0, 1, false,	10, Status_BRN	},	// Fire Blast
-  {	"Cascade",		Eau,		Ability_Special,	15, 80, 100, 0, 1, false,	0,None		},	// Water Fall
-  {	"Claquoir",		Eau,		Ability_Physical,	10, 35, 85, 0, 1, false,	0,None		},	// Clamp
-  {	"Meteore",		Normal,		Ability_Physical,	20, 60, 0, 0, 1, false,		0,None		},	// Swift
-  {	"Coud'Krane",		Normal,		Ability_Physical,	10, 100, 100, 0, 1, false,	0,None		},	// Skull Bash
-  {	"Picanon",		Normal,		Ability_Physical,	15, 20, 100, 0, 1, false,	0,None		},	// Spike Canon
-  {	"Constriction",		Normal,		Ability_Physical,	35, 10, 100, 0, 1, false,	0,None		},	// Constrict
-  {	"Amnesie",		Psy,		Ability_Status,		0, 2, 0, 0, 1, false,		0,None		},	// Amnesia
-  {	"Telekinesie",		Psy,		Ability_Status,		5, 1, 80, 0, 1, false,		0,None		},	// Kinesis
-  {	"E-Coque",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// SoftBoiled
-  {	"Pied Voltige",		Combat,		Ability_Physical,	20, 85, 90, 0, 1, false,	0,None		},	// High Jump Kick
-  {	"Intimidation",		Normal,		Ability_Status,		0, 0, 75, 0, 1, false,		100, Status_PAR	},	// Glare
-  {	"Devoreve",		Psy,		Ability_Special,	15, 100, 100, 0, 1, false,	0,None		},	// Dream Eater
-  {	"Gaz toxik",		Poison,		Ability_Status,		0, 0, 55, 0, 1, false,		100, Status_PSN	},	// Posion Gas
-  {	"Pilonnage",		Normal,		Ability_Physical,	20, 15, 85, 0, 1, false,	0,None		},	// Barrage
-  {	"Vampirisme",		Insecte,	Ability_Physical,	15, 20, 100, 0, 1, false,	0,None		},	// Leech Life
-  {	"Grobisous",		Normal,		Ability_Status,		0, 0, 75, 0, 1, false,		100, Status_SLP	},	// Lovely Kiss
-  {	"Pique",		Vol,		Ability_Physical,	5, 140, 90, 0, 2, false,	0,None		},	// Sky Attack
-  {	"Morphing",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Transform
-  {	"Ecume",		Eau,		Ability_Special,	30, 20, 100, 0, 1, false,	0,None		},	// Bubble
-  {	"Uppercut",		Normal,		Ability_Physical,	10, 70, 100, 0, 1, false,	0,None		},	// Dizzy Punch
-  {	"Spore",		Plante,		Ability_Status,		5, 0, 100, 0, 1, false,		100,Status_SLP	},	// Spore
-  {	"Flash",		Normal,		Ability_Status,		0, 0, 70, 0, 1, false,		0,None		},	// Flash
-  {	"Vague Psy",		Psy,		Ability_Special,	15, 0, 80, 0, 1, false,		0,None		},	// Psywave
-  {	"Trempette",		Normal,		Ability_Status,		0, 0, 100, 0, 1, false,		0,None		},	// Splash
-  {	"Acidarmure",		Poison,		Ability_Status,		0, 2, 0, 0, 1, false,		0,None		},	// Acid Armor
-  {	"Pince-Masse",		Eau,		Ability_Physical,	10, 90, 85, 2, 1, false,	0,None		},	// Crabhammer
-  {	"Explosion",		Normal,		Ability_Physical,	5, 250, 100, 0, 1, false,	0,None		},	// Explosion
-  {	"Combo-griffe",		Normal,		Ability_Physical,	15, 18, 80, 0, 1, false,	0,None		},	// Fury Swipes
-  {	"Osmerang",		Sol,		Ability_Physical,	10, 50, 90, 0, 1, false,	0,None		},	// Bonemerang
-  {	"Repos",		Normal,		Ability_Physical,	10, 0, 0, 0, 1, false,		0,None		},	// Rest
-  {	"Eboulement",		Roche,		Ability_Physical,	10, 75, 90, 0, 1, false,	0,None		},	// Rock Slide
-  {	"Croc de mort",		Normal,		Ability_Physical,	15, 80, 90, 0, 1, false,	0,None		},	// Hyper Fang
-  {	"Armure",		Normal,		Ability_Status,		0, 1, 0, 0, 1, false,		0,None		},	// Sharpen
-  {	"Adaptation",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Conversion
-  {	"Triplattaque",		Normal,		Ability_Special,	10, 80, 100, 0, 1, false,	20,Status_SLP	},	// Tri Attack
-  {	"Croc Fatal",		Normal,		Ability_Physical,	10, 0, 90, 0, 1, false,		0,None		},	// Super Fang
-  {	"Tranche",		Normal,		Ability_Physical,	20, 70, 100, 2, 1, false,	0,None		},	// Slash
-  {	"Clonage",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Substitute
-  {	"Lutte",		None,		Ability_Physical,	0, 50, 0, 0, 1, false,		0,None		},	// Struggle
-  {	"Gribouille",		Normal,		Ability_Status,		1, 0, 0, 0, 1, false,		0,None		},	// Sketch
-  {	"Triple-Pied",		Combat,		Ability_Physical,	10, 10, 90, 0, 1, false,	0,None		},	// Triple Kick
-  {	"Larcin",		Tenebres,	Ability_Physical,	10, 40, 100, 0, 1, false,	0,None		},	// Thief
-  {	"Toile",		Insecte,	Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Spider Web
-  {	"Lire-Esprit",		Normal,		Ability_Status,		5, 0, 100, 0, 1, false,		0,None		},	// Mind Reader
-  {	"Chauchemar",		Spectre,	Ability_Status,		5, 0, 100, 0, 1, false,		0,None		},	// Nightmare
-  {	"Roue de Feu",		Feu,		Ability_Physical,	25, 60, 100, 0, 1, false,	10,Status_BRN	},	// Flame Wheel
-  {	"Ronflement",		Normal,		Ability_Special,	15, 40, 100, 0, 1, false,	0,None		},	// Snore
-  {	"Malediction",		Spectre,	Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Curse
-  {	"Fleau",		Normal,		Ability_Physical,	15, 0, 100, 0, 1, false,	0,None		},	// Flail
-  {	"Adaptation2",		Normal,		Ability_Status,		0, 00, 0, 0, 1, false,		0,None		},	// Conversion2
-  {	"Aeroblast",		Vol,		Ability_Special,	5, 100, 95, 0, 1, false,	0,None		},	// Aeroblast
-  {	"Spore-Coton",		Plante,		Ability_Status,		0, 2, 85, 0, 1, false,		0,None		},	// Cotton Spore
-  {	"Contre",		Combat,		Ability_Physical,	15, 0, 100, 0, 1, false,	0,None		},	// Reversal
-  {	"Depit",		Spectre,	Ability_Status,		0, 0, 100, 0, 1, false,		0,None		},	// Splite
-  {	"Poudreuse",		Glace,		Ability_Special,	25, 40, 100, 0, 1, false,	10,Status_FRZ	},	// Powder Snow
-  {	"Abris",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Protect
-  {	"Mach Punch",		Combat,		Ability_Physical,	30, 40, 100, 0, 1, false,	0,None		},	// Mach Punch
-  {	"Grimace",		Normal,		Ability_Status,		0, 2, 90, 0, 1, false,		0,None		},	// Scary Face
-  {	"Feinte",		Tenebres,	Ability_Physical,	20, 60, 0, 0, 1, false,		0,None		},	// Feint Attack
-  {	"Doux Baiser",		Normal,		Ability_Status,		0, 0, 75, 0, 1, false,		0,None		},	// Sweet Kiss
-  {	"Cognobidon",		Normal,		Ability_Status,		0, 13, 0, 0, 1, false,		0,None		},	// Belly Drum
-  {	"Bomb-Beurk",		Poison,		Ability_Special,	10, 90, 100, 0, 1, false,	30,Status_PSN	},	// Sludge Bomb
-  {	"Coud'Boue",		Sol,		Ability_Special,	10, 20, 100, 0, 1, false,	0,None		},	// Mud-Slap
-  {	"Octazooka",		Eau,		Ability_Special,	10, 65, 85, 0, 1, false,	0,None		},	// Octazooka
-  {	"Picots",		Sol,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Spikes
-  {	"Elecanon",		Electric,	Ability_Special,	5, 100, 100, 0, 1, false,	100,Status_PAR	},	// Zap Cannon
-  {	"Clairvoyance",		Normal,		Ability_Status,		0, 0, 100, 0, 1, false,		0,None		},	// ForeSight
-  {	"Prlvt Destin",		Spectre,	Ability_Status,		5, 0, 0, 0, 1, false,		0,None		},	// Destiny Bond
-  {	"Requiem",		Normal,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None		},	// Perish Song
-  {	"Vent Glace",		Glace,		Ability_Special,	15, 55, 95, 0, 1, false,	0,None		},	// Ice Wind
-  {	"Detection",		Combat,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None		},	// Detect
-  {	"Charge-Os",		Sol,		Ability_Physical,	10, 25, 80, 0, 1, false,	0,None		},	// Bone Rush
-  {	"Verrouillage",		Normal,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None		},	// Lock-On
-  {	"Colere",		Dragon,		Ability_Physical,	15, 90, 100, 0, 2, false,	0,None		},	// Outrage
-  {	"Tempetesable",		Roche,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Sandstorm
-  {	"Giga-Sangsue",		Plante,		Ability_Special,	5, 60, 100, 0, 1, false,	0,None		},	// Giga Drain
-  {	"Tenacite",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Endure
-  {	"Charme",		Normal,		Ability_Status,		0, 2, 100, 0, 1, false,		0,None		},	// Charm
-  {	"Roulade",		Roche,		Ability_Physical,	20, 30, 90, 0, 5, false,	0,None		},	// Rollout
-  {	"Faux-Chage",		Normal,		Ability_Physical,	40, 40, 100, 0, 1, false,	0,None		},	// False Swipe
-  {	"Vantardise",		Normal,		Ability_Status,		5, 2, 90, 0, 1, false,		0,None		},	// Swagger
-  {	"Lait a Boire",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Milk Drink
-  {	"Etincelle",		Electric,	Ability_Physical,	20, 65, 100, 0, 1, false,	30,Status_PAR	},	// Spark
-  {	"Taillade",		Insecte,	Ability_Physical,	20, 10, 95, 0, 1, false,	0,None		},	// Fury Cutter
-  {	"Aile d'Acier",		Acier,		Ability_Physical,	25, 70, 90, 0, 1, false,	0,None		},	// Steel Wing
-  {	"Regard Noir",		Normal,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None		},	// Mean Look
-  {	"Attraction",		Normal,		Ability_Status,		5, 0, 100, 0, 1, false,		0,None		},	// Attract
-  {	"Blabla Dodo",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Sleep Talk
-  {	"Glas de Soin",		Normal,		Ability_Status,		5, 0, 100, 0, 1, false,		0,None		},	// Heal Bell
-  {	"Retour",		Normal,		Ability_Physical,	20, 0, 100, 0, 1, false,	0,None		},	// Return
-  {	"Cadeau",		Normal,		Ability_Physical,	15, 0, 100, 0, 1, false,	0,None		},	// Present
-  {	"Frustation",		Normal,		Ability_Physical,	20, 0, 100, 0, 1, false,	0,None		},	// Frustration
-  {	"Rune Protect",		Normal,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None		},	// Safeguard
-  {	"Balance",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Pain Split
-  {	"Feu Sacre",		Feu,		Ability_Special,	5, 100, 95, 0, 1, false,	0,None		},	// Sacred Fire
-  {	"Magnitude",		Sol,		Ability_Physical,	30, 0, 100, 0, 1, false,	0,None		},	// Magnitude
-  {	"Dynamopoing",		Combat,		Ability_Physical,	5, 100, 50, 0, 1, false,	0,None		},	// Dynamic Punch
-  {	"Megacorne",		Insecte,	Ability_Physical,	10, 120, 85, 0, 1, false,	0,None		},	// Megahorn
-  {	"Dracosouffle",		Dragon,		Ability_Special,	20, 60, 100, 0, 1, false,	30,Status_PAR	},	// Dragon Breath
-  {	"Relais",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Baton Pass
-  {	"Encore",		Normal,		Ability_Status,		5, 0, 100, 0, 1, false,		0,None		},	// Encore
-  {	"Poursuite",		Tenebres,	Ability_Physical,	20, 40, 100, 0, 1, false,	0,None		},	// Pursuit
-  {	"Tour Rapide",		Eau,		Ability_Physical,	40, 20, 100, 0, 1, false,	0,None		},	// Rapid Spin
-  {	"Doux Parfum",		Normal,		Ability_Status,		0, 1, 100, 0, 1, false,		0,None		},	// Sweet Scent
-  {	"Queue de Fer",		Acier,		Ability_Physical,	15, 100, 75, 0, 1, false,	0,None		},	// Iron Tail
-  {	"Griff'Acier",		Acier,		Ability_Physical,	35, 50, 95, 0, 1, false,	0,None		},	// Metal Claw
-  {	"Corps Perdu",		Combat,		Ability_Physical,	10, 70, 0, 0, 1, false,		0,None		},	// Vital Throw
-  {	"Aurore",		Normal,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None		},	// Morning Sun
-  {	"Synthese",		Plante,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None		},	// Synthesis
-  {	"Rayon Lune",		Normal,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None		},	// Monnlight
-  {	"Puissance Cachee",	Normal,		Ability_Special,	15, 0, 100, 0, 1, false,	0,None		},	// Hidden Power
-  {	"Coup Croix",		Combat,		Ability_Physical,	5, 100, 80, 2, 1, false,	0,None		},	// Cross Chop
-  {	"Ouragan",		Dragon,		Ability_Special,	20, 40, 100, 0, 1, false,	0,None		},	// Twister
-  {	"Danse Pluie",		Eau,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None		},	// Rain Dance
-  {	"Zenith",		Feu,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None		},	// Sunny Day
-  {	"Machouille",		Tenebres,	Ability_Physical,	15, 80, 100, 0, 1, false,	0,None		},	// Crunch
-  {	"Voile Miroir",		Psy,		Ability_Special,	20, 0, 100, 0, 1, false,	0,None		},	// Mirror Coat
-  {	"Boost",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None		},	// Psych Up
-  {	"Vitesse Extreme",	Normal,		Ability_Physical,	5, 80, 100, 0, 1, false,	0,None		},	// Extreme Speed
-  {	"Pouv. Antique",	Roche,		Ability_Special,	5, 60, 100, 0, 1, false,	0,None		},	// Ancient Power
-  {	"Ball'Ombre",		Spectre,	Ability_Special,	15, 80, 100, 0, 1, false,	0,None		},	// Shadow Ball
-  {	"Prescience",		Psy,		Ability_Special,	15, 80, 100, 0, 1, false,	0,None		},	// Future Sight
-  {	"Eclate-Roc",		Combat,		Ability_Physical,	15, 20, 100, 0, 1, false,	0,None		},	// Rock Smash
-  {	"Syphon",		Eau,		Ability_Special,	15, 15, 70, 0, 1, false,	0,None		},	// Whirlpool
-  {	"Baston",		Tenebres,	Ability_Physical,	10, 10, 100, 0, 1, false,	0,None		},	// Beat Up
+  {	"Unused",		None,		Ability_None,		0, 0, 0, 0, 0, false,		0,None,		"Unused"	},	// Unused
+  {	"Ecras'Face",		Normal,		Ability_Physical,	35, 40, 100, 0, 1, false,	0,None,		"Pound"	},	// Pound
+  {	"Poing Karate",		Combat,		Ability_Physical,	25, 50, 100, 2, 1, false,	0,None,		"Karate Chop"	},	// Karate Chop
+  {	"Torgnoles",		Normal,		Ability_Physical,	10, 15, 85, 0, 1, false,	0,None,		"Double Slap"	},	// Double Slap
+  {	"Poing Comete",		Normal,		Ability_Physical,	15, 18, 85, 0, 1, false,	0,None,		"Comet Punch"	},	// Comet Punch
+  {	"Ultimapoing",		Normal,		Ability_Physical,	20, 80, 85, 0, 1, false,	0,None,		"Mega Punch"	},	// Mega Punch
+  {	"Jackpot",		Normal,		Ability_Physical,	20, 40, 100, 0, 1, false,	0,None,		"Pay day"	},	// Pay day
+  {	"Poing de feu",		Feu,		Ability_Physical,	15, 75, 100, 0, 1, false,	10, Status_BRN,	"Fire Punch"	},	// Fire Punch
+  {	"Poinglace",		Glace,		Ability_Physical,	15, 75, 100, 0, 1, false,	10, Status_FRZ,	"Ice Punch"	},	// Ice Punch
+  {	"Poing Eclair",		Electric,	Ability_Physical,	15, 75, 100, 0, 1, false,	10, Status_PAR,	"Thunder Punch"	},	// Thunder Punch
+  {	"Griffe",		Normal,		Ability_Physical,	35, 40, 100, 0, 1, false,	0,None,		"Scrach"	},	// Scrach
+  {	"Force Poigne",		Normal,		Ability_Physical,	30, 55, 100, 0, 1, false,	0,None,		"Vice Grip"	},	// Vice Grip
+  {	"Guillotine",		Normal,		Ability_Physical,	5, 0, 0, 0, 1, true,		0,None,		"Guillotine"	},	// Guillotine
+  {	"Coupe-Vent",		Normal,		Ability_Special,	10, 80, 100, 2, 2, false,	0,None,		"Razor Wind"	},	// Razor Wind
+  {	"Danse-Lames",		Normal,		Ability_Status,		0, 2, 0, 0, 1, false,		0,None,		"Swords Dance"	},	// Swords Dance
+  {	"Coupe",		Normal,		Ability_Physical,	30, 50, 95, 0, 1, false,	0,None,		"Cut"	},	// Cut
+  {	"Tornade",		Vol,		Ability_Special,	35, 40, 100, 0, 1, false,	0,None,		"Fly"	},	// Fly
+  {	"Cru-Aile",		Vol,		Ability_Physical,	35, 60, 100, 0, 1, false,	0,None,		"Wing Attack"	},	// Wing Attack
+  {	"Cyclone",		Vol,		Ability_Status,		0, 0, 100, 0, 1, false,		0,None,		"Whirlwind"	},	// Whirlwind
+  {	"Vol",			Vol,		Ability_Physical,	15, 70, 95, 0, 2, false,	0,None,		"Fly"	},	// Fly
+  {	"Etreinte",		Normal,		Ability_Physical,	10, 15, 70, 0, 1, false,	0,None,		"Bind"	},	// Bind
+  {	"Souplesse",		Normal,		Ability_Physical,	20, 80, 75, 0, 1, false,	0,None,		"Slam"	},	// Slam
+  {	"Fouet Lianes",		Plante,		Ability_Physical,	10, 35, 100, 0, 1, false,	0,None,		"Vine Whip"	},	// Vine Whip
+  {	"Ecrasement",		Normal,		Ability_Physical,	20, 65, 100, 0, 1, false,	0,None,		"Stomp"	},	// Stomp
+  {	"Double Pied",		Combat,		Ability_Physical,	30, 30, 100, 0, 1, false,	0,None,		"Double Kick"	},	// Double Kick
+  {	"Ultimawashi",		Normal,		Ability_Physical,	5, 120, 75, 0, 1, false,	0,None,		"Mega Kick"	},	// Mega Kick
+  {	"Pied Saute",		Combat,		Ability_Physical,	25, 70, 95, 0, 1, false,	0,None,		"Jump Kick"	},	// Jump Kick
+  {	"Mawashi Geri",		Combat,		Ability_Physical,	15, 60, 85, 0, 1, false,	0,None,		"Rolling Kick"	},	// Rolling Kick
+  {	"Jet de sable",		Sol,		Ability_Status,		5, 1, 100, 0, 1, false,		0,None,		"Sand Attack"	},	// Sand Attack
+  {	"Coup d'Boule",		Normal,		Ability_Physical,	15, 70, 100, 0, 1, false,	0,None,		"Headbutt"	},	// Headbutt
+  {	"Koud'Korne",		Normal,		Ability_Physical,	25, 65, 100, 0, 1, false,	0,None,		"Horn Attack"	},	// Horn Attack
+  {	"Furie",		Normal,		Ability_Physical,	20, 15, 85, 0, 1, false,	0,None,		"Fury Attack"	},	// Fury Attack
+  {	"Empal'Korne",		Normal,		Ability_Physical,	5, 0, 0, 0, 1, true,		0,None,		"Horn Drill"	},	// Horn Drill
+  {	"Charge",		Normal,		Ability_Physical,	35, 35, 95, 0, 1, false,	0,None,		"Tackle"	},	// Tackle
+  {	"Plaquage",		Normal,		Ability_Physical,	15, 85, 100, 0, 1, false,	30, Status_PAR,	"Body Slam"	},	// Body Slam
+  {	"Ligotage",		Normal,		Ability_Physical,	20, 15, 85, 0, 1, false,	0,None,		"Wrap"	},	// Wrap
+  {	"Belier",		Normal,		Ability_Physical,	20, 90, 85, 0, 1, false,	0,None,		"Take Down"	},	// Take Down
+  {	"Mania",		Normal,		Ability_Physical,	20, 90, 100, 0, 2, false,	0,None,		"Thrash"	},	// Thrash
+  {	"Damocles",		Normal,		Ability_Physical,	15, 120, 100, 0, 1, false,	0,None,		"Double-Edge"	},	// Double-Edge
+  {	"Mimi-Queue",		Normal,		Ability_Status,		0, 1, 100, 0, 1, false,		0,None,		"Tail Whip"	},	// Tail Whip
+  {	"Dard-Venin",		Poison,		Ability_Physical,	35, 15, 100, 0, 1, false,	30, Status_PSN,	"Poison Sting"	},	// Poison Sting
+  {	"Double-Dard",		Insecte,	Ability_Physical,	20, 25, 100, 0, 1, false,	20, Status_PSN,	"Twineedle"	},	// Twineedle
+  {	"Dard-Nuee",		Insecte,	Ability_Physical,	20, 14, 85, 0, 1, false,	0,None,		"Pin Missile"	},	// Pin Missile
+  {	"Groz'Yeux",		Normal,		Ability_Status,		0, 1, 100, 0, 1, false,		0,None,		"Leer"	},	// Leer
+  {	"Morsure",		Tenebres,	Ability_Special,	25, 60, 100, 0, 1, false,	0,None,		"Bite"	},	// Bite
+  {	"Rugissement",		Normal,		Ability_Status,		0, 1, 100, 0, 1, false,		0,None,		"Growl"	},	// Growl
+  {	"Hurlement",		Normal,		Ability_Status,		0, 0, 100, 0, 1, false,		0,None,		"Roar"	},	// Roar
+  {	"Berceuse",		Normal,		Ability_Status,		5, 0, 55, 0, 1, false,		0,None,		"Sing"	},	// Sing
+  {	"Ultrason",		Normal,		Ability_Status,		0, 0, 55, 0, 1, false,		0,None,		"Supersonic"	},	// Supersonic
+  {	"Sonicboom",		Normal,		Ability_Special,	20, 20, 90, 0, 1, false,	0,None,		"Sonic Boom"	},	// Sonic Boom
+  {	"Entrave",		Normal,		Ability_Status,		0, 0, 55, 0, 1, false,		0,None,		"Disable"	},	// Disable
+  {	"Acide",		Poison,		Ability_Special,	30, 40, 100, 0, 1, false,	0,None,		"Acid"	},	// Acid
+  {	"Flammeche",		Feu,		Ability_Special,	25, 40, 100, 0, 1, false,	10, Status_BRN,	"Ember"	},	// Ember
+  {	"Lance-Flamme",		Feu,		Ability_Special,	15, 90, 100, 0, 1, false,	10, Status_BRN,	"Flamethrower"	},	// Flamethrower
+  {	"Brume",		Glace,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Mist"	},	// Mist
+  {	"Pistolet A O",		Eau,		Ability_Special,	25, 40, 100, 0, 1, false,	0,None,		"Water Gun"	},	// Water Gun
+  {	"Hydrocanon",		Eau,		Ability_Special,	5, 110, 80, 0, 1, false,	0,None,		"Hydro Pump"	},	// Hydro Pump
+  {	"Surf",			Eau,		Ability_Special,	15, 90, 100, 0, 1, false,	0,None,		"Surf"	},	// Surf
+  {	"Laser Glace",		Glace,		Ability_Special,	10, 90, 100, 0, 1, false,	10, Status_FRZ,	"Ice Beam"	},	// Ice Beam
+  {	"Blizzard",		Glace,		Ability_Special,	5, 120, 90, 0, 1, false,	10, Status_FRZ,	"Blizzard"	},	// Blizzard
+  {	"Rafale Psy",		Psy,		Ability_Special,	20, 65, 100, 0, 1, false,	0,None,		"Psybeam"	},	// Psybeam
+  {	"Bulles d'O",		Eau,		Ability_Special,	20, 65, 100, 0, 1, false,	0,None,		"Bubble beam"	},	// Bubble beam
+  {	"Onde Boreale",		Glace,		Ability_Special,	20, 65, 100, 0, 1, false,	0,None,		"Aurora Beam"	},	// Aurora Beam
+  {	"Ultralaser",		Normal,		Ability_Special,	5, 150, 90, 0, 2, false,	0,None,		"Hyper Beam"	},	// Hyper Beam
+  {	"Picpic",		Vol,		Ability_Physical,	35, 35, 100, 0, 1, false,	0,None,		"Peck"	},	// Peck
+  {	"Bec Vrille",		Vol,		Ability_Physical,	20, 80, 100, 0, 1, false,	0,None,		"Drill Peck"	},	// Drill Peck
+  {	"Sacrifice",		Combat,		Ability_Physical,	25, 80, 80, 0, 1, false,	0,None,		"Submission"	},	// Submission
+  {	"Balayage",		Combat,		Ability_Physical,	20, 50, 100, 0, 1, false,	0,None,		"Low Kick"	},	// Low Kick
+  {	"Riposte",		Combat,		Ability_Physical,	20, 0, 100, 0, 1, false,	0,None,		"Counter"	},	// Counter
+  {	"Frappe Atlas",		Combat,		Ability_Physical,	20, 0, 100, 0, 1, false,	0,None,		"Seismic Toss"	},	// Seismic Toss
+  {	"Force",		Normal,		Ability_Physical,	15, 80, 100, 0, 1, false,	0,None,		"Strength"	},	// Strength
+  {	"Vol-Vie",		Plante,		Ability_Special,	20, 20, 100, 0, 1, false,	0,None,		"Absorb"	},	// Absorb
+  {	"Mega-Sangsue",		Plante,		Ability_Special,	10, 40, 100, 0, 1, false,	0,None,		"Mega Drain"	},	// Mega Drain
+  {	"Vampigraine",		Plante,		Ability_Status,		0, 0, 90, 0, 1, false,		0,None,		"Leech Seed"	},	// Leech Seed
+  {	"Croissance",		Normal,		Ability_Status,		0, 1, 0, 0, 1, false,		0,None,		"Growth"	},	// Growth
+  {	"Tranch'herbe",		Plante,		Ability_Physical,	25, 55, 95, 2, 1, false,	0,None,		"Razor Leaf"	},	// Razor Leaf
+  {	"Lance-Soleil",		Plante,		Ability_Special,	10, 120, 100, 0, 2, false,	0,None,		"Solar Beam"	},	// Solar Beam
+  {	"Poudre Toxik",		Poison,		Ability_Status,		5, 0, 75, 0, 1, false,		100, Status_PSN,	"Poison Powder"	},	// Poison Powder
+  {	"Para Spore",		Plante,		Ability_Status,		0, 0, 75, 0, 1, false,		100, Status_PAR,	"Stun Spore"	},	// Stun Spore
+  {	"Poudre Dodo",		Plante,		Ability_Status,		5, 0, 75, 0, 1, false,		100, Status_SLP,	"Sleep Powder"	},	// Sleep Powder
+  {	"Danse-Fleur",		Plante,		Ability_Special,	20, 70, 100, 0, 2, false,	0,None,		"Petal Dance"	},	// Petal Dance
+  {	"Secretion",		Insecte,	Ability_Status,		0, 1, 95, 0, 1, false,		0,None,		"String Shot"	},	// String Shot
+  {	"Draco-Rage",		Dragon,		Ability_Special,	10, 40, 100, 0, 1, false,	0,None,		"Dragon Rage"	},	// Dragon Rage
+  {	"Danseflamme",		Feu,		Ability_Special,	15, 15, 70, 0, 1, false,	0,None,		"Fire Spin"	},	// Fire Spin
+  {	"Eclair",		Electric,	Ability_Special,	30, 40, 100, 0, 1, false,	10, Status_PAR,	"Thunder Shock"	},	// Thunder Shock
+  {	"Tonnerre",		Electric,	Ability_Special,	15, 95, 100, 0, 1, false,	10, Status_PAR,	"Thunderbolt"	},	// Thunderbolt
+  {	"Cage-Eclair",		Electric,	Ability_Status,		0, 0, 100, 0, 1, false,		100, Status_PAR,	"Thunder Wave"	},	// Thunder Wave
+  {	"Fatal-Foudre",		Electric,	Ability_Status,		0, 120, 70, 0, 1, false,	30, Status_PAR,	"Thunder"	},	// Thunder
+  {	"Jet-Pierres",		Roche,		Ability_Physical,	15, 50, 90, 0, 1, false,	0,None,		"Rock Throw"	},	// Rock Throw
+  {	"Seisme",		Sol,		Ability_Physical,	10, 100, 100, 0, 1, false,	0,None,		"Earthquake"	},	// Earthquake
+  {	"Abime",		Sol,		Ability_Physical,	5, 0, 0, 0, 1, true,		0,None,		"Fissure"	},	// Fissure
+  {	"Tunnel",		Sol,		Ability_Physical,	10, 60, 100, 0, 2, false,	0,None,		"Dig"	},	// Dig
+  {	"Toxik",		Poison,		Ability_Status,		0, 0, 85, 0, 1, false,		100, Status_BPSN,"Toxic"},	// Toxic
+  {	"Choc Mental",		Psy,		Ability_Special,	25, 50, 100, 1, 1, false,	0,None,		"Confusion"	},	// Confusion
+  {	"Psyko",		Psy,		Ability_Special,	10, 90, 100, 0, 1, false,	0,None,		"Psychic"	},	// Psychic
+  {	"Hypnose",		Psy,		Ability_Status,		0, 0, 60, 0, 1, false,		100, Status_SLP,	"Hypnosis"	},	// Hypnosis
+  {	"Meditation",		Psy,		Ability_Status,		0, 1, 0, 0, 1, false,		0,None,		"Meditate"	},	// Meditate
+  {	"Hate",			Psy,		Ability_Status,		0, 2, 0, 0, 1, false,		0,None,		"Agility"	},	// Agility
+  {	"Vive-Attaque",		Normal,		Ability_Physical,	30, 40, 100, 0, 1, false,	0,None,		"Quick Attack"	},	// Quick Attack
+  {	"Frenesie",		Normal,		Ability_Physical,	20, 20, 100, 0, 1, false,	0,None,		"Rage"	},	// Rage
+  {	"Teleport",		Psy,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Teleport"	},	// Teleport
+  {	"Tenebres",		Spectre,	Ability_Special,	20, 0, 100, 0, 1, false,	0,None,		"Night Shade"	},	// Night Shade
+  {	"Copie",		Normal,		Ability_Status,		10, 0, 0, 0, 1, false,		0,None,		"Mimic"	},	// Mimic
+  {	"Grincement",		Normal,		Ability_Status,		0, 2, 85, 0, 1, false,		0,None,		"Screech"	},	// Screech
+  {	"Esquive",		Normal,		Ability_Status,		5, 1, 0, 0, 1, false,		0,None,		"Double Team"	},	// Double Team
+  {	"Soin",			Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Recover"	},	// Recover
+  {	"Armure",		Normal,		Ability_Status,		0, 1, 0, 0, 1, false,		0,None,		"Harden"	},	// Harden
+  {	"Lilliput",		Normal,		Ability_Status,		0, 1, 0, 0, 1, false,		0,None,		"Minimize"	},	// Minimize
+  {	"Brouillard",		Normal,		Ability_Status,		0, 1, 100, 0, 1, false,		0,None,		"Smokescreen"	},	// Smokescreen
+  {	"Onde Folie",		Spectre,	Ability_Status,		0, 0, 100, 0, 1, false,		0,None,		"Confuse ray"	},	// Confuse ray
+  {	"Replis",		Eau,		Ability_Status,		0, 1, 0, 0, 1, false,		0,None,		"Withdraw"	},	// Withdraw
+  {	"Boul'Armure",		Normal,		Ability_Status,		0, 1, 0, 0, 1, false,		0,None,		"Defense Curl"	},	// Defense Curl
+  {	"Bouclier",		Psy,		Ability_Status,		0, 2, 0, 0, 1, false,		0,None,		"Barrier"	},	// Barrier
+  {	"Mur Lumiere",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Light Screen"	},	// Light Screen
+  {	"Buee Noire",		Glace,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Haze"	},	// Haze
+  {	"Protection",		Psy,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Reflect"	},	// Reflect
+  {	"Puissance",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Focus Energy"	},	// Focus Energy
+  {	"Patience",		Normal,		Ability_Physical,	10, 0, 0, 0, 1, false,		0,None,		"Bide"	},	// Bide
+  {	"Metronome",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Metroneme"	},	// Metroneme
+  {	"Mimique",		Vol,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Mirror Move"	},	// Mirror Move
+  {	"Destruction",		Normal,		Ability_Physical,	5, 200, 100, 0, 1, false,	0,None,		"Self-Destruct"	},	// Self-Destruct
+  {	"Bomb'oeuf",		Normal,		Ability_Physical,	10, 100, 75, 0, 1, false,	0,None,		"Egg Bomb"	},	// Egg Bomb
+  {	"Lechouille",		Spectre,	Ability_Physical,	30, 30, 100, 0, 1, false,	30, Status_PAR,	"Lick"	},	// Lick
+  {	"Puredpois",		Poison,		Ability_Special,	20, 20, 70, 0, 1, false,	40, Status_PSN,	"Smog"	},	// Smog
+  {	"Detritus",		Poison,		Ability_Special,	20, 65, 100, 0, 1, false,	30, Status_PAR,	"Sludge"	},	// Sludge
+  {	"Massd'os",		Sol,		Ability_Physical,	20, 65, 85, 0, 1, false,	0,None,		"Bone Club"	},	// Bone Club
+  {	"Deflagration",		Feu,		Ability_Special,	5, 120, 85, 0, 1, false,	10, Status_BRN,	"Fire Blast"	},	// Fire Blast
+  {	"Cascade",		Eau,		Ability_Special,	15, 80, 100, 0, 1, false,	0,None,		"Water Fall"	},	// Water Fall
+  {	"Claquoir",		Eau,		Ability_Physical,	10, 35, 85, 0, 1, false,	0,None,		"Clamp"	},	// Clamp
+  {	"Meteore",		Normal,		Ability_Physical,	20, 60, 0, 0, 1, false,		0,None,		"Swift"	},	// Swift
+  {	"Coud'Krane",		Normal,		Ability_Physical,	10, 100, 100, 0, 1, false,	0,None,		"Skull Bash"	},	// Skull Bash
+  {	"Picanon",		Normal,		Ability_Physical,	15, 20, 100, 0, 1, false,	0,None,		"Spike Canon"	},	// Spike Canon
+  {	"Constriction",		Normal,		Ability_Physical,	35, 10, 100, 0, 1, false,	0,None,		"Constrict"	},	// Constrict
+  {	"Amnesie",		Psy,		Ability_Status,		0, 2, 0, 0, 1, false,		0,None,		"Amnesia"	},	// Amnesia
+  {	"Telekinesie",		Psy,		Ability_Status,		5, 1, 80, 0, 1, false,		0,None,		"Kinesis"	},	// Kinesis
+  {	"E-Coque",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"SoftBoiled"	},	// SoftBoiled
+  {	"Pied Voltige",		Combat,		Ability_Physical,	20, 85, 90, 0, 1, false,	0,None,		"High Jump Kick"	},	// High Jump Kick
+  {	"Intimidation",		Normal,		Ability_Status,		0, 0, 75, 0, 1, false,		100, Status_PAR,	"Glare"	},	// Glare
+  {	"Devoreve",		Psy,		Ability_Special,	15, 100, 100, 0, 1, false,	0,None,		"Dream Eater"	},	// Dream Eater
+  {	"Gaz toxik",		Poison,		Ability_Status,		0, 0, 55, 0, 1, false,		100, Status_PSN,	"Posion Gas"	},	// Posion Gas
+  {	"Pilonnage",		Normal,		Ability_Physical,	20, 15, 85, 0, 1, false,	0,None,		"Barrage"	},	// Barrage
+  {	"Vampirisme",		Insecte,	Ability_Physical,	15, 20, 100, 0, 1, false,	0,None,		"Leech Life"	},	// Leech Life
+  {	"Grobisous",		Normal,		Ability_Status,		0, 0, 75, 0, 1, false,		100, Status_SLP,	"Lovely Kiss"	},	// Lovely Kiss
+  {	"Pique",		Vol,		Ability_Physical,	5, 140, 90, 0, 2, false,	0,None,		"Sky Attack"	},	// Sky Attack
+  {	"Morphing",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Transform"	},	// Transform
+  {	"Ecume",		Eau,		Ability_Special,	30, 20, 100, 0, 1, false,	0,None,		"Bubble"	},	// Bubble
+  {	"Uppercut",		Normal,		Ability_Physical,	10, 70, 100, 0, 1, false,	0,None,		"Dizzy Punch"	},	// Dizzy Punch
+  {	"Spore",		Plante,		Ability_Status,		5, 0, 100, 0, 1, false,		100,Status_SLP,	"Spore"	},	// Spore
+  {	"Flash",		Normal,		Ability_Status,		0, 0, 70, 0, 1, false,		0,None,		"Flash"	},	// Flash
+  {	"Vague Psy",		Psy,		Ability_Special,	15, 0, 80, 0, 1, false,		0,None,		"Psywave"	},	// Psywave
+  {	"Trempette",		Normal,		Ability_Status,		0, 0, 100, 0, 1, false,		0,None,		"Splash"	},	// Splash
+  {	"Acidarmure",		Poison,		Ability_Status,		0, 2, 0, 0, 1, false,		0,None,		"Acid Armor"	},	// Acid Armor
+  {	"Pince-Masse",		Eau,		Ability_Physical,	10, 90, 85, 2, 1, false,	0,None,		"Crabhammer"	},	// Crabhammer
+  {	"Explosion",		Normal,		Ability_Physical,	5, 250, 100, 0, 1, false,	0,None,		"Explosion"	},	// Explosion
+  {	"Combo-griffe",		Normal,		Ability_Physical,	15, 18, 80, 0, 1, false,	0,None,		"Fury Swipes"	},	// Fury Swipes
+  {	"Osmerang",		Sol,		Ability_Physical,	10, 50, 90, 0, 1, false,	0,None,		"Bonemerang"	},	// Bonemerang
+  {	"Repos",		Normal,		Ability_Physical,	10, 0, 0, 0, 1, false,		0,None,		"Rest"	},	// Rest
+  {	"Eboulement",		Roche,		Ability_Physical,	10, 75, 90, 0, 1, false,	0,None,		"Rock Slide"	},	// Rock Slide
+  {	"Croc de mort",		Normal,		Ability_Physical,	15, 80, 90, 0, 1, false,	0,None,		"Hyper Fang"	},	// Hyper Fang
+  {	"Armure",		Normal,		Ability_Status,		0, 1, 0, 0, 1, false,		0,None,		"Sharpen"	},	// Sharpen
+  {	"Adaptation",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Conversion"	},	// Conversion
+  {	"Triplattaque",		Normal,		Ability_Special,	10, 80, 100, 0, 1, false,	20,Status_SLP,	"Tri Attack"	},	// Tri Attack
+  {	"Croc Fatal",		Normal,		Ability_Physical,	10, 0, 90, 0, 1, false,		0,None,		"Super Fang"	},	// Super Fang
+  {	"Tranche",		Normal,		Ability_Physical,	20, 70, 100, 2, 1, false,	0,None,		"Slash"	},	// Slash
+  {	"Clonage",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Substitute"	},	// Substitute
+  {	"Lutte",		None,		Ability_Physical,	0, 50, 0, 0, 1, false,		0,None,		"Struggle"	},	// Struggle
+  {	"Gribouille",		Normal,		Ability_Status,		1, 0, 0, 0, 1, false,		0,None,		"Sketch"	},	// Sketch
+  {	"Triple-Pied",		Combat,		Ability_Physical,	10, 10, 90, 0, 1, false,	0,None,		"Triple Kick"	},	// Triple Kick
+  {	"Larcin",		Tenebres,	Ability_Physical,	10, 40, 100, 0, 1, false,	0,None,		"Thief"	},	// Thief
+  {	"Toile",		Insecte,	Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Spider Web"	},	// Spider Web
+  {	"Lire-Esprit",		Normal,		Ability_Status,		5, 0, 100, 0, 1, false,		0,None,		"Mind Reader"	},	// Mind Reader
+  {	"Cauchemar",		Spectre,	Ability_Status,		5, 0, 100, 0, 1, false,		0,None,		"Nightmare"	},	// Nightmare
+  {	"Roue de Feu",		Feu,		Ability_Physical,	25, 60, 100, 0, 1, false,	10,Status_BRN,	"Flame Wheel"	},	// Flame Wheel
+  {	"Ronflement",		Normal,		Ability_Special,	15, 40, 100, 0, 1, false,	0,None,		"Snore"	},	// Snore
+  {	"Malediction",		Spectre,	Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Curse"	},	// Curse
+  {	"Fleau",		Normal,		Ability_Physical,	15, 0, 100, 0, 1, false,	0,None,		"Flail"	},	// Flail
+  {	"Adaptation2",		Normal,		Ability_Status,		0, 00, 0, 0, 1, false,		0,None,		"Conversion2"	},	// Conversion2
+  {	"Aeroblast",		Vol,		Ability_Special,	5, 100, 95, 0, 1, false,	0,None,		"Aeroblast"	},	// Aeroblast
+  {	"Spore-Coton",		Plante,		Ability_Status,		0, 2, 85, 0, 1, false,		0,None,		"Cotton Spore"	},	// Cotton Spore
+  {	"Contre",		Combat,		Ability_Physical,	15, 0, 100, 0, 1, false,	0,None,		"Reversal"	},	// Reversal
+  {	"Depit",		Spectre,	Ability_Status,		0, 0, 100, 0, 1, false,		0,None,		"Splite"	},	// Splite
+  {	"Poudreuse",		Glace,		Ability_Special,	25, 40, 100, 0, 1, false,	10,Status_FRZ,	"Powder Snow"	},	// Powder Snow
+  {	"Abris",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Protect"	},	// Protect
+  {	"Mach Punch",		Combat,		Ability_Physical,	30, 40, 100, 0, 1, false,	0,None,		"Mach Punch"	},	// Mach Punch
+  {	"Grimace",		Normal,		Ability_Status,		0, 2, 90, 0, 1, false,		0,None,		"Scary Face"	},	// Scary Face
+  {	"Feinte",		Tenebres,	Ability_Physical,	20, 60, 0, 0, 1, false,		0,None,		"Feint Attack"	},	// Feint Attack
+  {	"Doux Baiser",		Normal,		Ability_Status,		0, 0, 75, 0, 1, false,		0,None,		"Sweet Kiss"	},	// Sweet Kiss
+  {	"Cognobidon",		Normal,		Ability_Status,		0, 13, 0, 0, 1, false,		0,None,		"Belly Drum"	},	// Belly Drum
+  {	"Bomb-Beurk",		Poison,		Ability_Special,	10, 90, 100, 0, 1, false,	30,Status_PSN,	"Sludge Bomb"	},	// Sludge Bomb
+  {	"Coud'Boue",		Sol,		Ability_Special,	10, 20, 100, 0, 1, false,	0,None,		"Mud-Slap"	},	// Mud-Slap
+  {	"Octazooka",		Eau,		Ability_Special,	10, 65, 85, 0, 1, false,	0,None,		"Octazooka"	},	// Octazooka
+  {	"Picots",		Sol,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Spikes"	},	// Spikes
+  {	"Elecanon",		Electric,	Ability_Special,	5, 100, 100, 0, 1, false,	100,Status_PAR,	"Zap Cannon"	},	// Zap Cannon
+  {	"Clairvoyance",		Normal,		Ability_Status,		0, 0, 100, 0, 1, false,		0,None,		"ForeSight"	},	// ForeSight
+  {	"Prlvt Destin",		Spectre,	Ability_Status,		5, 0, 0, 0, 1, false,		0,None,		"Destiny Bond"	},	// Destiny Bond
+  {	"Requiem",		Normal,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None,		"Perish Song"	},	// Perish Song
+  {	"Vent Glace",		Glace,		Ability_Special,	15, 55, 95, 0, 1, false,	0,None,		"Ice Wind"	},	// Ice Wind
+  {	"Detection",		Combat,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None,		"Detect"	},	// Detect
+  {	"Charge-Os",		Sol,		Ability_Physical,	10, 25, 80, 0, 1, false,	0,None,		"Bone Rush"	},	// Bone Rush
+  {	"Verrouillage",		Normal,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None,		"Lock-On"	},	// Lock-On
+  {	"Colere",		Dragon,		Ability_Physical,	15, 90, 100, 0, 2, false,	0,None,		"Outrage"	},	// Outrage
+  {	"Tempetesable",		Roche,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Sandstorm"	},	// Sandstorm
+  {	"Giga-Sangsue",		Plante,		Ability_Special,	5, 60, 100, 0, 1, false,	0,None,		"Giga Drain"	},	// Giga Drain
+  {	"Tenacite",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Endure"	},	// Endure
+  {	"Charme",		Normal,		Ability_Status,		0, 2, 100, 0, 1, false,		0,None,		"Charm"	},	// Charm
+  {	"Roulade",		Roche,		Ability_Physical,	20, 30, 90, 0, 5, false,	0,None,		"Rollout"	},	// Rollout
+  {	"Faux-Chage",		Normal,		Ability_Physical,	40, 40, 100, 0, 1, false,	0,None,		"False Swipe"	},	// False Swipe
+  {	"Vantardise",		Normal,		Ability_Status,		5, 2, 90, 0, 1, false,		0,None,		"Swagger"	},	// Swagger
+  {	"Lait a Boire",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Milk Drink"	},	// Milk Drink
+  {	"Etincelle",		Electric,	Ability_Physical,	20, 65, 100, 0, 1, false,	30,Status_PAR,	"Spark"	},	// Spark
+  {	"Taillade",		Insecte,	Ability_Physical,	20, 10, 95, 0, 1, false,	0,None,		"Fury Cutter"	},	// Fury Cutter
+  {	"Aile d'Acier",		Acier,		Ability_Physical,	25, 70, 90, 0, 1, false,	0,None,		"Steel Wing"	},	// Steel Wing
+  {	"Regard Noir",		Normal,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None,		"Mean Look"	},	// Mean Look
+  {	"Attraction",		Normal,		Ability_Status,		5, 0, 100, 0, 1, false,		0,None,		"Attract"	},	// Attract
+  {	"Blabla Dodo",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Sleep Talk"	},	// Sleep Talk
+  {	"Glas de Soin",		Normal,		Ability_Status,		5, 0, 100, 0, 1, false,		0,None,		"Heal Bell"	},	// Heal Bell
+  {	"Retour",		Normal,		Ability_Physical,	20, 0, 100, 0, 1, false,	0,None,		"Return"	},	// Return
+  {	"Cadeau",		Normal,		Ability_Physical,	15, 0, 100, 0, 1, false,	0,None,		"Present"	},	// Present
+  {	"Frustation",		Normal,		Ability_Physical,	20, 0, 100, 0, 1, false,	0,None,		"Frustration"	},	// Frustration
+  {	"Rune Protect",		Normal,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None,		"Safeguard"	},	// Safeguard
+  {	"Balance",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Pain Split"	},	// Pain Split
+  {	"Feu Sacre",		Feu,		Ability_Special,	5, 100, 95, 0, 1, false,	0,None,		"Sacred Fire"	},	// Sacred Fire
+  {	"Magnitude",		Sol,		Ability_Physical,	30, 0, 100, 0, 1, false,	0,None,		"Magnitude"	},	// Magnitude
+  {	"Dynamopoing",		Combat,		Ability_Physical,	5, 100, 50, 0, 1, false,	0,None,		"Dynamic Punch"	},	// Dynamic Punch
+  {	"Megacorne",		Insecte,	Ability_Physical,	10, 120, 85, 0, 1, false,	0,None,		"Megahorn"	},	// Megahorn
+  {	"Dracosouffle",		Dragon,		Ability_Special,	20, 60, 100, 0, 1, false,	30,Status_PAR,	"Dragon Breath"	},	// Dragon Breath
+  {	"Relais",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Baton Pass"	},	// Baton Pass
+  {	"Encore",		Normal,		Ability_Status,		5, 0, 100, 0, 1, false,		0,None,		"Encore"	},	// Encore
+  {	"Poursuite",		Tenebres,	Ability_Physical,	20, 40, 100, 0, 1, false,	0,None,		"Pursuit"	},	// Pursuit
+  {	"Tour Rapide",		Eau,		Ability_Physical,	40, 20, 100, 0, 1, false,	0,None,		"Rapid Spin"	},	// Rapid Spin
+  {	"Doux Parfum",		Normal,		Ability_Status,		0, 1, 100, 0, 1, false,		0,None,		"Sweet Scent"	},	// Sweet Scent
+  {	"Queue de Fer",		Acier,		Ability_Physical,	15, 100, 75, 0, 1, false,	0,None,		"Iron Tail"	},	// Iron Tail
+  {	"Griff'Acier",		Acier,		Ability_Physical,	35, 50, 95, 0, 1, false,	0,None,		"Metal Claw"	},	// Metal Claw
+  {	"Corps Perdu",		Combat,		Ability_Physical,	10, 70, 0, 0, 1, false,		0,None,		"Vital Throw"	},	// Vital Throw
+  {	"Aurore",		Normal,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None,		"Morning Sun"	},	// Morning Sun
+  {	"Synthese",		Plante,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None,		"Synthesis"	},	// Synthesis
+  {	"Rayon Lune",		Normal,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None,		"Monnlight"	},	// Monnlight
+  {	"Puissance Cachee",	Normal,		Ability_Special,	15, 0, 100, 0, 1, false,	0,None,		"Hidden Power"	},	// Hidden Power
+  {	"Coup Croix",		Combat,		Ability_Physical,	5, 100, 80, 2, 1, false,	0,None,		"Cross Chop"	},	// Cross Chop
+  {	"Ouragan",		Dragon,		Ability_Special,	20, 40, 100, 0, 1, false,	0,None,		"Twister"	},	// Twister
+  {	"Danse Pluie",		Eau,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None,		"Rain Dance"	},	// Rain Dance
+  {	"Zenith",		Feu,		Ability_Status,		5, 0, 0, 0, 1, false,		0,None,		"Sunny Day"	},	// Sunny Day
+  {	"Machouille",		Tenebres,	Ability_Physical,	15, 80, 100, 0, 1, false,	0,None,		"Crunch"	},	// Crunch
+  {	"Voile Miroir",		Psy,		Ability_Special,	20, 0, 100, 0, 1, false,	0,None,		"Mirror Coat"	},	// Mirror Coat
+  {	"Boost",		Normal,		Ability_Status,		0, 0, 0, 0, 1, false,		0,None,		"Psych Up"	},	// Psych Up
+  {	"Vitesse Extreme",	Normal,		Ability_Physical,	5, 80, 100, 0, 1, false,	0,None,		"Extreme Speed"	},	// Extreme Speed
+  {	"Pouv. Antique",	Roche,		Ability_Special,	5, 60, 100, 0, 1, false,	0,None,		"Ancient Power"	},	// Ancient Power
+  {	"Ball'Ombre",		Spectre,	Ability_Special,	15, 80, 100, 0, 1, false,	0,None,		"Shadow Ball"	},	// Shadow Ball
+  {	"Prescience",		Psy,		Ability_Special,	15, 80, 100, 0, 1, false,	0,None,		"Future Sight"	},	// Future Sight
+  {	"Eclate-Roc",		Combat,		Ability_Physical,	15, 20, 100, 0, 1, false,	0,None,		"Rock Smash"	},	// Rock Smash
+  {	"Syphon",		Eau,		Ability_Special,	15, 15, 70, 0, 1, false,	0,None,		"Whirlpool"	},	// Whirlpool
+  {	"Baston",		Tenebres,	Ability_Physical,	10, 10, 100, 0, 1, false,	0,None,		"Beat Up"	},	// Beat Up
 };
 
 const size_t pk_entries = sizeof(pokemons_db) / sizeof(pokemons_db[0]) - 2;
