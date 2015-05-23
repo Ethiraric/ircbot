@@ -69,6 +69,18 @@ typedef struct	s_cmd
 t_cmd		*cmd_from_db(t_mapstring *res, unsigned int it);
 int		cmd_delete(t_cmd *cmd, bool free_struct);
 
+typedef struct	s_say
+{
+  t_id		id;
+  t_id		auth;
+  t_id		dest;
+  char		*text;
+}		t_say;
+
+t_say		*say_from_db(t_mapstring *res, unsigned int it);
+int		say_delete(t_say *say, bool free_struct);
+t_vector	*say_tab_from_db(t_mapstring *res);
+
 typedef struct	s_db
 {
   sqlite3	*handler;
@@ -113,6 +125,13 @@ t_id		database_insert_command(t_db *db, const char *cmd,
 					const char *text);
 t_cmd		*database_get_cmd(t_db *db, const char *cmd);
 int		database_rm_cmd(t_db *db, const char *cmd);
+
+  // Say
+t_id		database_insert_say(t_db *db, t_id auth, t_id dest,
+				    const char *text);
+t_vector	*database_get_say(t_db *db, t_id dest);
+t_say		*database_say_fromid(t_db *db, t_id id);
+int		database_rm_say(t_db *db, t_id id);
 
   // DB helpers
 t_id		database_pplid(t_db *db, const char *nick, const char *serv,

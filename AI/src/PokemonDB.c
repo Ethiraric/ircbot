@@ -44,10 +44,10 @@ const t_poke pokemons_db[] =
   {"Raichu",		60, 90, 55, 90, 80, 110,	Electric, None,		8, 300,		75, 4,	EggGroup_Field | EggGroup_Fairy,	21, 70,	122, MediumFast,	0, 0, 0, 0, 0, 3,	"Raichu"},
   {"Sablette",		50, 75, 85, 20, 30, 40,		Sol, None,		6, 120,		255, 4,	EggGroup_Field,			21, 70,	93, MediumFast,		0, 0, 1, 0, 0, 0,	"Sandshrew"},
   {"Sablaireau",	75, 100, 110, 45, 55, 65,	Sol, None,		10, 295,	90, 4,	EggGroup_Field,			21, 70,	163, MediumFast,	0, 0, 2, 0, 0, 0,	"Sandslash"},
-  {"Nidoran♀",		55, 47, 52, 40, 40, 41,		Poison, None,		4, 70,		235, 0,	EggGroup_Monster | EggGroup_Field,	21, 70,	59, MediumSlow,		1, 0, 0, 0, 0, 0,	"NidoranF"},
+  {"NidoranF",		55, 47, 52, 40, 40, 41,		Poison, None,		4, 70,		235, 0,	EggGroup_Monster | EggGroup_Field,	21, 70,	59, MediumSlow,		1, 0, 0, 0, 0, 0,	"NidoranF"},
   {"Nidorina",		70, 62, 67, 55, 55, 56,		Poison, None,		8, 200,		120, 0,	EggGroup_Undiscovered,			21, 70,	117, MediumSlow,	2, 0, 0, 0, 0, 0,	"Nidorina"},
   {"Nidoqueen",		90, 92, 87, 75, 85, 76,		Poison, Sol,		13, 600,	45, 0,	EggGroup_Undiscovered,			21, 70,	194, MediumSlow,	3, 0, 0, 0, 0, 0,	"Nidoqueen"},
-  {"Nidoran♂",		46, 57, 40, 40, 40, 50,		Poison, None,		5, 90,		235, 8,	EggGroup_Monster | EggGroup_Field,	21, 70,	60, MediumSlow,		0, 1, 0, 0, 0, 0,	"NidoranM"},
+  {"NidoranM",		46, 57, 40, 40, 40, 50,		Poison, None,		5, 90,		235, 8,	EggGroup_Monster | EggGroup_Field,	21, 70,	60, MediumSlow,		0, 1, 0, 0, 0, 0,	"NidoranM"},
   {"Nidorino",		61, 72, 57, 55, 55, 65,		Poison, None,		9, 195,		120, 8,	EggGroup_Monster | EggGroup_Field,	21, 70,	118, MediumSlow,	0, 2, 0, 0, 0, 0,	"Nidorino"},
   {"Nidoking",		81, 102, 77, 85, 75, 85,	Poison, Sol,		14, 620,	45, 8,	EggGroup_Monster | EggGroup_Field,	21, 70,	195, MediumSlow,	0, 3, 0, 0, 0, 0,	"Nidoking"},
   {"Melofee",		70, 45, 48, 60, 65, 35,		Normal, None,		6, 75,		150, 2,	EggGroup_Fairy, 			21, 140, 68, Fast,		2, 0, 0, 0, 0, 0,	"Clefairy"},
@@ -289,7 +289,7 @@ const t_ability		abilities_db[] =
   {	"Coupe-Vent",		Normal,		Ability_Special,	10, 80, 100, 2, 2, false,	0,None,		"Razor Wind"	},	// Razor Wind
   {	"Danse-Lames",		Normal,		Ability_Status,		0, 2, 0, 0, 1, false,		0,None,		"Swords Dance"	},	// Swords Dance
   {	"Coupe",		Normal,		Ability_Physical,	30, 50, 95, 0, 1, false,	0,None,		"Cut"	},	// Cut
-  {	"Tornade",		Vol,		Ability_Special,	35, 40, 100, 0, 1, false,	0,None,		"Fly"	},	// Fly
+  {	"Tornade",		Vol,		Ability_Special,	35, 40, 100, 0, 1, false,	0,None,		"Gust"	},	// Gust
   {	"Cru-Aile",		Vol,		Ability_Physical,	35, 60, 100, 0, 1, false,	0,None,		"Wing Attack"	},	// Wing Attack
   {	"Cyclone",		Vol,		Ability_Status,		0, 0, 100, 0, 1, false,		0,None,		"Whirlwind"	},	// Whirlwind
   {	"Vol",			Vol,		Ability_Physical,	15, 70, 95, 0, 2, false,	0,None,		"Fly"	},	// Fly

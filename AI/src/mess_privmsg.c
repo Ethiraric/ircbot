@@ -21,13 +21,13 @@ static int	log_message(t_ircconnection *co, t_luneth *luneth)
 
 const char	*cmds[] =
 {
-  "ping", "action", "songid", "song", "pokemon", "cmd", NULL
+  "ping", "action", "songid", "song", "pokemon", "cmd", "say", NULL
 };
 
 int	(* const fcttab[])(t_bot *, t_ircconnection *, t_luneth *) =
 {
   &command_ping, &command_action, &command_songid, &command_song,
-    &command_pokemon, &command_cmd, NULL
+    &command_pokemon, &command_cmd, &command_say, NULL
 };
 
 static int	check_cmd(t_ircconnection *co, t_luneth *luneth, char *cmd)

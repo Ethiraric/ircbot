@@ -29,7 +29,7 @@
 
 // Capturing groups are 7;10
 const char *regex_link =
-    "^(https\\/\\/)?(www\\.|m\\.)?youtu\\.?be(\\.com)?\\/"
+    "^(https?:\\/\\/)?(www\\.|m\\.)?youtu\\.?be(\\.com)?\\/"
     "((watch\\/?|embed\\/|v\\/|attribution_link\\??""))*\\??"
     "(([0-9a-zA-Z_-]{11})|"
        "((v=([0-9a-zA-Z_-]{11})|"

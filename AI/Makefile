@@ -30,11 +30,13 @@ SRC		+=	src/command_song.c
 SRC		+=	src/command_pokemon.c
 SRC		+=	src/command_pokemon_questions.c
 SRC		+=	src/command_cmd.c
+SRC		+=	src/command_say.c
 SRC		+=	src/database.c
 SRC		+=	src/song.c
 SRC		+=	src/people.c
 SRC		+=	src/chan.c
 SRC		+=	src/cmd.c
+SRC		+=	src/say.c
 SRC		+=	src/youtube_title.c
 SRC		+=	src/PokemonDB.c
 

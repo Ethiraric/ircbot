@@ -11,7 +11,6 @@
 #include <stdlib.h>
 #include "database.h"
 
-
 t_cmd		*cmd_from_db(t_mapstring *res, unsigned int it)
 {
   t_vector	*curr;
