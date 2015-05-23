@@ -5,7 +5,7 @@
 ## Login   <sabour_f@epitech.net>
 ##
 ## Started on  Tue Apr 28 09:26:50 2015 Florian SABOURIN
-## Last update Tue Apr 28 09:53:12 2015 Florian SABOURIN
+## Last update Sat May 23 13:49:44 2015 Florian SABOURIN
 ##
 
 NAME		=	../AI.so
@@ -43,7 +43,7 @@ SRC		+=	src/PokemonDB.c
 OBJ		=	$(SRC:.c=.o)
 
 $(NAME):	$(OBJ)
-	$(CC) -o $(NAME) $(LDFLAGS) $(OBJ)
+	$(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
 
 all:	$(NAME)
 
