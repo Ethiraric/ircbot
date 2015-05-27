@@ -20,6 +20,7 @@ SRC		+=	src/input.c
 SRC		+=	src/in_list.c
 SRC		+=	src/in_connect.c
 SRC		+=	src/in_disconnect.c
+SRC		+=	src/in_reload.c
 SRC		+=	src/message.c
 SRC		+=	src/mess_join.c
 SRC		+=	src/mess_privmsg.c

@@ -48,6 +48,7 @@ struct		s_bot
   struct timeval	*timeptr;
   t_vector	conns;
   t_net		net;
+  char		*so_name;
   bool		running;
   void		*dlhandle;
   void		*handler_data;

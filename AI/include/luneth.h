@@ -42,6 +42,7 @@ char		*youtube_title(const char *code);
 int		in_list(t_bot *bot, t_luneth *luneth);
 int		in_connect(t_bot *bot, t_luneth *luneth);
 int		in_disconnect(t_bot *bot, t_luneth *luneth);
+int		in_reload(t_bot *bot, t_luneth *luneth);
 int		handle_input(t_bot *bot, char *cmd, t_luneth *luneth);
 
   /* irc messages handling */

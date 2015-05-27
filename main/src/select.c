@@ -135,5 +135,10 @@ int		bot_select(t_bot *bot)
   if (ret == -1 || handle_select(bot) ||
       bot->handler_nothing_fct(bot, bot->handler_data))
     return (1);
+  if (bot->so_name)
+    {
+      loadAI(bot, bot->so_name);
+      bot->so_name = NULL;
+    }
   return (0);
 }
