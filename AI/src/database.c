@@ -856,7 +856,7 @@ t_vector	*database_list_categories(t_db *db)
   int		ret;
 
   ret = asprintf(&req, "SELECT DISTINCT category FROM " TABLE_SONGS
-		 " ORDER BY category ASC;");
+		 " WHERE category NOT NULL ORDER BY category ASC;");
   if (ret == -1)
     return (NULL);
   res = select_exec(db, req);

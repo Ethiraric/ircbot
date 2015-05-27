@@ -301,7 +301,7 @@ static int	song_categories(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   i = 0;
   resp[0] = 0;
   curr = resp;
-  end = curr + 511;
+  end = curr + 500;
   while (i < vector_size(categories))
     {
       if (curr + strlen(vector_at(categories, i)) < end)
