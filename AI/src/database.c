@@ -847,3 +847,26 @@ t_people	*database_get_song_auth(t_db *db, const char *code)
   song_delete(song, true);
   return (ret);
 }
+
+t_vector	*database_list_categories(t_db *db)
+{
+  t_mapstring	*res;
+  t_vector	*categories;
+  char		*req;
+  int		ret;
+
+  ret = asprintf(&req, "SELECT DISTINCT category FROM " TABLE_SONGS
+		 " ORDER BY category ASC;");
+  if (ret == -1)
+    return (NULL);
+  res = select_exec(db, req);
+  free(req);
+  if (!res || !mapstring_size(res))
+    {
+      free(res);
+      return (NULL);
+    }
+  categories = mapstring_at(res, 0);
+  free(res);
+  return (categories);
+}

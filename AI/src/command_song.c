@@ -286,30 +286,66 @@ static int	song_search(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   return (ret);
 }
 
+static int	song_categories(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
+{
+  t_vector	*categories;
+  size_t	i;
+  char		resp[513];
+  char		*curr;
+  char		*end;
+
+  (void)(bot);
+  categories = database_list_categories(luneth->db);
+  if (!categories)
+    return (irc_msg(co, co->cmd.args[0], "No categories"));
+  i = 0;
+  resp[0] = 0;
+  curr = resp;
+  end = curr + 511;
+  while (i < vector_size(categories))
+    {
+      if (curr + strlen(vector_at(categories, i)) < end)
+	{
+	  curr = stpcpy(curr, vector_at(categories, i));
+	  *(curr++) = ' ';
+	  ++i;
+	}
+      else
+	i = vector_size(categories);
+    }
+  *curr = '\0';
+  vector_foreach(categories, &free);
+  vector_delete(categories, true);
+  if (resp[0])
+    return (irc_msg(co, co->cmd.args[0], resp));
+  return (irc_msg(co, co->cmd.args[0], "No categories"));
+}
+
+
+static const char * const song_cmds[] =
+{
+  "search", "add", "edit", "whois", "title", "help", "categories", NULL
+};
+
+static int (*const song_fcts[])(t_bot *, t_ircconnection *, t_luneth *) =
+{
+  song_search, song_add, song_edit, song_whois, song_title, song_help,
+  song_categories, NULL
+};
+
 int		command_song(t_bot *bot, t_ircconnection *co,
 			     t_luneth *luneth)
 {
+  unsigned int	i;
   t_song	*song;
   char		*category;
 
   (void)(bot);
   category = strtok(NULL, " ");
   if (category)
-    {
-      if (!strcasecmp(category, "search"))
-	return (song_search(bot, co, luneth));
-      else if (!strcasecmp(category, "add"))
-	return (song_add(bot, co, luneth));
-      else if (!strcasecmp(category, "edit"))
-	return (song_edit(bot, co, luneth));
-      else if (!strcasecmp(category, "whois"))
-	return (song_whois(bot, co, luneth));
-      else if (!strcasecmp(category, "title"))
-	return (song_title(bot, co, luneth));
-      else if (!strcasecmp(category, "help"))
-	return (song_help(bot, co, luneth));
-      // RM
-    }
+    for (i = 0 ; song_cmds[i] ; ++i)
+      if (!strcasecmp(category, song_cmds[i]))
+	return (song_fcts[i](bot, co, luneth));
   song = database_select_random_songcateg(luneth->db, category);
   if (song)
     {

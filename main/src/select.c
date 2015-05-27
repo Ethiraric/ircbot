@@ -138,6 +138,7 @@ int		bot_select(t_bot *bot)
   if (bot->so_name)
     {
       loadAI(bot, bot->so_name);
+      free(bot->so_name);
       bot->so_name = NULL;
     }
   return (0);

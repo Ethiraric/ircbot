@@ -138,5 +138,6 @@ t_id		database_pplid(t_db *db, const char *nick, const char *serv,
 			       const char *chan);
 t_id		database_chanid(t_db *db, const char *serv, const char *chan);
 t_people	*database_get_song_auth(t_db *db, const char *code);
+t_vector	*database_list_categories(t_db *db);
 
 #endif /* DATABASE_H_ */
