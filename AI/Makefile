@@ -18,6 +18,7 @@ RM		=	@rm -vf
 SRC		=	src/luneth.c
 SRC		+=	src/input.c
 SRC		+=	src/in_list.c
+SRC		+=	src/in_join.c
 SRC		+=	src/in_connect.c
 SRC		+=	src/in_disconnect.c
 SRC		+=	src/in_reload.c
