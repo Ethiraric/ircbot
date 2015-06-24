@@ -57,6 +57,8 @@ int		mess_privmsg(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   i = 0;
   if (pkq_check_ans(luneth, co))
     return (1);
+  if (!strcmp(co->cmd.args[co->cmd.argc - 1], "\\o\\"))
+    return (hl_all(co));
   cmd = strtok(co->cmd.args[co->cmd.argc - 1], " ");
   while (cmds[i])
     {

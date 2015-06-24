@@ -41,6 +41,7 @@ SRC		+=	src/cmd.c
 SRC		+=	src/say.c
 SRC		+=	src/youtube_title.c
 SRC		+=	src/PokemonDB.c
+SRC		+=	src/hl_all.c
 
 OBJ		=	$(SRC:.c=.o)
 

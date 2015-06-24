@@ -54,6 +54,7 @@ int		handle_message(t_bot *bot, t_ircconnection *co,
 			       t_luneth *luneth);
 
   /* commands through PRIVMSG handling */
+int		hl_all(t_ircconnection *co);
 int		command_ping(t_bot *bot, t_ircconnection *co,
 			     t_luneth *luneth);
 int		command_action(t_bot *bot, t_ircconnection *co,
