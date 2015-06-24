@@ -30,7 +30,7 @@ int		hl_all(t_ircconnection *co)
       fprintf(stderr, "[hl_all] Unknown chan %s\n", co->cmd.args[0]);
       return (0);
     }
-  nb_users = mapstring_size(&chan->users);
+  i = mapstring_size(&chan->users);
   i *= AVG_NICK_LEN + 2;
   resp = malloc(i + 1);
   tail = resp;
