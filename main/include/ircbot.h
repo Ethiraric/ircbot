@@ -68,5 +68,6 @@ int		loadAI(t_bot *bot, char *filename);
 void		unloadAI(t_bot *bot);
 int		handler_fct_none(t_bot *bot, t_ircconnection *co, void *dat);
 int		handler_input_fct_none(t_bot *bot, char *input, void *dat);
+int		handler_nothing_none(t_bot *bot, void *dat);
 
 #endif /* !IRCBOT_H_ */

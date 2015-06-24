@@ -31,15 +31,15 @@ int		hl_all(t_ircconnection *co)
       return (0);
     }
   nb_users = mapstring_size(&chan->users);
-  nb_users *= AVG_NICK_LEN + 2;
-  resp = malloc(nb_users + 1);
+  i *= AVG_NICK_LEN + 2;
+  resp = malloc(i + 1);
   tail = resp;
   *tail = '\0';
   i = 0;
   while (i < nb_users)
     {
       user = mapstring_at(&chan->users, i);
-      tail = stpcpy(tail, str_str(&user->nick));
+      tail = stpcpy(tail, str_safestr(&user->nick));
       if (++i < nb_users)
 	{
 	  *(tail++) = ' ';

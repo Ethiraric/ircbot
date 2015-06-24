@@ -25,6 +25,7 @@ static int	init(t_bot *bot)
   bot->net.fdmax = 1;
   bot->handler_fct = &handler_fct_none;
   bot->handler_input_fct = &handler_input_fct_none;
+  bot->handler_nothing_fct = &handler_nothing_none;
   return (0);
 }
 
