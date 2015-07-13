@@ -245,7 +245,10 @@ t_people	*database_get_ppl_fromnickchan(t_db *db, const char *nick,
   res = select_exec(db, req);
   free(req);
   if (!res || !mapstring_size(res))
-    return (NULL);
+    {
+      free(res);
+      return (NULL);
+    }
   ppl = ppl_from_db(res, 0);
   select_free_res(res);
   return (ppl);
@@ -288,7 +291,10 @@ t_people	*database_ppl_fromid(t_db *db, t_id id)
   res = select_exec(db, req);
   free(req);
   if (!res || !mapstring_size(res))
-    return (NULL);
+    {
+      free(res);
+      return (NULL);
+    }
   ppl = ppl_from_db(res, 0);
   select_free_res(res);
   return (ppl);
@@ -321,7 +327,10 @@ t_chan		*database_get_chan_fromchanserv(t_db *db, const char *serv,
   res = select_exec(db, req);
   free(req);
   if (!res || !mapstring_size(res))
-    return (NULL);
+    {
+      free(res);
+      return (NULL);
+    }
   tchan = chan_from_db(res, 0);
   select_free_res(res);
   return (tchan);
@@ -377,7 +386,10 @@ t_song		*database_get_song_fromcode(t_db *db, const char *code)
   res = select_exec(db, req);
   free(req);
   if (!res || !mapstring_size(res))
-    return (NULL);
+    {
+      free(res);
+      return (NULL);
+    }
   song = song_from_db(res, 0);
   select_free_res(res);
   return (song);
@@ -433,7 +445,10 @@ t_song		*database_get_song_fromid(t_db *db, unsigned int id)
   res = select_exec(db, req);
   free(req);
   if (!res || !mapstring_size(res))
-    return (NULL);
+    {
+      free(res);
+      return (NULL);
+    }
   song = song_from_db(res, 0);
   select_free_res(res);
   return (song);
@@ -453,7 +468,10 @@ t_song		*database_select_random_song(t_db *db)
   res = select_exec(db, req);
   free(req);
   if (!res || !mapstring_size(res))
-    return (NULL);
+    {
+      free(res);
+      return (NULL);
+    }
   song = song_from_db(res, 0);
   select_free_res(res);
   return (song);
@@ -480,7 +498,10 @@ t_song		*database_select_random_songcateg(t_db *db, const char *categ)
   res = select_exec(db, req);
   free(req);
   if (!res || !mapstring_size(res))
-    return (NULL);
+    {
+      free(res);
+      return (NULL);
+    }
   song = song_from_db(res, 0);
   select_free_res(res);
   return (song);
@@ -618,7 +639,10 @@ bool		database_is_command(t_db *db, const char *cmd)
   res = select_exec(db, req);
   free(req);
   if (!res || !mapstring_size(res))
-    return (false);
+    {
+      free(res);
+      return (false);
+    }
   select_free_res(res);
   return (true);
 }
@@ -668,7 +692,10 @@ t_cmd		*database_get_cmd(t_db *db, const char *cmd)
   res = select_exec(db, req);
   free(req);
   if (!res || !mapstring_size(res))
-    return (NULL);
+    {
+      free(res);
+      return (NULL);
+    }
   cmdr = cmd_from_db(res, 0);
   select_free_res(res);
   return (cmdr);
@@ -753,7 +780,10 @@ t_say		*database_say_fromid(t_db *db, t_id id)
   res = select_exec(db, req);
   free(req);
   if (!res || !mapstring_size(res))
-    return (NULL);
+    {
+      free(res);
+      return (NULL);
+    }
   say = say_from_db(res, 0);
   select_free_res(res);
   return (say);

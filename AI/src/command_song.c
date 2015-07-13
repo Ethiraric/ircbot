@@ -133,6 +133,7 @@ static int	song_add(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   char		*link;
   char		*category;
   char		*code;
+  char		*title;
 
   (void)(bot);
   link = strtok(NULL, " ");
@@ -160,7 +161,16 @@ static int	song_add(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
       free(code);
       return (irc_msg(co, co->cmd.args[0], "Failed to insert in db"));
     }
-  irc_msgf(co, co->cmd.args[0], "Added %s in %s as %u", code, category, auth);
+  title = youtube_title(code);
+  if (!title)
+    irc_msgf(co, co->cmd.args[0], "Added %s in %s as %u",
+	code, category, auth);
+  else if (title)
+    {
+      irc_msgf(co, co->cmd.args[0], "Added %s in %s as %u : %s",
+	  code, category, auth, title);
+      free(title);
+    }
   free(code);
   return (0);
 }
@@ -169,7 +179,7 @@ static int	song_help(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
 {
   static const char	*msg =
       "song [ help | add <link> [category] | edit <code> <category> | "
-	     "title <code> | whois <code> ]";
+	     "title <code> | whois <code> | categories ]";
 
   (void)(bot);
   (void)(luneth);
