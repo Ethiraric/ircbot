@@ -167,6 +167,7 @@ static int	song_add(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
 	code, category, auth);
   else if (title)
     {
+      database_edit_title(luneth->db, code, title);
       irc_msgf(co, co->cmd.args[0], "Added %s in %s as %u : %s",
 	  code, category, auth, title);
       free(title);
