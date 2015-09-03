@@ -5,7 +5,7 @@
 ## Login   <sabour_f@epitech.net>
 ##
 ## Started on  Tue Apr 28 09:26:50 2015 Florian SABOURIN
-## Last update Sat May 23 13:49:44 2015 Florian SABOURIN
+## Last update Thu Sep  3 12:17:30 2015 Florian SABOURIN
 ##
 
 NAME		=	../AI.so
@@ -34,6 +34,7 @@ SRC		+=	src/command_pokemon.c
 SRC		+=	src/command_pokemon_questions.c
 SRC		+=	src/command_cmd.c
 SRC		+=	src/command_say.c
+SRC		+=	src/command_shifumi.c
 SRC		+=	src/database.c
 SRC		+=	src/song.c
 SRC		+=	src/people.c
