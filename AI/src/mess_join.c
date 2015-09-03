@@ -60,7 +60,5 @@ int		mess_join(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   (void)(bot);
   if (co->cmd.argc == 0 || !co->cmd.prefix)
     return (0);
-  if (irc_msgf(co, co->cmd.args[0], "Salut %s !", co->cmd.prefixnick))
-    return (1);
   return (handle_says(co, luneth));
 }
