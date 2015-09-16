@@ -5,13 +5,13 @@
 ## Login   <sabour_f@epitech.net>
 ##
 ## Started on  Tue Apr 28 09:26:50 2015 Florian SABOURIN
-## Last update Thu Sep  3 12:17:30 2015 Florian SABOURIN
+## Last update Wed Sep 16 15:54:34 2015 Florian SABOURIN
 ##
 
 NAME		=	../AI.so
 CC		=	gcc
 override CFLAGS	+=	-fpic -Iinclude -I../main/include
-override CFLAGS	+=	-I../libIRC/include -D_GNU_SOURCE
+override CFLAGS	+=	-I../libIRC/include -D_GNU_SOURCE -ggdb3
 LDFLAGS		=	-shared -lsqlite3 -lcurl -lz -lcrypto -lssl
 RM		=	@rm -vf
 
@@ -35,6 +35,7 @@ SRC		+=	src/command_pokemon_questions.c
 SRC		+=	src/command_cmd.c
 SRC		+=	src/command_say.c
 SRC		+=	src/command_shifumi.c
+SRC		+=	src/command_calc.c
 SRC		+=	src/database.c
 SRC		+=	src/song.c
 SRC		+=	src/people.c
