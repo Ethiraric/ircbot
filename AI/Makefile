@@ -11,7 +11,7 @@
 NAME		=	../AI.so
 CC		=	gcc
 override CFLAGS	+=	-fpic -Iinclude -I../main/include
-override CFLAGS	+=	-I../libIRC/include -D_GNU_SOURCE -ggdb3
+override CFLAGS	+=	-I../libIRC/include -D_GNU_SOURCE
 LDFLAGS		=	-shared -lsqlite3 -lcurl -lz -lcrypto -lssl
 RM		=	@rm -vf
 
