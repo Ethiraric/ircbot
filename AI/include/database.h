@@ -94,6 +94,9 @@ t_people	*database_get_ppl_fromnickchan(t_db *db, const char *nick,
 					       t_id chan);
 t_id		database_insert_ppl(t_db *db, const char *nick, t_id chan);
 t_people	*database_ppl_fromid(t_db *db, t_id id);
+int		database_add_score(t_db *db, const char *nickname,
+				   const char *channel,const char *server,
+				   int modif);
 
   // Channel
 t_chan		*database_get_chan_fromchanserv(t_db *db, const char *serv,

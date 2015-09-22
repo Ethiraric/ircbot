@@ -136,6 +136,9 @@ int		pkq_check_ans(t_luneth *luneth, t_ircconnection *co)
       free(luneth->pk.question);
       if (pkq_get_question(luneth) || pkq_show_question(luneth))
 	return (1);
+      if (database_add_score(luneth->db, co->cmd.prefixnick, co->cmd.args[0],
+			     co->servername.m->str, 1))
+	return (1);
     }
   return (0);
 }

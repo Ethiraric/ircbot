@@ -900,3 +900,24 @@ t_vector	*database_list_categories(t_db *db)
   free(res);
   return (categories);
 }
+
+int	database_add_score(t_db *db, const char *nickname, const char *channel,
+			   const char *server, int modif)
+{
+  char	*err;
+  char	*req;
+  int	ret;
+
+  ret = asprintf(&req, "UPDATE " TABLE_PEOPLE " SET score=score+%d WHERE "
+		 "nick='%s' AND channel IN (SELECT id FROM " TABLE_CHANS
+		 " WHERE server='%s' AND channel='%s');", modif, nickname,
+		 server, channel);
+  if (ret == -1)
+    return (1);
+  printf("Query: %s\n", req);
+  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &err);
+  if (ret != SQLITE_OK)
+    return (1);
+  free(req);
+  return (0);
+}
