@@ -4,15 +4,17 @@ This is a simple bot for IRC developed entierely in C. It aims at being the most
 ## Installing
 
 ### Prerequisites
-In order to compile the current AI, you need to have installed sqlite3, zlib, libcurl, libcrypto and libssl.
-A youtube API key is also required. If you don't have one, you may comment the whole file `AI/src/youtube_title.c` leaving just youtube_title() return NULL. It won't break the AI, you will just be unable to retrieve the songs' titles.
+In order to compile the current AI, you need to have installed `sqlite3`, `zlib`, `libcurl`, `libcrypto` and `libssl`.
+A youtube API key is also required. If you don't have one, you may comment the whole file `AI/src/youtube_title.c` leaving just `youtube_title()` return `NULL`. It won't break the AI, you will just be unable to retrieve the songs' titles.
 
 ### Compiling
 Run:
+
     git clone https://github.com/Ethiraric/ircbot.git
     cd ircbot
     git submodule update --init
     make
+
 This will compile both the AI and the main executable. You can use `make AI` to compile only the AI, or `make IRCbot` to compile the main executable.
 Other Makefile rules are also available: `clean` will remove all object files, `fclean` will remove object files and the executables/libraries, `re` will run `fclean` then `all`.
 
