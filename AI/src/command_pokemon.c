@@ -81,7 +81,8 @@ int		pkq_check_hint(t_luneth *luneth)
 static int (*const quizz_fct[])(t_luneth *luneth) =
 {
   &pkq_pfrname, &pkq_penname, &pkq_ptype,
-  &pkq_afrname, &pkq_aenname, &pkq_atype
+  &pkq_afrname, &pkq_aenname, &pkq_atype,
+  &pkq_frnum
 };
 
 static int	pkq_get_question(t_luneth *luneth)

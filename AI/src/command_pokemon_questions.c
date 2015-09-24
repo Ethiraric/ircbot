@@ -150,7 +150,6 @@ int		pkq_aenname(t_luneth *luneth)
   return (0);
 }
 
-
 int		pkq_atype(t_luneth *luneth)
 {
   unsigned int	num;
@@ -163,6 +162,26 @@ int		pkq_atype(t_luneth *luneth)
     return (1);
   ret = asprintf(&luneth->pk.ans, "%s",
 		 pkq_str_fromtype(abilities_db[num].type));
+  if (ret == -1)
+    {
+      free(luneth->pk.question);
+      return (1);
+    }
+  return (0);
+}
+
+int		pkq_frnum(t_luneth *luneth)
+{
+  const t_poke	*poke;
+  unsigned int	num;
+  int		ret;
+
+  num = rand() % (pk_entries) + 1;
+  poke = &pokemons_db[num];
+  ret = asprintf(&luneth->pk.question, "What is the french name of the pokemon"
+				       " #%d ?",
+		 num);
+  ret = asprintf(&luneth->pk.ans, "%s", poke->nom);
   if (ret == -1)
     {
       free(luneth->pk.question);

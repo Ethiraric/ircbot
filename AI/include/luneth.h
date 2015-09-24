@@ -86,5 +86,6 @@ int		pkq_ptype(t_luneth *luneth);
 int		pkq_afrname(t_luneth *luneth);
 int		pkq_aenname(t_luneth *luneth);
 int		pkq_atype(t_luneth *luneth);
+int		pkq_frnum(t_luneth *luneth);
 
 #endif /* !LUNETH_H_ */
