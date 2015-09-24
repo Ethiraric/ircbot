@@ -15,6 +15,8 @@
 #include <time.h>
 #include "ircbot.h"
 
+// Initializes the bot
+// select()'s timeout is set to 0.1 second by default
 static int	init(t_bot *bot)
 {
   memset(bot, 0, sizeof(t_bot));
@@ -29,6 +31,8 @@ static int	init(t_bot *bot)
   return (0);
 }
 
+// Main loop function
+// Call select, check for I/O on stdin and sockets, return if something fails
 static int	exec(t_bot *bot)
 {
   bot->running = true;
@@ -40,6 +44,8 @@ static int	exec(t_bot *bot)
   return (0);
 }
 
+// Global cleanup
+// Deallocate all resources allocated for the bot
 static int	terminate(t_bot *bot)
 {
   size_t	i;
@@ -56,7 +62,7 @@ static int	terminate(t_bot *bot)
   return (0);
 }
 
-
+// Display a short usage
 static void	usage()
 {
   static const char	*fmt =
@@ -67,21 +73,31 @@ static void	usage()
   fprintf(stderr, fmt, program_invocation_name);
 }
 
+// Entry point
+// Use as ./IRCBot [<AI>]
+// Where AI is the path to the shared library containing your AI
 int		main(int argc, char **argv)
 {
   struct timeval t;
   t_bot		bot;
   int		ret;
 
+  // Check command line
   if (argc > 2)
     {
       usage();
       return (1);
     }
+
+  // Initialize random
   gettimeofday(&t, NULL);
   srand(t.tv_usec);
+
+  // Initialize the bot, load shared library, if any
   if (init(&bot) || (argc == 2 && loadAI(&bot, argv[1])))
     return (1);
+
+  // Execute and cleanup, return non-zero if one of them fails
   ret = exec(&bot);
   ret |= terminate(&bot);
   return (ret);
