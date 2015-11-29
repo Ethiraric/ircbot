@@ -17,7 +17,7 @@
 
 // Initializes the bot
 // select()'s timeout is set to 0.1 second by default
-static int	init(t_bot *bot)
+static int	init(t_bot *bot, int argc, char **argv)
 {
   memset(bot, 0, sizeof(t_bot));
   bot->timeref.tv_sec = 0;
@@ -28,6 +28,8 @@ static int	init(t_bot *bot)
   bot->handler_fct = &handler_fct_none;
   bot->handler_input_fct = &handler_input_fct_none;
   bot->handler_nothing_fct = &handler_nothing_none;
+  bot->argc = argc;
+  bot->argv = argv;
   return (0);
 }
 
@@ -94,7 +96,7 @@ int		main(int argc, char **argv)
   srand(t.tv_usec);
 
   // Initialize the bot, load shared library, if any
-  if (init(&bot) || (argc == 2 && loadAI(&bot, argv[1])))
+  if (init(&bot, argc, argv) || (argc == 2 && loadAI(&bot, argv[1])))
     return (1);
 
   // Execute and cleanup, return non-zero if one of them fails

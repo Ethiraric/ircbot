@@ -75,7 +75,7 @@ void		unloadAI(t_bot *bot)
 // unchanged
 int		loadAI(t_bot *bot, char *filename)
 {
-  void		*(*handler_data_getter)();
+  void		*(*handler_data_getter)(int argc, char **argv);
   void		*dlhandle;
   void		*data;
   int		(*handler_fct)(t_bot *, t_ircconnection *, void *);
@@ -101,7 +101,7 @@ int		loadAI(t_bot *bot, char *filename)
 	fprintf(stderr, "dlclose: %s\n", dlerror());
       return (1);
     }
-  if (!(data = handler_data_getter()))
+  if (!(data = handler_data_getter(bot->argc, bot->argv)))
     {
       if (dlclose(dlhandle))
 	fprintf(stderr, "dlclose: %s\n", dlerror());

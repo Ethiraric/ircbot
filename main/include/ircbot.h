@@ -62,6 +62,8 @@ struct		s_bot
   bool		running;        // true if running, false otherwise
   void		*dlhandle;      // dlopen()'s handle
   void		*handler_data;  // The data of the AI
+  int		argc;           // The program's argc
+  char		**argv;         // The program's argv
   // The SYM_GET pointer
   int		(*handler_fct)(t_bot *, t_ircconnection *, void *);
   // The SYM_STDIN pointer

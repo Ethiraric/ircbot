@@ -13,10 +13,12 @@
 #include <stdlib.h>
 #include "luneth.h"
 
-void		*irc_data_get()
+void		*irc_data_get(int argc, char **argv)
 {
   t_luneth	*ret;
 
+  (void)(argc);
+  (void)(argv);
   ret = malloc(sizeof(t_luneth));
   if (!ret)
     return (NULL);
