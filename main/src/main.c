@@ -68,9 +68,10 @@ static int	terminate(t_bot *bot)
 static void	usage()
 {
   static const char	*fmt =
-      "Usage : %s [lib]\n"
+      "Usage : %s [lib options]\n"
       "\tlib: a shared library containing particular symbols to interact "
-      "with irc\n";
+      "with irc\n"
+      "\toptions: options the library may use\n";
 
   fprintf(stderr, fmt, program_invocation_name);
 }
@@ -85,7 +86,7 @@ int		main(int argc, char **argv)
   int		ret;
 
   // Check command line
-  if (argc > 2)
+  if (argc == 1)
     {
       usage();
       return (1);
@@ -96,7 +97,7 @@ int		main(int argc, char **argv)
   srand(t.tv_usec);
 
   // Initialize the bot, load shared library, if any
-  if (init(&bot, argc, argv) || (argc == 2 && loadAI(&bot, argv[1])))
+  if (init(&bot, argc, argv) || (argc >= 2 && loadAI(&bot, argv[1])))
     return (1);
 
   // Execute and cleanup, return non-zero if one of them fails

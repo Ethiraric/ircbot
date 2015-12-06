@@ -52,9 +52,9 @@ typedef struct	s_net
 typedef struct	s_bot t_bot;
 struct		s_bot
 {
-  struct timeval	timeref;  // select()'s timeout reference
-  struct timeval	timeout;  // select()'s actual timeout
-  struct timeval	*timeptr; // pointer to timeout (may be null)
+  struct timeval timeref;       // select()'s timeout reference
+  struct timeval timeout;       // select()'s actual timeout
+  struct timeval *timeptr;      // pointer to timeout (may be null)
   t_vector	conns;          // array of connections
   t_net		net;            // select()'s basic informations
   char		*so_name;       // If nonnull, the next loop, the AI will be

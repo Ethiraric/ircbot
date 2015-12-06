@@ -16,19 +16,33 @@
 void		*irc_data_get(int argc, char **argv)
 {
   t_luneth	*ret;
+  int		i;
 
-  (void)(argc);
-  (void)(argv);
+  // Allocate and initialize structure
   ret = malloc(sizeof(t_luneth));
   if (!ret)
     return (NULL);
   memset(ret, 0, sizeof(t_luneth));
+
+  // Load configuration
+  config_init(&ret->config);
+  for (i = 2 ; i < argc ; ++i)
+    if (load_config(&ret->config, argv[i]))
+      {
+	config_clean(&ret->config);
+	free(ret);
+	return (NULL);
+      }
+
+  // Open database
   ret->db = database_new("db");
   if (!ret->db)
     {
+      config_clean(&ret->config);
       free(ret);
       return (NULL);
     }
+
   return (ret);
 }
 
@@ -51,6 +65,7 @@ void		irc_data_delete(void *pluneth)
   luneth = pluneth;
   if (luneth->pk.on)
     pkq_terminate(luneth);
+  config_clean(&luneth->config);
   curl_global_cleanup();
   database_delete(luneth->db);
   free(luneth);

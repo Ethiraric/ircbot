@@ -15,25 +15,34 @@
 # include "Pokemon.h"
 # include "database.h"
 # include "ircbot.h"
+# include "config.h"
 
+// Time between two hint reveal
 # define HINT_DELAY		15
 
+/*
+** Contains informations needed for the pokemon quizz
+*/
 typedef struct	s_pokequizz
 {
-  t_ircconnection *co;
-  time_t	next_hint;
-  char		*ans;
-  char		*ans2;
-  char		*question;
-  char		*hint;
-  char		*chan;
-  bool		on;
+  t_ircconnection *co;     // The connection to the server where the quizz is
+  time_t	next_hint; // When the next hint will be revealed
+  char		*ans;      // The correct answer
+  char		*ans2;     // Another correct answer (may be NULL)
+  char		*question; // The question that was asked
+  char		*hint;     // The hint
+  char		*chan;     // The chan on which the quizz is
+  bool		on;        // Whether the pokemon quizz is on or not
 }		t_pokequizz;
 
+/*
+** The bot's main structure
+*/
 typedef struct	s_luneth
 {
-  t_pokequizz	pk;
-  t_db		*db;
+  t_pokequizz	pk;        // Pokemon quizz informations
+  t_db		*db;       // Handle to the database
+  t_config	config;    // Various configuration options (c.f. config.h)
 }		t_luneth;
 
 char		*youtube_title(const char *code);
