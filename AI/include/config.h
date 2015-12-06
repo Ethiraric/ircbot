@@ -25,7 +25,7 @@
 typedef struct	s_cfg_server
 {
   char		*name;       // Name of the shortcut
-  t_string	send_onlog;  // Datas to send when
+  t_string	send_onlog;  // Datas to send when logging on the remote server
   char		*hostname;   // Hostname of the server
   char		*nick;       // Nickname to use on the server
   unsigned short port;       // Port to use when connecting
