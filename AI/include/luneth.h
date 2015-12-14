@@ -54,6 +54,7 @@ int		in_disconnect(t_bot *bot, t_luneth *luneth);
 int		in_reload(t_bot *bot, t_luneth *luneth);
 int		in_join(t_bot *bot, t_luneth *luneth);
 int		in_msg(t_bot *bot, t_luneth *luneth);
+int		in_raw(t_bot *bot, t_luneth *luneth);
 int		handle_input(t_bot *bot, char *cmd, t_luneth *luneth);
 
   /* irc messages handling */

@@ -4,8 +4,8 @@
 ## Made by Florian SABOURIN
 ## Login   <sabour_f@epitech.net>
 ##
-## Started on  Sun Dec 06 08:07:20 2015 Florian SABOURIN
-## Last update Sun Dec 06 08:07:20 2015 Florian SABOURIN
+## Started on  Mon Dec 14 15:49:29 2015 Florian SABOURIN
+## Last update Mon Dec 14 15:49:29 2015 Florian SABOURIN
 ##
 
 # Executables
@@ -26,6 +26,7 @@ LDFLAGS		=	-shared -lsqlite3 -lcurl -lz -lcrypto -lssl
 # Files
 CSRC		=	src/database.c
 CSRC		+=	src/mess_privmsg.c
+CSRC		+=	src/in_raw.c
 CSRC		+=	src/config.c
 CSRC		+=	src/command_pokemon_questions.c
 CSRC		+=	src/in_list.c
@@ -83,6 +84,9 @@ src/database.o: src/database.c include/database.h ../libIRC/include/t_mapstring.
 
 src/mess_privmsg.o: src/mess_privmsg.c include/luneth.h include/Pokemon.h include/database.h ../libIRC/include/t_mapstring.h ../libIRC/include/t_string.h ../main/include/vector.h ../main/include/ircbot.h ../libIRC/include/irc.h ../libIRC/include/buffer.h include/config.h
 	$(CC) $(CFLAGS) -c -o src/mess_privmsg.o src/mess_privmsg.c
+
+src/in_raw.o: src/in_raw.c include/luneth.h include/Pokemon.h include/database.h ../libIRC/include/t_mapstring.h ../libIRC/include/t_string.h ../main/include/vector.h ../main/include/ircbot.h ../libIRC/include/irc.h ../libIRC/include/buffer.h include/config.h
+	$(CC) $(CFLAGS) -c -o src/in_raw.o src/in_raw.c
 
 src/config.o: src/config.c include/config.h ../libIRC/include/t_mapstring.h ../libIRC/include/t_string.h
 	$(CC) $(CFLAGS) -c -o src/config.o src/config.c

@@ -35,13 +35,14 @@ int		in_config(t_bot *bot, t_luneth *luneth)
 
 static const char	*cmds[] =
 {
-  "list", "connect", "disconnect", "reload", "join", "msg", "config", NULL
+  "list", "connect", "disconnect", "reload", "join", "msg", "config", "raw",
+  NULL
 };
 
 static int	(* const fcts[])(t_bot *, t_luneth *) =
 {
   &in_list, &in_connect, &in_disconnect, &in_reload, &in_join, &in_msg,
-    &in_config, NULL
+    &in_config, &in_raw, NULL
 };
 
 int		handle_input(t_bot *bot, char *cmd, t_luneth *luneth)
