@@ -44,7 +44,7 @@ static int	check_cmd(t_ircconnection *co, t_luneth *luneth, char *cmd)
   dbcmd = database_get_cmd(luneth->db, cmd);
   if (!dbcmd)
     return (0);
-  ret = irc_msg(co, co->cmd.args[0], dbcmd->text);
+  ret = luneth_respond_msg(co, luneth, dbcmd->text);
   cmd_delete(dbcmd, true);
   return (ret);
 }
@@ -62,7 +62,7 @@ int		mess_privmsg(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   if (pkq_check_ans(luneth, co))
     return (1);
   if (!strcmp(co->cmd.args[co->cmd.argc - 1], "\\o\\"))
-    return (hl_all(co));
+    return (hl_all(co, luneth));
   cmd = strtok(co->cmd.args[co->cmd.argc - 1], " ");
   if (!strcmp(cmd, str_str(&co->nick)))
     return (command_self_command(bot, co, luneth));

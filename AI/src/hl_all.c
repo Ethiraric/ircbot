@@ -14,7 +14,7 @@
 
 #define AVG_NICK_LEN	16
 
-int		hl_all(t_ircconnection *co)
+int		hl_all(t_ircconnection *co, t_luneth *luneth)
 {
   t_channel	*chan;
   t_user	*user;
@@ -47,7 +47,7 @@ int		hl_all(t_ircconnection *co)
 	  *tail = '\0';
 	}
     }
-  ret = irc_msg(co, co->cmd.args[0], resp);
+  ret = luneth_respond_msg(co, luneth, resp);
   free(resp);
   return (ret);
 }
