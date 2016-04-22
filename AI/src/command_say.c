@@ -28,15 +28,15 @@ static int	say_add(t_ircconnection *co, t_luneth *luneth)
   auth = database_pplid(luneth->db, co->cmd.prefixnick,
 			str_str(&co->servername), co->cmd.args[0]);
   if (!auth)
-    return (irc_msg(co, co->cmd.args[0], "Failed to find auth"));
+    return (luneth_respond_msg(co, luneth, "Failed to find auth"));
   dst = database_pplid(luneth->db, dest, str_str(&co->servername),
 		       co->cmd.args[0]);
   if (!dst)
-    return (irc_msg(co, co->cmd.args[0], "Failed to find dest"));
+    return (luneth_respond_msg(co, luneth, "Failed to find dest"));
   auth = database_insert_say(luneth->db, auth, dst, msg);
   if (!auth)
-    return (irc_msg(co, co->cmd.args[0], "Failed to insert say"));
-  return (irc_msgf(co, co->cmd.args[0], "Say #%u added to database", auth));
+    return (luneth_respond_msg(co, luneth, "Failed to insert say"));
+  return (luneth_respond_msgf(co, luneth, "Say #%u added to database", auth));
 }
 
 static int	say_rm(t_ircconnection *co, t_luneth *luneth)
@@ -56,16 +56,16 @@ static int	say_rm(t_ircconnection *co, t_luneth *luneth)
   id = atoi(strid);
   say = database_say_fromid(luneth->db, id);
   if (!say)
-    return (irc_msgf(co, co->cmd.args[0], "#%u No such say", id));
+    return (luneth_respond_msgf(co, luneth, "#%u No such say", id));
   if (pplid != say->auth && pplid != say->dest)
     {
       say_delete(say, true);
-      return (irc_msgf(co, co->cmd.args[0], "#%u Not your say", id));
+      return (luneth_respond_msgf(co, luneth, "#%u Not your say", id));
     }
   say_delete(say, true);
   if (database_rm_say(luneth->db, id))
-    return (irc_msgf(co, co->cmd.args[0], "Failed to rm say #%u", id));
-  return (irc_msgf(co, co->cmd.args[0], "Say #%u removed", id));
+    return (luneth_respond_msgf(co, luneth, "Failed to rm say #%u", id));
+  return (luneth_respond_msgf(co, luneth, "Say #%u removed", id));
 }
 
 int		command_say(t_bot *bot, t_ircconnection *co,

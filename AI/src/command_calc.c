@@ -84,11 +84,11 @@ int		command_calc(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   if (pclose(stream) == -1)
     return (1);
   if (!sizeread)
-    return (irc_msg(co, co->cmd.args[0], "No result to display"));
+    return (luneth_respond_msg(co, luneth, "No result to display"));
   result[sizeread] = '\0';
   // Replace '\n' by spaces
   str = result;
   while ((str = strchr(str, '\n')))
     *str = ' ';
-  return (irc_msg(co, co->cmd.args[0], result));
+  return (luneth_respond_msg(co, luneth, result));
 }

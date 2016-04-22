@@ -146,29 +146,29 @@ static int	song_add(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
     return (1);
   code = code_from_link(link);
   if (!code)
-    return (irc_msgf(co, co->cmd.args[0], "Failed to get code for %s", link));
+    return (luneth_respond_msgf(co, luneth, "Failed to get code for %s", link));
   song = database_get_song_fromcode(luneth->db, code);
   if (song)
     {
       song_delete(song, true);
       free(code);
-      return (irc_msg(co, co->cmd.args[0],
+      return (luneth_respond_msg(co, luneth,
 	      "This link is already in the database"));
     }
   auth = database_insert_song(luneth->db, code, category, auth);
   if (!auth)
     {
       free(code);
-      return (irc_msg(co, co->cmd.args[0], "Failed to insert in db"));
+      return (luneth_respond_msg(co, luneth, "Failed to insert in db"));
     }
   title = youtube_title(code);
   if (!title)
-    irc_msgf(co, co->cmd.args[0], "Added %s in %s as %u",
+    luneth_respond_msgf(co, luneth, "Added %s in %s as %u",
 	code, category, auth);
   else if (title)
     {
       database_edit_title(luneth->db, code, title);
-      irc_msgf(co, co->cmd.args[0], "Added %s in %s as %u : %s",
+      luneth_respond_msgf(co, luneth, "Added %s in %s as %u : %s",
 	  code, category, auth, title);
       free(title);
     }
@@ -184,7 +184,7 @@ static int	song_help(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
 
   (void)(bot);
   (void)(luneth);
-  return (irc_msg(co, co->cmd.args[0], msg));
+  return (luneth_respond_msg(co, luneth, msg));
 }
 
 static int	song_edit(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
@@ -198,10 +198,10 @@ static int	song_edit(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   if (!code || !category || strtok(NULL, " "))
     return (0);
   if (!is_code(code))
-    return (irc_msgf(co, co->cmd.args[0], "Invalid code %s", code));
+    return (luneth_respond_msgf(co, luneth, "Invalid code %s", code));
   if (database_edit_category(luneth->db, code, category))
-    return (irc_msgf(co, co->cmd.args[0], "Failed to edit %s", code));
-  return (irc_msgf(co, co->cmd.args[0], "%s is now %s", code, category));
+    return (luneth_respond_msgf(co, luneth, "Failed to edit %s", code));
+  return (luneth_respond_msgf(co, luneth, "%s is now %s", code, category));
 }
 
 static int	song_whois(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
@@ -216,8 +216,8 @@ static int	song_whois(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
     return (0);
   ppl = database_get_song_auth(luneth->db, code);
   if (!ppl)
-    return (irc_msgf(co, co->cmd.args[0], "Unknown author for %s", code));
-  ret = irc_msgf(co, co->cmd.args[0], "Author for %s is %s", code, ppl->nick);
+    return (luneth_respond_msgf(co, luneth, "Unknown author for %s", code));
+  ret = luneth_respond_msgf(co, luneth, "Author for %s is %s", code, ppl->nick);
   ppl_delete(ppl, true);
   return (ret);
 }
@@ -234,16 +234,16 @@ static int	song_title(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
     return (0);
   title = youtube_title(code);
   if (!title)
-    return (irc_msgf(co, co->cmd.args[0],
+    return (luneth_respond_msgf(co, luneth,
 		     "Failed to find title for %s", code));
   ret = database_edit_title(luneth->db, code, title);
   if (ret)
     {
-      irc_msgf(co, co->cmd.args[0], "Failed to edit title for %s", code);
+      luneth_respond_msgf(co, luneth, "Failed to edit title for %s", code);
       free(title);
       return (1);
     }
-  ret = irc_msgf(co, co->cmd.args[0],
+  ret = luneth_respond_msgf(co, luneth,
 		 "Title for %s is %s", code, title);
   free(title);
   return (ret);
@@ -265,12 +265,12 @@ static int	song_search(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
     return (0);
   songs = database_search_song(luneth->db, pattern);
   if (!songs)
-    return (irc_msgf(co, co->cmd.args[0],
+    return (luneth_respond_msgf(co, luneth,
 		     "Couldnt find a song matching '%s'", pattern));
   if (vector_size(songs) == 1)
     {
       song = vector_at(songs, 0);
-      ret = irc_msgf(co, co->cmd.args[0],
+      ret = luneth_respond_msgf(co, luneth,
 	  "%s -> https://www.youtube.com/watch?v=%s [%s] : %s",
 	  co->cmd.prefixnick, song->code,
 	  song->category ? song->category : "",
@@ -282,10 +282,10 @@ static int	song_search(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
       if (!mess)
 	{
 	  ret = 1;
-	  irc_msg(co, co->cmd.args[0], "Failed to disp codes");
+	  luneth_respond_msg(co, luneth, "Failed to disp codes");
 	}
       else
-	ret = irc_msg(co, co->cmd.args[0], mess);
+	ret = luneth_respond_msg(co, luneth, mess);
     }
   i = 0;
   while (i < vector_size(songs))
@@ -308,7 +308,7 @@ static int	song_categories(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   (void)(bot);
   categories = database_list_categories(luneth->db);
   if (!categories)
-    return (irc_msg(co, co->cmd.args[0], "No categories"));
+    return (luneth_respond_msg(co, luneth, "No categories"));
   i = 0;
   resp[0] = 0;
   curr = resp;
@@ -328,8 +328,8 @@ static int	song_categories(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   vector_foreach(categories, &free);
   vector_delete(categories, true);
   if (resp[0])
-    return (irc_msg(co, co->cmd.args[0], resp));
-  return (irc_msg(co, co->cmd.args[0], "No categories"));
+    return (luneth_respond_msg(co, luneth, resp));
+  return (luneth_respond_msg(co, luneth, "No categories"));
 }
 
 
@@ -360,7 +360,7 @@ int		command_song(t_bot *bot, t_ircconnection *co,
   song = database_select_random_songcateg(luneth->db, category);
   if (song)
     {
-      irc_msgf(co, co->cmd.args[0],
+      luneth_respond_msgf(co, luneth,
 	  "%s -> https://www.youtube.com/watch?v=%s [%s] : %s",
 	  co->cmd.prefixnick, song->code,
 	  song->category ? song->category : "",
@@ -369,7 +369,7 @@ int		command_song(t_bot *bot, t_ircconnection *co,
     }
   else if (errno == ENOMEM)
     return (1);
-  else if (irc_msgf(co, co->cmd.args[0], "Failed to find a song"))
+  else if (luneth_respond_msgf(co, luneth, "Failed to find a song"))
     return (1);
   return (0);
 }

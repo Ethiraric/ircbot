@@ -27,7 +27,7 @@ int		command_songid(t_bot *bot, t_ircconnection *co,
       song = database_get_song_fromid(luneth->db, val);
       if (song)
 	{
-	  irc_msgf(co, co->cmd.args[0],
+	  luneth_respond_msgf(co, luneth,
 	      "song #%i -> https://www.youtube.com/watch?v=%s [%s] : %s",
 	      val, song->code, song->category ? song->category : "",
 	      song->title ? song->title : "");
@@ -35,7 +35,7 @@ int		command_songid(t_bot *bot, t_ircconnection *co,
 	}
       else if (errno == ENOMEM)
 	return (1);
-      else if (irc_msgf(co, co->cmd.args[0], "No song with id #%i", val))
+      else if (luneth_respond_msgf(co, luneth, "No song with id #%i", val))
 	return (1);
     }
   return (0);

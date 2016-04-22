@@ -29,13 +29,14 @@ void		pkq_terminate(t_luneth *luneth)
 
 int		pkq_show_question(t_luneth *luneth)
 {
-  return (irc_msg(luneth->pk.co, luneth->pk.chan, luneth->pk.question));
+  return (luneth_msg(luneth->pk.co, luneth, luneth->pk.chan,
+		     luneth->pk.question));
 }
 
 int		pkq_show_hint(t_luneth *luneth)
 {
-  return (irc_msgf(luneth->pk.co, luneth->pk.chan, "Pokemon hint : %s",
-		   luneth->pk.hint));
+  return (luneth_msgf(luneth->pk.co, luneth, luneth->pk.chan,
+		      "Pokemon hint : %s", luneth->pk.hint));
 }
 
 static int	pkq_reveal_hint(t_luneth *luneth)
@@ -68,7 +69,7 @@ int		pkq_check_hint(t_luneth *luneth)
     {
       if (pkq_reveal_hint(luneth))
 	{
-	  ret = irc_msgf(luneth->pk.co, luneth->pk.chan,
+	  ret = luneth_msg(luneth->pk.co, luneth, luneth->pk.chan,
 			 "Terminating pokemon quizz due to inactivity");
 	  pkq_terminate(luneth);
 	  return (ret);
@@ -127,7 +128,7 @@ int		pkq_check_ans(t_luneth *luneth, t_ircconnection *co)
       (luneth->pk.ans2 &&
        !strcasecmp(luneth->pk.ans2, co->cmd.args[co->cmd.argc - 1])))
     {
-      if (irc_msgf(co, co->cmd.args[0], "WP %s ! %s -> %s",
+      if (luneth_respond_msgf(co, luneth, "WP %s ! %s -> %s",
 		   co->cmd.prefixnick, luneth->pk.question, luneth->pk.ans))
 	return (1);
       free(luneth->pk.ans);
@@ -151,28 +152,28 @@ int		pkq_check_ans(t_luneth *luneth, t_ircconnection *co)
 static int	pokemon_on(t_ircconnection *co, t_luneth *luneth)
 {
   if (luneth->pk.on)
-    return (irc_msg(co, co->cmd.args[0], "Pokemon quizz is already on"));
+    return (luneth_respond_msg(co, luneth, "Pokemon quizz is already on"));
   if (pkq_init(luneth, co))
-    return (irc_msg(co, co->cmd.args[0], "Failed to init pokemon quizz"));
+    return (luneth_respond_msg(co, luneth, "Failed to init pokemon quizz"));
   return (pkq_show_question(luneth));
 }
 
 static int	pokemon_off(t_ircconnection *co, t_luneth *luneth)
 {
   if (!luneth->pk.on)
-    return (irc_msg(co, co->cmd.args[0], "Pokemon quizz is already off"));
+    return (luneth_respond_msg(co, luneth, "Pokemon quizz is already off"));
   if (co != luneth->pk.co || strcmp(co->cmd.args[0], luneth->pk.chan))
-    return (irc_msg(co, co->cmd.args[0], "Pokemon quizz not on your chan"));
+    return (luneth_respond_msg(co, luneth, "Pokemon quizz not on your chan"));
   pkq_terminate(luneth);
-  return (irc_msg(co, co->cmd.args[0], "Pokemon quizz stopped"));
+  return (luneth_respond_msg(co, luneth, "Pokemon quizz stopped"));
 }
 
-static int	pokemon_help(t_ircconnection *co)
+static int	pokemon_help(t_ircconnection *co, t_luneth *luneth)
 {
   static const char	*msg =
       "pokemon ( on | off )";
 
-  return (irc_msg(co, co->cmd.args[0], msg));
+  return (luneth_respond_msg(co, luneth, msg));
 }
 
 int		command_pokemon(t_bot *bot, t_ircconnection *co,
@@ -189,6 +190,6 @@ int		command_pokemon(t_bot *bot, t_ircconnection *co,
   if (!strcasecmp(command, "off") || !strcasecmp(command, "tg"))
     return (pokemon_off(co, luneth));
   if (!strcasecmp(command, "help"))
-    return (pokemon_help(co));
+    return (pokemon_help(co, luneth));
   return (0);
 }

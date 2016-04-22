@@ -44,12 +44,12 @@ int		command_action(t_bot *bot, t_ircconnection *co,
 	  if (!strcmp(target, co->cmd.prefixnick))
 	    {
 	      if (strchr("aeiouy", *act))
-		return (irc_msgf(co, co->cmd.args[0],
+		return (luneth_respond_msgf(co, luneth,
 			"%s s'%s", co->cmd.prefixnick, act));
-	      return (irc_msgf(co, co->cmd.args[0],
+	      return (luneth_respond_msgf(co, luneth,
 		      "%s se %s", co->cmd.prefixnick, act));
 	    }
-	  return (irc_msgf(co, co->cmd.args[0],
+	  return (luneth_respond_msgf(co, luneth,
 		  "%s %s %s", co->cmd.prefixnick, act, target));
 	}
     }

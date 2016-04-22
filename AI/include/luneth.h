@@ -43,9 +43,19 @@ typedef struct	s_luneth
   t_pokequizz	pk;        // Pokemon quizz informations
   t_db		*db;       // Handle to the database
   t_config	config;    // Various configuration options (c.f. config.h)
+  bool		speaks;    // Controls whether the bot is allowed to speak
 }		t_luneth;
 
-char		*youtube_title(const char *code);
+  /* Miscellaneous useful commands */
+char	*youtube_title(const char *code);
+int	luneth_msg(t_ircconnection *co, t_luneth *luneth,
+		   const char *dst, const char *msg);
+int	luneth_msgf(t_ircconnection *co, t_luneth *luneth,
+		    const char *dst, const char *fmt, ...);
+int	luneth_respond_msg(t_ircconnection *co, t_luneth *luneth,
+			   const char *msg);
+int	luneth_respond_msgf(t_ircconnection *co, t_luneth *luneth,
+			    const char *fmt, ...);
 
   /* stdin handling */
 int		in_list(t_bot *bot, t_luneth *luneth);
@@ -84,6 +94,8 @@ int		command_shifumi(t_bot *bot, t_ircconnection *co,
 				t_luneth *luneth);
 int		command_calc(t_bot *bot, t_ircconnection *co,
 			     t_luneth *luneth);
+int		command_self_command(t_bot *bot, t_ircconnection *co,
+				     t_luneth *luneth);
 
   /* pokemon quizz */
 void		pkq_terminate(t_luneth *luneth);

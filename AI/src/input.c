@@ -62,6 +62,7 @@ int		handle_input(t_bot *bot, char *cmd, t_luneth *luneth)
 	    return (fcts[i](bot, luneth));
 	  ++i;
 	}
+      printf("Unknown command: %s\n", cmd);
     }
   return (0);
 }

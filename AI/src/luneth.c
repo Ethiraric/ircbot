@@ -8,7 +8,7 @@
 ** Last update Tue Apr 28 09:25:14 2015 Florian SABOURIN
 */
 
-#include <curl.h>
+#include <curl/curl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "luneth.h"
@@ -42,7 +42,7 @@ void		*irc_data_get(int argc, char **argv)
       free(ret);
       return (NULL);
     }
-
+  ret->speaks = true;
   return (ret);
 }
 

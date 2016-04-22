@@ -15,7 +15,7 @@
 #endif
 
 #include <stdlib.h>
-#include <curl.h>
+#include <curl/curl.h>
 #include "luneth.h"
 
 // Callback function

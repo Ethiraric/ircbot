@@ -19,14 +19,14 @@ static int	log_message(t_ircconnection *co, t_luneth *luneth)
   return (!ret);
 }
 
-const char	*cmds[] =
+static const char	*cmds[] =
 {
   "ping", "action", "songid", "song", "pokemon", "cmd", "say", "shifumi",
   "calc", ">",
   NULL
 };
 
-int	(* const fcttab[])(t_bot *, t_ircconnection *, t_luneth *) =
+static int	(* const fcttab[])(t_bot *, t_ircconnection *, t_luneth *) =
 {
   &command_ping, &command_action, &command_songid, &command_song,
     &command_pokemon, &command_cmd, &command_say, &command_shifumi,
@@ -64,6 +64,8 @@ int		mess_privmsg(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   if (!strcmp(co->cmd.args[co->cmd.argc - 1], "\\o\\"))
     return (hl_all(co));
   cmd = strtok(co->cmd.args[co->cmd.argc - 1], " ");
+  if (!strcmp(cmd, str_str(&co->nick)))
+    return (command_self_command(bot, co, luneth));
   while (cmds[i])
     {
       if (!strcasecmp(cmds[i], cmd))

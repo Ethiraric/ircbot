@@ -23,10 +23,10 @@ static int	cmd_add(t_ircconnection *co, t_luneth *luneth)
   if (!*text)
     return (0);
   if (database_is_command(luneth->db, cmd))
-    return (irc_msgf(co, co->cmd.args[0], "%s is already a command", cmd));
+    return (luneth_respond_msgf(co, luneth, "%s is already a command", cmd));
   if (database_insert_command(luneth->db, cmd, text))
-    return (irc_msgf(co, co->cmd.args[0], "%s added to the commands", cmd));
-  return (irc_msgf(co, co->cmd.args[0], "Failed to add command %s", cmd));
+    return (luneth_respond_msgf(co, luneth, "%s added to the commands", cmd));
+  return (luneth_respond_msgf(co, luneth, "Failed to add command %s", cmd));
 }
 
 static int	cmd_rm(t_ircconnection *co, t_luneth *luneth)
@@ -37,8 +37,8 @@ static int	cmd_rm(t_ircconnection *co, t_luneth *luneth)
   if (!cmd || strtok(NULL, ""))
     return (0);
   if (!database_rm_cmd(luneth->db, cmd))
-    return (irc_msgf(co, co->cmd.args[0], "Removed command %s", cmd));
-  return (irc_msgf(co, co->cmd.args[0], "Failed to remove command %s", cmd));
+    return (luneth_respond_msgf(co, luneth, "Removed command %s", cmd));
+  return (luneth_respond_msgf(co, luneth, "Failed to remove command %s", cmd));
 }
 
 int		command_cmd(t_bot *bot, t_ircconnection *co, t_luneth *luneth)

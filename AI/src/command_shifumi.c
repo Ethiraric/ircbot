@@ -38,12 +38,12 @@ int		command_shifumi(t_bot *bot, t_ircconnection *co,
 	return (0);
       botidx = rand() % 3;
       if (botidx == playeridx)
-	return (irc_msgf(co, co->cmd.args[0], "%s - %s : Draw !\n",
+	return (luneth_respond_msgf(co, luneth, "%s - %s : Draw !\n",
 		names[playeridx], names[botidx]));
       if ((botidx + 1) % 3 == playeridx)
-	return (irc_msgf(co, co->cmd.args[0], "%s - %s : You win !\n",
+	return (luneth_respond_msgf(co, luneth, "%s - %s : You win !\n",
 		names[playeridx], names[botidx]));
-      return (irc_msgf(co, co->cmd.args[0], "%s - %s : You lose !\n",
+      return (luneth_respond_msgf(co, luneth, "%s - %s : You lose !\n",
 	      names[playeridx], names[botidx]));
     }
   return (0);

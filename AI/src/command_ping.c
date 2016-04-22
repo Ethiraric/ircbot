@@ -21,8 +21,7 @@ int		command_ping(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
     {
       msg += strspn(msg, " ");
       if (*msg)
-	return (irc_msgf(co, co->cmd.args[0], "%s %s",
-		co->cmd.prefixnick, msg));
+	return (luneth_respond_msgf(co, luneth, co->cmd.prefixnick, msg));
     }
-  return (irc_msgf(co, co->cmd.args[0], "%s", co->cmd.prefixnick));
+  return (luneth_respond_msgf(co, luneth, "%s", co->cmd.prefixnick));
 }

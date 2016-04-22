@@ -18,7 +18,7 @@ static int	say_say(t_ircconnection *co, t_luneth *luneth, t_say *say)
   ppl = database_ppl_fromid(luneth->db, say->auth);
   if (!ppl)
     return (0);
-  ret = irc_msgf(co, co->cmd.args[0], "[#%u %s -> %s] %s", say->id, ppl->nick,
+  ret = luneth_respond_msgf(co, luneth, "[#%u %s -> %s] %s", say->id, ppl->nick,
       co->cmd.prefixnick, say->text);
   ppl_delete(ppl, true);
   say_delete(say, true);
