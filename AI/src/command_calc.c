@@ -64,7 +64,9 @@ int		command_calc(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   escapedstr = escape_doublequotes(str);
   if (!escapedstr)
     return (1);
-  if (asprintf(&execstr, "echo \"%s\" | bc", escapedstr) == -1)
+  if (asprintf(&execstr, "echo \"e=2.71828182846;"
+	       "pi=3.14159265359;"
+	       "%s\" | bc", escapedstr) == -1)
     return (1);
   printf("command: %s -> %s\n", str, escapedstr);
   printf("res: %s\n", execstr);
