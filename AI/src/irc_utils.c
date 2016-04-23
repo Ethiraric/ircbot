@@ -4,10 +4,14 @@
 
 static const char *get_response_channel(t_ircconnection *co)
 {
+  const char *ret;
+
   // Was a PM, respond to the sender
   if (!strcmp(str_str(&co->nick), co->cmd.args[0]))
-    return (co->cmd.prefixnick);
-  return (co->cmd.args[0]);
+    ret = co->cmd.prefixnick;
+  else
+    ret = co->cmd.args[0];
+  return (ret);
 }
 
 int	luneth_msg(t_ircconnection *co, t_luneth *luneth,

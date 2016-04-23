@@ -39,7 +39,6 @@ int	command_self_command(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
     {
       if (!strcasecmp(cmds[i], cmd))
 	return (fcttab[i](bot, co, luneth));
-      ++i;
     }
   return (0);
 }
