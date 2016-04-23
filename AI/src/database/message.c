@@ -1,3 +1,6 @@
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "database.h"
 
 t_id		database_insert_msg(t_db *db, const char *nick,
@@ -21,7 +24,7 @@ t_id		database_insert_msg(t_db *db, const char *nick,
   free(emsg);
   if (ret == -1)
     return (0);
-  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &emsg);
+  ret = sqlite3_exec(db->handler, req, &database_callback_nothing, NULL, &emsg);
   free(req);
   if (ret != SQLITE_OK)
     return (0);

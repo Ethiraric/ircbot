@@ -1,4 +1,14 @@
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "database.h"
+
+static int callback_mapstring_delete_cmd(const t_string *key, void *value)
+{
+  (void)(key);
+  cmd_delete((t_cmd *)(value), true);
+  return (0);
+}
 
 bool		database_is_command(t_db *db, const char *cmd)
 {
@@ -22,7 +32,7 @@ bool		database_is_command(t_db *db, const char *cmd)
       free(res);
       return (false);
     }
-  select_free_res(res);
+  database_select_free_res(res);
   return (true);
 }
 
@@ -46,7 +56,7 @@ t_id		database_insert_command(t_db *db, const char *cmd,
   free(etext);
   if (ret == -1)
     return (0);
-  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &ecmd);
+  ret = sqlite3_exec(db->handler, req, &database_callback_nothing, NULL, &ecmd);
   free(req);
   if (ret != SQLITE_OK)
     return (0);
@@ -77,7 +87,7 @@ t_cmd		*database_get_cmd(t_db *db, const char *cmd)
       return (NULL);
     }
   cmdr = cmd_from_db(res, 0);
-  select_free_res(res);
+  database_select_free_res(res);
   return (cmdr);
 }
 
@@ -95,7 +105,7 @@ int		database_rm_cmd(t_db *db, const char *cmd)
   free(ecmd);
   if (ret == -1)
     return (1);
-  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &ecmd);
+  ret = sqlite3_exec(db->handler, req, &database_callback_nothing, NULL, &ecmd);
   free(req);
   if (ret != SQLITE_OK)
     return (1);
@@ -125,7 +135,7 @@ t_mapstring	*database_load_all_cmds(t_db *db)
   if (!ids)
     {
       free(cmds);
-      select_free_res(res);
+      database_select_free_res(res);
       return (NULL);
     }
   for (unsigned int i = 0 ; i < vector_size(ids) ; ++i)
@@ -135,14 +145,13 @@ t_mapstring	*database_load_all_cmds(t_db *db)
 	{
 	  if (cmdr)
 	    cmd_delete(cmdr, true);
-	  for ( ; i ; --i)
-	    cmd_delete(mapstring_at(cmds, i - 1), true);
+	  mapstring_foreach(cmds, &callback_mapstring_delete_cmd);
 	  mapstring_delete(cmds);
 	  free(cmds);
-	  select_free_res(res);
+	  database_select_free_res(res);
 	  return (NULL);
 	}
     }
-  select_free_res(res);
+  database_select_free_res(res);
   return (cmds);
 }

@@ -1,3 +1,6 @@
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "database.h"
 
 t_id		database_insert_say(t_db *db, t_id auth, t_id dest,
@@ -15,7 +18,8 @@ t_id		database_insert_say(t_db *db, t_id auth, t_id dest,
   free(etext);
   if (ret == -1)
     return (0);
-  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &etext);
+  ret = sqlite3_exec(db->handler, req, &database_callback_nothing, NULL,
+		     &etext);
   free(req);
   if (ret != SQLITE_OK)
     return (0);
@@ -40,7 +44,7 @@ t_vector	*database_get_say(t_db *db, t_id dest)
       return (NULL);
     }
   says = say_tab_from_db(res);
-  select_free_res(res);
+  database_select_free_res(res);
   return (says);
 }
 
@@ -62,7 +66,7 @@ t_say		*database_say_fromid(t_db *db, t_id id)
       return (NULL);
     }
   say = say_from_db(res, 0);
-  select_free_res(res);
+  database_select_free_res(res);
   return (say);
 }
 
@@ -76,7 +80,7 @@ int		database_rm_say(t_db *db, t_id id)
   ret = asprintf(&req,"DELETE FROM " TABLE_SAY " WHERE id=%u;", id);
   if (ret == -1)
     return (1);
-  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &err);
+  ret = sqlite3_exec(db->handler, req, &database_callback_nothing, NULL, &err);
   free(req);
   if (ret != SQLITE_OK)
     return (1);

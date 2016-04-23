@@ -1,3 +1,6 @@
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "database.h"
 
 t_id		database_pplid(t_db *db, const char *nick, const char *serv,
@@ -104,7 +107,7 @@ int	database_add_score(t_db *db, const char *nickname, const char *channel,
   if (ret == -1)
     return (1);
   printf("Query: %s\n", req);
-  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &err);
+  ret = sqlite3_exec(db->handler, req, &database_callback_nothing, NULL, &err);
   if (ret != SQLITE_OK)
     return (1);
   free(req);

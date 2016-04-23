@@ -4,8 +4,8 @@
 ## Made by Ethiraric
 ## Login   <ethiraric@epitech.net>
 ##
-## Started on  Sat Apr 23 16:19:20 2016 Ethiraric
-## Last update Sat Apr 23 16:19:20 2016 Ethiraric
+## Started on  Sat Apr 23 17:05:23 2016 Ethiraric
+## Last update Sat Apr 23 17:05:23 2016 Ethiraric
 ##
 
 # Executables
@@ -41,6 +41,15 @@ CSRC		+=	src/command_songid.c
 CSRC		+=	src/config.c
 CSRC		+=	src/config_key_server.c
 CSRC		+=	src/config_modules.c
+CSRC		+=	src/database/channels.c
+CSRC		+=	src/database/commands.c
+CSRC		+=	src/database/database.c
+CSRC		+=	src/database/helper.c
+CSRC		+=	src/database/message.c
+CSRC		+=	src/database/people.c
+CSRC		+=	src/database/say.c
+CSRC		+=	src/database/songs.c
+CSRC		+=	src/database/sqlite.c
 CSRC		+=	src/hl_all.c
 CSRC		+=	src/in_connect.c
 CSRC		+=	src/in_disconnect.c
@@ -129,6 +138,33 @@ src/config_key_server.o: src/config_key_server.c include/config.h ../libIRC/incl
 
 src/config_modules.o: src/config_modules.c include/config.h ../libIRC/include/t_mapstring.h ../libIRC/include/t_string.h
 	$(CC) $(CFLAGS) -c -o src/config_modules.o src/config_modules.c
+
+src/database/channels.o: src/database/channels.c include/database.h ../libIRC/include/t_mapstring.h ../libIRC/include/t_string.h ../main/include/vector.h include/database_structs.h
+	$(CC) $(CFLAGS) -c -o src/database/channels.o src/database/channels.c
+
+src/database/commands.o: src/database/commands.c include/database.h ../libIRC/include/t_mapstring.h ../libIRC/include/t_string.h ../main/include/vector.h include/database_structs.h
+	$(CC) $(CFLAGS) -c -o src/database/commands.o src/database/commands.c
+
+src/database/database.o: src/database/database.c include/database.h ../libIRC/include/t_mapstring.h ../libIRC/include/t_string.h ../main/include/vector.h include/database_structs.h
+	$(CC) $(CFLAGS) -c -o src/database/database.o src/database/database.c
+
+src/database/helper.o: src/database/helper.c include/database.h ../libIRC/include/t_mapstring.h ../libIRC/include/t_string.h ../main/include/vector.h include/database_structs.h
+	$(CC) $(CFLAGS) -c -o src/database/helper.o src/database/helper.c
+
+src/database/message.o: src/database/message.c include/database.h ../libIRC/include/t_mapstring.h ../libIRC/include/t_string.h ../main/include/vector.h include/database_structs.h
+	$(CC) $(CFLAGS) -c -o src/database/message.o src/database/message.c
+
+src/database/people.o: src/database/people.c include/database.h ../libIRC/include/t_mapstring.h ../libIRC/include/t_string.h ../main/include/vector.h include/database_structs.h
+	$(CC) $(CFLAGS) -c -o src/database/people.o src/database/people.c
+
+src/database/say.o: src/database/say.c include/database.h ../libIRC/include/t_mapstring.h ../libIRC/include/t_string.h ../main/include/vector.h include/database_structs.h
+	$(CC) $(CFLAGS) -c -o src/database/say.o src/database/say.c
+
+src/database/songs.o: src/database/songs.c include/database.h ../libIRC/include/t_mapstring.h ../libIRC/include/t_string.h ../main/include/vector.h include/database_structs.h
+	$(CC) $(CFLAGS) -c -o src/database/songs.o src/database/songs.c
+
+src/database/sqlite.o: src/database/sqlite.c include/database.h ../libIRC/include/t_mapstring.h ../libIRC/include/t_string.h ../main/include/vector.h include/database_structs.h
+	$(CC) $(CFLAGS) -c -o src/database/sqlite.o src/database/sqlite.c
 
 src/hl_all.o: src/hl_all.c include/luneth.h include/Pokemon.h include/database.h ../libIRC/include/t_mapstring.h ../libIRC/include/t_string.h ../main/include/vector.h include/database_structs.h ../main/include/ircbot.h ../libIRC/include/irc.h ../libIRC/include/buffer.h include/config.h
 	$(CC) $(CFLAGS) -c -o src/hl_all.o src/hl_all.c

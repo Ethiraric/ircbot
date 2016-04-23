@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include "database.h"
 
 t_chan		*database_get_chan_fromchanserv(t_db *db, const char *serv,
@@ -31,7 +33,7 @@ t_chan		*database_get_chan_fromchanserv(t_db *db, const char *serv,
       return (NULL);
     }
   tchan = chan_from_db(res, 0);
-  select_free_res(res);
+  database_select_free_res(res);
   return (tchan);
 }
 
@@ -56,7 +58,8 @@ t_id		database_insert_chan(t_db *db, const char *serv,
   free(echan);
   if (ret == -1)
     return (0);
-  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &echan);
+  ret = sqlite3_exec(db->handler, req, &database_callback_nothing, NULL,
+		     &echan);
   if (ret != SQLITE_OK)
     {
       sqlite3_free(echan);

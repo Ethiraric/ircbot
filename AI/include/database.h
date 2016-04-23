@@ -52,6 +52,8 @@ void		database_delete(t_db *db);
   // Helper database functions
 char		*database_escape_quotes(const char *in);
 t_mapstring	*database_select_exec(t_db *db, const char *statement);
+int		database_select_free_res(t_mapstring *map);
+int		database_callback_nothing(void *, int, char **, char **);
 
   // People
 t_people	*database_get_ppl_fromnickchan(t_db *db, const char *nick,

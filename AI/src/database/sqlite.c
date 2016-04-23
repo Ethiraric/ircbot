@@ -5,10 +5,10 @@
 ** sqlite3 helpers
 */
 
-static int	callback_nothing(__attribute__((unused))void *param,
-				 __attribute__((unused))int argc,
-				 __attribute__((unused))char **argv,
-				 __attribute__((unused))char **column_names)
+int	database_callback_nothing(__attribute__((unused))void *param,
+				  __attribute__((unused))int argc,
+				  __attribute__((unused))char **argv,
+				  __attribute__((unused))char **column_names)
 {
   return (0);
 }
@@ -48,28 +48,20 @@ char	*database_escape_quotes(const char *in)
   return (ret);
 }
 
-int		select_free_res(t_mapstring *map)
+static int	callback_free_vector(const t_string *key, void *value)
 {
-  unsigned int	i;
-  unsigned int	j;
   t_vector	*vec;
 
-  i = 0;
-  while (i < mapstring_size(map))
-    {
-      vec = mapstring_at(map, i);
-      if (vec)
-	{
-	  j = 0;
-	  while (j < vector_size(vec))
-	    {
-	      free(vector_at(vec, j));
-	      ++j;
-	    }
-	  vector_delete(vec, true);
-	}
-      ++i;
-    }
+  (void)(key);
+  vec = (t_vector *)(value);
+  vector_foreach(vec, &free);
+  vector_delete(vec, true);
+  return (0);
+}
+
+int		database_select_free_res(t_mapstring *map)
+{
+  mapstring_foreach(map, &callback_free_vector);
   mapstring_delete(map);
   free(map);
   return (0);
@@ -87,10 +79,10 @@ static int	select_exec_init_cols(t_mapstring *map,
     {
       vec = malloc(sizeof(t_vector));
       if (!vec)
-	return (select_free_res(map) | 1);
+	return (database_select_free_res(map) | 1);
       vector_new(vec);
       if (mapstring_insertcstr(map, sqlite3_column_name(stmt, i), vec))
-	return (select_free_res(map) | 1);
+	return (database_select_free_res(map) | 1);
       ++i;
     }
   return (0);

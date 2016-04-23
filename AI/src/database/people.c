@@ -1,3 +1,6 @@
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "database.h"
 
 t_people	*database_get_ppl_fromnickchan(t_db *db, const char *nick,
@@ -25,7 +28,7 @@ t_people	*database_get_ppl_fromnickchan(t_db *db, const char *nick,
       return (NULL);
     }
   ppl = ppl_from_db(res, 0);
-  select_free_res(res);
+  database_select_free_res(res);
   return (ppl);
 }
 
@@ -43,7 +46,8 @@ t_id		database_insert_ppl(t_db *db, const char *nick, t_id chan)
   free(enick);
   if (ret == -1)
     return (0);
-  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &enick);
+  ret = sqlite3_exec(db->handler, req, &database_callback_nothing, NULL,
+		     &enick);
   if (ret != SQLITE_OK)
     {
       sqlite3_free(enick);
@@ -71,6 +75,6 @@ t_people	*database_ppl_fromid(t_db *db, t_id id)
       return (NULL);
     }
   ppl = ppl_from_db(res, 0);
-  select_free_res(res);
+  database_select_free_res(res);
   return (ppl);
 }

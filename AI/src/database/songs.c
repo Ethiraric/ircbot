@@ -1,3 +1,6 @@
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "database.h"
 
 t_song		*database_get_song_fromcode(t_db *db, const char *code)
@@ -23,7 +26,7 @@ t_song		*database_get_song_fromcode(t_db *db, const char *code)
       return (NULL);
     }
   song = song_from_db(res, 0);
-  select_free_res(res);
+  database_select_free_res(res);
   return (song);
 }
 
@@ -54,7 +57,8 @@ t_id		database_insert_song(t_db *db, const char *code,
   free(ecode);
   if (ret == -1)
     return (0);
-  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &ecode);
+  ret = sqlite3_exec(db->handler, req, &database_callback_nothing, NULL,
+		     &ecode);
   if (ret != SQLITE_OK)
     {
       sqlite3_free(ecode);
@@ -82,7 +86,7 @@ t_song		*database_get_song_fromid(t_db *db, unsigned int id)
       return (NULL);
     }
   song = song_from_db(res, 0);
-  select_free_res(res);
+  database_select_free_res(res);
   return (song);
 }
 
@@ -105,7 +109,7 @@ t_song		*database_select_random_song(t_db *db)
       return (NULL);
     }
   song = song_from_db(res, 0);
-  select_free_res(res);
+  database_select_free_res(res);
   return (song);
 }
 
@@ -135,7 +139,7 @@ t_song		*database_select_random_songcateg(t_db *db, const char *categ)
       return (NULL);
     }
   song = song_from_db(res, 0);
-  select_free_res(res);
+  database_select_free_res(res);
   return (song);
 }
 
@@ -154,7 +158,8 @@ int		database_edit_category(t_db *db, const char *code,
   free(ecateg);
   if (ret == -1)
     return (1);
-  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &ecateg);
+  ret = sqlite3_exec(db->handler, req, &database_callback_nothing, NULL,
+		     &ecateg);
   free(req);
   if (ret != SQLITE_OK)
     {
@@ -179,7 +184,8 @@ int		database_edit_title(t_db *db, const char *code,
   free(etitle);
   if (ret == -1)
     return (1);
-  ret = sqlite3_exec(db->handler, req, &callback_nothing, NULL, &etitle);
+  ret = sqlite3_exec(db->handler, req, &database_callback_nothing, NULL,
+		     &etitle);
   free(req);
   if (ret != SQLITE_OK)
     {
@@ -219,6 +225,6 @@ t_vector	*database_search_song(t_db *db, const char *pattern)
       return (NULL);
     }
   songs = song_tab_from_db(res);
-  select_free_res(res);
+  database_select_free_res(res);
   return (songs);
 }
