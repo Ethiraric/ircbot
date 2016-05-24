@@ -24,7 +24,7 @@ static int cmd_add(t_ircconnection* co, t_luneth* luneth)
   text += strspn(text, " ");
   if (!*text)
     return (0);
-  if (!mapstring_findcstr(luneth->cmds, cmd))
+  if (mapstring_findcstr(luneth->cmds, cmd))
     return (luneth_respond_msgf(co, luneth, "%s is already a command", cmd));
   if ((id = database_insert_command(luneth->db, cmd, text)))
   {
