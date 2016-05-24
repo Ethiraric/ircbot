@@ -8,14 +8,14 @@
 ** Last update Sat May  9 12:15:15 2015 Florian SABOURIN
 */
 
+#include "database.h"
 #include <stdlib.h>
 #include <string.h>
-#include "database.h"
 
-t_chan		*chan_from_db(t_mapstring *res, unsigned int it)
+t_chan* chan_from_db(t_mapstring* res, unsigned int it)
 {
-  t_vector	*curr;
-  t_chan	*ret;
+  t_vector* curr;
+  t_chan* ret;
 
   ret = malloc(sizeof(t_chan));
   if (!ret)
@@ -32,7 +32,7 @@ t_chan		*chan_from_db(t_mapstring *res, unsigned int it)
   return (ret);
 }
 
-int		chan_delete(t_chan *chan, bool free_struct)
+int chan_delete(t_chan* chan, bool free_struct)
 {
   free(chan->channel);
   chan->channel = 0;

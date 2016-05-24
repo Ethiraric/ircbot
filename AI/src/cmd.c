@@ -8,14 +8,14 @@
 ** Last update Mon May 18 17:03:31 2015 Florian SABOURIN
 */
 
+#include "database.h"
 #include <stdlib.h>
 #include <string.h>
-#include "database.h"
 
-t_cmd		*cmd_from_db(t_mapstring *res, unsigned int it)
+t_cmd* cmd_from_db(t_mapstring* res, unsigned int it)
 {
-  t_vector	*curr;
-  t_cmd		*ret;
+  t_vector* curr;
+  t_cmd* ret;
 
   ret = malloc(sizeof(t_cmd));
   if (!ret)
@@ -32,11 +32,11 @@ t_cmd		*cmd_from_db(t_mapstring *res, unsigned int it)
   return (ret);
 }
 
-t_cmd   *cmd_new(t_id id, char *cmd, char *text)
+t_cmd* cmd_new(t_id id, char* cmd, char* text)
 {
-  t_cmd *ret;
+  t_cmd* ret;
 
-  ret = (t_cmd *)(malloc(sizeof(t_cmd)));
+  ret = (t_cmd*)(malloc(sizeof(t_cmd)));
   if (!ret)
     return (NULL);
   ret->id = id;
@@ -56,7 +56,7 @@ t_cmd   *cmd_new(t_id id, char *cmd, char *text)
   return (ret);
 }
 
-int		cmd_delete(t_cmd *cmd, bool free_struct)
+int cmd_delete(t_cmd* cmd, bool free_struct)
 {
   free(cmd->text);
   cmd->text = 0;

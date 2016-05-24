@@ -8,11 +8,11 @@
 ** Last update Sat May  9 15:39:25 2015 Florian SABOURIN
 */
 
+#include "luneth.h"
 #include <errno.h>
 #include <regex.h>
 #include <stdlib.h>
 #include <string.h>
-#include "luneth.h"
 
 /*
 ** If your regex supports non capturing groups, uncomment this one
@@ -28,23 +28,24 @@
 */
 
 // Capturing groups are 7;10
-const char *regex_link =
+const char* regex_link =
     "^(https?:\\/\\/)?(www\\.|m\\.)?youtu\\.?be(\\.com)?\\/"
-    "((watch\\/?|embed\\/|v\\/|attribution_link\\??""))*\\??"
+    "((watch\\/?|embed\\/|v\\/|attribution_link\\??"
+    "))*\\??"
     "(([0-9a-zA-Z_-]{11})|"
-       "((v=([0-9a-zA-Z_-]{11})|"
-	   "feature=(player_embedded|related)|"
-	   "list=[0-9a-zA-Z_-]+|"
-	   "index=[0-9]+|"
-	   "\\#?t=([0-9]+m)?[0-9]+s?)&?)+)$";
+    "((v=([0-9a-zA-Z_-]{11})|"
+    "feature=(player_embedded|related)|"
+    "list=[0-9a-zA-Z_-]+|"
+    "index=[0-9]+|"
+    "\\#?t=([0-9]+m)?[0-9]+s?)&?)+)$";
 
-static char	*code_from_link(const char *link)
+static char* code_from_link(const char* link)
 {
-  regmatch_t	*matches;
-  regex_t	reg;
-  size_t	nmatch;
-  char		*code;
-  int		ret;
+  regmatch_t* matches;
+  regex_t reg;
+  size_t nmatch;
+  char* code;
+  int ret;
 
   code = NULL;
   /* Compile regex */
@@ -56,10 +57,10 @@ static char	*code_from_link(const char *link)
   nmatch = reg.re_nsub;
   matches = malloc(sizeof(regmatch_t) * nmatch);
   if (!matches)
-    {
-      regfree(&reg);
-      return (NULL);
-    }
+  {
+    regfree(&reg);
+    return (NULL);
+  }
 
   /* Match regex against the link */
   ret = regexec(&reg, link, nmatch, matches, 0);
@@ -67,81 +68,83 @@ static char	*code_from_link(const char *link)
   /* Links are at position 7 or 10 */
   regfree(&reg);
   if (!ret)
-    {
-      if (matches[7].rm_so != -1 && matches[7].rm_eo != -1)
-	ret = 7;
-      else if (matches[10].rm_so != -1 && matches[10].rm_eo != -1)
-	ret = 10;
-      if (ret)
-	code = strndup(&(link[matches[ret].rm_so]),
-	    matches[ret].rm_eo - matches[ret].rm_so);
-    }
+  {
+    if (matches[7].rm_so != -1 && matches[7].rm_eo != -1)
+      ret = 7;
+    else if (matches[10].rm_so != -1 && matches[10].rm_eo != -1)
+      ret = 10;
+    if (ret)
+      code = strndup(&(link[matches[ret].rm_so]),
+                     matches[ret].rm_eo - matches[ret].rm_so);
+  }
   free(matches);
   return (code);
 }
 
-static bool	is_code(const char *link)
+static bool is_code(const char* link)
 {
   if (strlen(link) != 11)
     return (false);
   while (*link)
-    {
-      if (!((*link <= 'z' && *link >= 'a') || (*link <= 'Z' && *link >= 'A') ||
-	    (*link <= '9' && *link >= '0') || *link == '_' || *link == '-'))
-	return (false);
-      ++link;
-    }
+  {
+    if (!((*link <= 'z' && *link >= 'a') || (*link <= 'Z' && *link >= 'A') ||
+          (*link <= '9' && *link >= '0') || *link == '_' || *link == '-'))
+      return (false);
+    ++link;
+  }
   return (true);
 }
 
-static char	*cat_codes(t_vector *songs)
+static char* cat_codes(t_vector* songs)
 {
-  size_t	len;
-  size_t	i;
-  char		*mess;
-  char		*end;
+  size_t len;
+  size_t i;
+  char* mess;
+  char* end;
 
   len = 0;
   i = 0;
   while (i < vector_size(songs))
-    {
-      len += strlen(((t_song *)vector_at(songs, i))->code);
-      ++i;
-    }
+  {
+    len += strlen(((t_song*)vector_at(songs, i))->code);
+    ++i;
+  }
   len += i + 16;
   mess = malloc(len);
   if (mess)
+  {
+    end = stpcpy(mess, "Codes: ");
+    i = 0;
+    while (i < vector_size(songs))
     {
-      end = stpcpy(mess, "Codes: ");
-      i = 0;
-      while (i < vector_size(songs))
-	{
-	  end = stpcpy(end, ((t_song *)vector_at(songs, i))->code);
-	  *end = ' ';
-	  ++end;
-	  *end = 0;
-	  ++i;
-	}
+      end = stpcpy(end, ((t_song*)vector_at(songs, i))->code);
+      *end = ' ';
+      ++end;
+      *end = 0;
+      ++i;
     }
+  }
   return (mess);
 }
 
-static int	song_add(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
+static int song_add(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
-  t_song	*song;
-  t_id		auth;
-  char		*link;
-  char		*category;
-  char		*code;
-  char		*title;
+  t_song* song;
+  t_id auth;
+  char* link;
+  char* category;
+  char* code;
+  char* title;
 
   (void)(bot);
   link = strtok(NULL, " ");
   category = strtok(NULL, " ");
   if (strtok(NULL, ""))
     return (0);
-  auth = database_pplid(luneth->db, co->cmd.prefixnick,
-			str_str(&co->servername), co->cmd.args[0]);
+  auth = database_pplid(luneth->db,
+                        co->cmd.prefixnick,
+                        str_str(&co->servername),
+                        co->cmd.args[0]);
   if (!auth)
     return (1);
   code = code_from_link(link);
@@ -149,48 +152,48 @@ static int	song_add(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
     return (luneth_respond_msgf(co, luneth, "Failed to get code for %s", link));
   song = database_get_song_fromcode(luneth->db, code);
   if (song)
-    {
-      song_delete(song, true);
-      free(code);
-      return (luneth_respond_msg(co, luneth,
-	      "This link is already in the database"));
-    }
+  {
+    song_delete(song, true);
+    free(code);
+    return (
+        luneth_respond_msg(co, luneth, "This link is already in the database"));
+  }
   auth = database_insert_song(luneth->db, code, category, auth);
   if (!auth)
-    {
-      free(code);
-      return (luneth_respond_msg(co, luneth, "Failed to insert in db"));
-    }
+  {
+    free(code);
+    return (luneth_respond_msg(co, luneth, "Failed to insert in db"));
+  }
   title = youtube_title(code);
   if (!title)
-    luneth_respond_msgf(co, luneth, "Added %s in %s as %u",
-	code, category, auth);
+    luneth_respond_msgf(
+        co, luneth, "Added %s in %s as %u", code, category, auth);
   else if (title)
-    {
-      database_edit_title(luneth->db, code, title);
-      luneth_respond_msgf(co, luneth, "Added %s in %s as %u : %s",
-	  code, category, auth, title);
-      free(title);
-    }
+  {
+    database_edit_title(luneth->db, code, title);
+    luneth_respond_msgf(
+        co, luneth, "Added %s in %s as %u : %s", code, category, auth, title);
+    free(title);
+  }
   free(code);
   return (0);
 }
 
-static int	song_help(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
+static int song_help(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
-  static const char	*msg =
+  static const char* msg =
       "song [ help | add <link> [category] | edit <code> <category> | "
-	     "title <code> | whois <code> | categories ]";
+      "title <code> | whois <code> | categories ]";
 
   (void)(bot);
   (void)(luneth);
   return (luneth_respond_msg(co, luneth, msg));
 }
 
-static int	song_edit(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
+static int song_edit(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
-  char		*code;
-  char		*category;
+  char* code;
+  char* category;
 
   (void)(bot);
   code = strtok(NULL, " ");
@@ -204,11 +207,11 @@ static int	song_edit(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   return (luneth_respond_msgf(co, luneth, "%s is now %s", code, category));
 }
 
-static int	song_whois(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
+static int song_whois(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
-  t_people	*ppl;
-  char		*code;
-  int		ret;
+  t_people* ppl;
+  char* code;
+  int ret;
 
   (void)(bot);
   code = strtok(NULL, " ");
@@ -222,11 +225,11 @@ static int	song_whois(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   return (ret);
 }
 
-static int	song_title(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
+static int song_title(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
-  char		*code;
-  char		*title;
-  int		ret;
+  char* code;
+  char* title;
+  int ret;
 
   (void)(bot);
   code = strtok(NULL, " ");
@@ -234,29 +237,28 @@ static int	song_title(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
     return (0);
   title = youtube_title(code);
   if (!title)
-    return (luneth_respond_msgf(co, luneth,
-		     "Failed to find title for %s", code));
+    return (
+        luneth_respond_msgf(co, luneth, "Failed to find title for %s", code));
   ret = database_edit_title(luneth->db, code, title);
   if (ret)
-    {
-      luneth_respond_msgf(co, luneth, "Failed to edit title for %s", code);
-      free(title);
-      return (1);
-    }
-  ret = luneth_respond_msgf(co, luneth,
-		 "Title for %s is %s", code, title);
+  {
+    luneth_respond_msgf(co, luneth, "Failed to edit title for %s", code);
+    free(title);
+    return (1);
+  }
+  ret = luneth_respond_msgf(co, luneth, "Title for %s is %s", code, title);
   free(title);
   return (ret);
 }
 
-static int	song_search(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
+static int song_search(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
-  t_vector	*songs;
-  t_song	*song;
-  size_t	i;
-  char		*pattern;
-  char		*mess;
-  int		ret;
+  t_vector* songs;
+  t_song* song;
+  size_t i;
+  char* pattern;
+  char* mess;
+  int ret;
 
   (void)(bot);
   ret = 0;
@@ -265,45 +267,48 @@ static int	song_search(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
     return (0);
   songs = database_search_song(luneth->db, pattern);
   if (!songs)
-    return (luneth_respond_msgf(co, luneth,
-		     "Couldnt find a song matching '%s'", pattern));
+    return (luneth_respond_msgf(
+        co, luneth, "Couldnt find a song matching '%s'", pattern));
   if (vector_size(songs) == 1)
-    {
-      song = vector_at(songs, 0);
-      ret = luneth_respond_msgf(co, luneth,
-	  "%s -> https://www.youtube.com/watch?v=%s [%s] : %s",
-	  co->cmd.prefixnick, song->code,
-	  song->category ? song->category : "",
-	  song->title ? song->title : "");
-    }
+  {
+    song = vector_at(songs, 0);
+    ret = luneth_respond_msgf(
+        co,
+        luneth,
+        "%s -> https://www.youtube.com/watch?v=%s [%s] : %s",
+        co->cmd.prefixnick,
+        song->code,
+        song->category ? song->category : "",
+        song->title ? song->title : "");
+  }
   else
+  {
+    mess = cat_codes(songs);
+    if (!mess)
     {
-      mess = cat_codes(songs);
-      if (!mess)
-	{
-	  ret = 1;
-	  luneth_respond_msg(co, luneth, "Failed to disp codes");
-	}
-      else
-	ret = luneth_respond_msg(co, luneth, mess);
+      ret = 1;
+      luneth_respond_msg(co, luneth, "Failed to disp codes");
     }
+    else
+      ret = luneth_respond_msg(co, luneth, mess);
+  }
   i = 0;
   while (i < vector_size(songs))
-    {
-      song_delete(vector_at(songs, i), true);
-      ++i;
-    }
+  {
+    song_delete(vector_at(songs, i), true);
+    ++i;
+  }
   vector_delete(songs, true);
   return (ret);
 }
 
-static int	song_categories(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
+static int song_categories(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
-  t_vector	*categories;
-  size_t	i;
-  char		resp[513];
-  char		*curr;
-  char		*end;
+  t_vector* categories;
+  size_t i;
+  char resp[513];
+  char* curr;
+  char* end;
 
   (void)(bot);
   categories = database_list_categories(luneth->db);
@@ -314,16 +319,16 @@ static int	song_categories(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   curr = resp;
   end = curr + 500;
   while (i < vector_size(categories))
+  {
+    if (curr + strlen(vector_at(categories, i)) < end)
     {
-      if (curr + strlen(vector_at(categories, i)) < end)
-	{
-	  curr = stpcpy(curr, vector_at(categories, i));
-	  *(curr++) = ' ';
-	  ++i;
-	}
-      else
-	i = vector_size(categories);
+      curr = stpcpy(curr, vector_at(categories, i));
+      *(curr++) = ' ';
+      ++i;
     }
+    else
+      i = vector_size(categories);
+  }
   *curr = '\0';
   vector_foreach(categories, &free);
   vector_delete(categories, true);
@@ -332,41 +337,43 @@ static int	song_categories(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
   return (luneth_respond_msg(co, luneth, "No categories"));
 }
 
+static const char* const song_cmds[] = {
+    "search", "add", "edit", "whois", "title", "help", "categories", NULL};
 
-static const char * const song_cmds[] =
-{
-  "search", "add", "edit", "whois", "title", "help", "categories", NULL
-};
+static int (*const song_fcts[])(t_bot*, t_ircconnection*, t_luneth*) = {
+    song_search,
+    song_add,
+    song_edit,
+    song_whois,
+    song_title,
+    song_help,
+    song_categories,
+    NULL};
 
-static int (*const song_fcts[])(t_bot *, t_ircconnection *, t_luneth *) =
+int command_song(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
-  song_search, song_add, song_edit, song_whois, song_title, song_help,
-  song_categories, NULL
-};
-
-int		command_song(t_bot *bot, t_ircconnection *co,
-			     t_luneth *luneth)
-{
-  unsigned int	i;
-  t_song	*song;
-  char		*category;
+  unsigned int i;
+  t_song* song;
+  char* category;
 
   (void)(bot);
   category = strtok(NULL, " ");
   if (category)
-    for (i = 0 ; song_cmds[i] ; ++i)
+    for (i = 0; song_cmds[i]; ++i)
       if (!strcasecmp(category, song_cmds[i]))
-	return (song_fcts[i](bot, co, luneth));
+        return (song_fcts[i](bot, co, luneth));
   song = database_select_random_songcateg(luneth->db, category);
   if (song)
-    {
-      luneth_respond_msgf(co, luneth,
-	  "%s -> https://www.youtube.com/watch?v=%s [%s] : %s",
-	  co->cmd.prefixnick, song->code,
-	  song->category ? song->category : "",
-	  song->title ? song->title : "");
-      song_delete(song, true);
-    }
+  {
+    luneth_respond_msgf(co,
+                        luneth,
+                        "%s -> https://www.youtube.com/watch?v=%s [%s] : %s",
+                        co->cmd.prefixnick,
+                        song->code,
+                        song->category ? song->category : "",
+                        song->title ? song->title : "");
+    song_delete(song, true);
+  }
   else if (errno == ENOMEM)
     return (1);
   else if (luneth_respond_msgf(co, luneth, "Failed to find a song"))

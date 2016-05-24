@@ -1,10 +1,10 @@
+#include "luneth.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "luneth.h"
 
-static const char *get_response_channel(t_ircconnection *co)
+static const char* get_response_channel(t_ircconnection* co)
 {
-  const char *ret;
+  const char* ret;
 
   // Was a PM, respond to the sender
   if (!strcmp(str_str(&co->nick), co->cmd.args[0]))
@@ -14,20 +14,25 @@ static const char *get_response_channel(t_ircconnection *co)
   return (ret);
 }
 
-int	luneth_msg(t_ircconnection *co, t_luneth *luneth,
-		   const char *dst, const char *msg)
+int luneth_msg(t_ircconnection* co,
+               t_luneth* luneth,
+               const char* dst,
+               const char* msg)
 {
   if (luneth->speaks)
     return (irc_msg(co, dst, msg));
   return (0);
 }
 
-int	luneth_msgf(t_ircconnection *co, t_luneth *luneth,
-		    const char *dst, const char *fmt, ...)
+int luneth_msgf(t_ircconnection* co,
+                t_luneth* luneth,
+                const char* dst,
+                const char* fmt,
+                ...)
 {
-  va_list	va;
-  char		*msg;
-  int		ret;
+  va_list va;
+  char* msg;
+  int ret;
 
   va_start(va, fmt);
   ret = vasprintf(&msg, fmt, va);
@@ -39,18 +44,19 @@ int	luneth_msgf(t_ircconnection *co, t_luneth *luneth,
   return (ret);
 }
 
-int	luneth_respond_msg(t_ircconnection *co, t_luneth *luneth,
-			   const char *msg)
+int luneth_respond_msg(t_ircconnection* co, t_luneth* luneth, const char* msg)
 {
   return (luneth_msg(co, luneth, get_response_channel(co), msg));
 }
 
-int	luneth_respond_msgf(t_ircconnection *co, t_luneth *luneth,
-			    const char *fmt, ...)
+int luneth_respond_msgf(t_ircconnection* co,
+                        t_luneth* luneth,
+                        const char* fmt,
+                        ...)
 {
-  va_list	va;
-  char		*msg;
-  int		ret;
+  va_list va;
+  char* msg;
+  int ret;
 
   va_start(va, fmt);
   ret = vasprintf(&msg, fmt, va);

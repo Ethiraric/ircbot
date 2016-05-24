@@ -8,13 +8,13 @@
 ** Last update Fri May  1 13:09:43 2015 Florian SABOURIN
 */
 
-#include <stdlib.h>
 #include "luneth.h"
+#include <stdlib.h>
 
-static char	*get_target(t_channel *chan)
+static char* get_target(t_channel* chan)
 {
-  unsigned long	pos;
-  t_user	*user;
+  unsigned long pos;
+  t_user* user;
 
   pos = (unsigned long)random();
   pos %= mapstring_size(&chan->users);
@@ -24,34 +24,33 @@ static char	*get_target(t_channel *chan)
   return (str_str(&user->nick));
 }
 
-int		command_action(t_bot *bot, t_ircconnection *co,
-			       t_luneth *luneth)
+int command_action(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
-  t_channel	*chan;
-  char		*act;
-  char		*target;
+  t_channel* chan;
+  char* act;
+  char* target;
 
   (void)(luneth);
   (void)(bot);
   chan = mapstring_findcstr(&co->chanlist, co->cmd.args[0]);
   act = strtok(NULL, "");
   if (act && chan)
+  {
+    act += strspn(act, " ");
+    target = get_target(chan);
+    if (*act && target)
     {
-      act += strspn(act, " ");
-      target = get_target(chan);
-      if (*act && target)
-	{
-	  if (!strcmp(target, co->cmd.prefixnick))
-	    {
-	      if (strchr("aeiouy", *act))
-		return (luneth_respond_msgf(co, luneth,
-			"%s s'%s", co->cmd.prefixnick, act));
-	      return (luneth_respond_msgf(co, luneth,
-		      "%s se %s", co->cmd.prefixnick, act));
-	    }
-	  return (luneth_respond_msgf(co, luneth,
-		  "%s %s %s", co->cmd.prefixnick, act, target));
-	}
+      if (!strcmp(target, co->cmd.prefixnick))
+      {
+        if (strchr("aeiouy", *act))
+          return (luneth_respond_msgf(
+              co, luneth, "%s s'%s", co->cmd.prefixnick, act));
+        return (luneth_respond_msgf(
+            co, luneth, "%s se %s", co->cmd.prefixnick, act));
+      }
+      return (luneth_respond_msgf(
+          co, luneth, "%s %s %s", co->cmd.prefixnick, act, target));
     }
+  }
   return (0);
 }

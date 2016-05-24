@@ -11,18 +11,18 @@
 #include "dev_key.h"
 
 #ifndef YOUTUBE_KEY
-# error "Please define your youtube key as YOUTUBE_KEY in dev_key.h"
+#error "Please define your youtube key as YOUTUBE_KEY in dev_key.h"
 #endif
 
-#include <stdlib.h>
-#include <curl/curl.h>
 #include "luneth.h"
+#include <curl/curl.h>
+#include <stdlib.h>
 
 // Callback function
 
-static size_t	write_callback(char *ptr, size_t size, size_t nmemb, void *dat)
+static size_t write_callback(char* ptr, size_t size, size_t nmemb, void* dat)
 {
-  t_buffer	*buff;
+  t_buffer* buff;
 
   buff = dat;
   if (buffer_append(buff, ptr, size * nmemb))
@@ -30,41 +30,42 @@ static size_t	write_callback(char *ptr, size_t size, size_t nmemb, void *dat)
   return (size * nmemb);
 }
 
-static char	*extract_code(t_buffer *json)
+static char* extract_code(t_buffer* json)
 {
-  char		*pos;
-  char		*ret;
+  char* pos;
+  char* ret;
 
   ret = NULL;
-  pos = memmem(buffer_data(json), buffer_size(json),
-	       "\"title\": \"", 10);
+  pos = memmem(buffer_data(json), buffer_size(json), "\"title\": \"", 10);
   if (pos)
-    {
-      pos += 10;
-      ret = strndup(pos, rawmemchr(pos, '"') - (void *)pos);
-    }
+  {
+    pos += 10;
+    ret = strndup(pos, rawmemchr(pos, '"') - (void*)pos);
+  }
   buffer_delete(json);
   return (ret);
 }
 
-char		*youtube_title(const char *code)
+char* youtube_title(const char* code)
 {
-  CURLcode	res;
-  t_buffer	buff;
-  CURL		*handler;
-  char		*url;
-  int		ret;
+  CURLcode res;
+  t_buffer buff;
+  CURL* handler;
+  char* url;
+  int ret;
 
-  ret = asprintf(&url, "https://www.googleapis.com/youtube/v3/videos?key="
-		 YOUTUBE_KEY "&part=snippet&id=%s", code);
+  ret = asprintf(&url,
+                 "https://www.googleapis.com/youtube/v3/videos?key=" YOUTUBE_KEY
+                 "&part=snippet&id=%s",
+                 code);
   if (ret == -1)
     return (NULL);
   handler = curl_easy_init();
   if (!handler)
-    {
-      free(url);
-      return (NULL);
-    }
+  {
+    free(url);
+    return (NULL);
+  }
   buffer_new(&buff);
   curl_easy_setopt(handler, CURLOPT_URL, url);
   curl_easy_setopt(handler, CURLOPT_WRITEFUNCTION, &write_callback);
@@ -73,10 +74,10 @@ char		*youtube_title(const char *code)
   curl_easy_cleanup(handler);
   free(url);
   if (res != CURLE_OK)
-    {
-      fprintf(stderr, "err:%s\n", curl_easy_strerror(res));
-      buffer_delete(&buff);
-      return (NULL);
-    }
+  {
+    fprintf(stderr, "err:%s\n", curl_easy_strerror(res));
+    buffer_delete(&buff);
+    return (NULL);
+  }
   return (extract_code(&buff));
 }

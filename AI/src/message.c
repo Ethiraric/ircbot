@@ -10,30 +10,24 @@
 
 #include "luneth.h"
 
-static const char	*cmdtab[] =
-{
-  "JOIN", NULL
-};
+static const char* cmdtab[] = {"JOIN", NULL};
 
-static int (* const fcttab[])(t_bot *bot, t_ircconnection *co,
-			      t_luneth *luneth) =
-{
-  &mess_join, NULL
-};
+static int (*const fcttab[])(t_bot* bot,
+                             t_ircconnection* co,
+                             t_luneth* luneth) = {&mess_join, NULL};
 
-int		handle_message(t_bot *bot, t_ircconnection *co,
-			       t_luneth *luneth)
+int handle_message(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
-  unsigned int	i;
+  unsigned int i;
 
   if (!strcasecmp(co->cmd.cmd, "PRIVMSG"))
     return (mess_privmsg(bot, co, luneth));
   i = 0;
   while (cmdtab[i])
-    {
-      if (!strcasecmp(co->cmd.cmd, cmdtab[i]))
-	  return (fcttab[i](bot, co, luneth));
-      ++i;
-    }
+  {
+    if (!strcasecmp(co->cmd.cmd, cmdtab[i]))
+      return (fcttab[i](bot, co, luneth));
+    ++i;
+  }
   return (0);
 }

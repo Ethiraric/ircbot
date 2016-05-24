@@ -8,32 +8,32 @@
 ** Last update Thu May 28 13:37:42 2015 Florian SABOURIN
 */
 
-#include <stdio.h>
 #include "luneth.h"
+#include <stdio.h>
 
-int		in_join(t_bot *bot, t_luneth *luneth)
+int in_join(t_bot* bot, t_luneth* luneth)
 {
-  t_ircconnection *co;
-  size_t	i;
-  char		*chan;
-  char		*server;
+  t_ircconnection* co;
+  size_t i;
+  char* chan;
+  char* server;
 
   (void)(luneth);
   server = strtok(NULL, " ");
   chan = strtok(NULL, " ");
   if (!chan || !server || strtok(NULL, " "))
-    {
-      fprintf(stderr, "Usage : /join <server> <chan>\n");
-      return (0);
-    }
+  {
+    fprintf(stderr, "Usage : /join <server> <chan>\n");
+    return (0);
+  }
   i = 0;
   while (i < vector_size(&bot->conns))
-    {
-      co = vector_at(&bot->conns, i);
-      if (!strcmp(str_str(&co->servername), server))
-	return (irc_join(co, chan));
-      ++i;
-    }
+  {
+    co = vector_at(&bot->conns, i);
+    if (!strcmp(str_str(&co->servername), server))
+      return (irc_join(co, chan));
+    ++i;
+  }
   fprintf(stderr, "Unknown server %s\n", server);
   return (0);
 }

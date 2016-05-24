@@ -8,14 +8,14 @@
 ** Last update Mon May 18 18:50:46 2015 Florian SABOURIN
 */
 
+#include "database.h"
 #include <stdlib.h>
 #include <string.h>
-#include "database.h"
 
-t_say		*say_from_db(t_mapstring *res, unsigned int it)
+t_say* say_from_db(t_mapstring* res, unsigned int it)
 {
-  t_vector	*curr;
-  t_say	*ret;
+  t_vector* curr;
+  t_say* ret;
 
   ret = malloc(sizeof(t_say));
   if (!ret)
@@ -33,7 +33,7 @@ t_say		*say_from_db(t_mapstring *res, unsigned int it)
   return (ret);
 }
 
-int		say_delete(t_say *say, bool free_struct)
+int say_delete(t_say* say, bool free_struct)
 {
   free(say->text);
   say->text = 0;
@@ -45,12 +45,12 @@ int		say_delete(t_say *say, bool free_struct)
   return (0);
 }
 
-t_vector	*say_tab_from_db(t_mapstring *res)
+t_vector* say_tab_from_db(t_mapstring* res)
 {
-  t_vector	*ret;
-  t_say		*say;
-  size_t	len;
-  size_t	it;
+  t_vector* ret;
+  t_say* say;
+  size_t len;
+  size_t it;
 
   len = vector_size(mapstring_findcstr(res, "id"));
   ret = malloc(sizeof(t_vector));
@@ -59,22 +59,22 @@ t_vector	*say_tab_from_db(t_mapstring *res)
   it = 0;
   vector_new(ret);
   while (it < len)
+  {
+    say = say_from_db(res, it);
+    if (!say)
     {
-      say = say_from_db(res, it);
-      if (!say)
-	{
-	  vector_foreach(ret, &free);
-	  vector_delete(ret, true);
-	  return (NULL);
-	}
-      if (vector_push_back(ret, say))
-	{
-	  say_delete(say, true);
-	  vector_foreach(ret, &free);
-	  vector_delete(ret, true);
-	  return (NULL);
-	}
-      ++it;
+      vector_foreach(ret, &free);
+      vector_delete(ret, true);
+      return (NULL);
     }
+    if (vector_push_back(ret, say))
+    {
+      say_delete(say, true);
+      vector_foreach(ret, &free);
+      vector_delete(ret, true);
+      return (NULL);
+    }
+    ++it;
+  }
   return (ret);
 }

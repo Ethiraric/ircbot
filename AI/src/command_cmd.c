@@ -10,12 +10,12 @@
 
 #include "luneth.h"
 
-static int	cmd_add(t_ircconnection *co, t_luneth *luneth)
+static int cmd_add(t_ircconnection* co, t_luneth* luneth)
 {
-  t_cmd   *command;
-  char		*cmd;
-  char		*text;
-  t_id    id;
+  t_cmd* command;
+  char* cmd;
+  char* text;
+  t_id id;
 
   cmd = strtok(NULL, " ");
   text = strtok(NULL, "");
@@ -41,10 +41,10 @@ static int	cmd_add(t_ircconnection *co, t_luneth *luneth)
   return (luneth_respond_msgf(co, luneth, "Failed to add command %s", cmd));
 }
 
-static int	cmd_rm(t_ircconnection *co, t_luneth *luneth)
+static int cmd_rm(t_ircconnection* co, t_luneth* luneth)
 {
   unsigned int cmd_pos;
-  char		*cmd;
+  char* cmd;
 
   cmd = strtok(NULL, " ");
   if (!cmd || strtok(NULL, ""))
@@ -53,15 +53,16 @@ static int	cmd_rm(t_ircconnection *co, t_luneth *luneth)
   if (cmd_pos == (unsigned int)(-1))
     return (luneth_respond_msgf(co, luneth, "Unknown command %s", cmd));
   if (database_rm_cmd(luneth->db, cmd))
-    return (luneth_respond_msgf(co, luneth, "Failed to remove command %s", cmd));
+    return (
+        luneth_respond_msgf(co, luneth, "Failed to remove command %s", cmd));
   cmd_delete(mapstring_at(luneth->cmds, cmd_pos), true);
   mapstring_erase_idx(luneth->cmds, cmd_pos);
- return (luneth_respond_msgf(co, luneth, "Removed command %s", cmd));
+  return (luneth_respond_msgf(co, luneth, "Removed command %s", cmd));
 }
 
-int		command_cmd(t_bot *bot, t_ircconnection *co, t_luneth *luneth)
+int command_cmd(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
-  char		*cmd;
+  char* cmd;
 
   (void)(bot);
   cmd = strtok(NULL, " ");

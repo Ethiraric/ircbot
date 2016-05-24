@@ -8,14 +8,14 @@
 ** Last update Wed May  6 18:18:18 2015 Florian SABOURIN
 */
 
+#include "database.h"
 #include <stdlib.h>
 #include <string.h>
-#include "database.h"
 
-t_song		*song_from_db(t_mapstring *res, unsigned int it)
+t_song* song_from_db(t_mapstring* res, unsigned int it)
 {
-  t_vector	*curr;
-  t_song	*ret;
+  t_vector* curr;
+  t_song* ret;
 
   ret = malloc(sizeof(t_song));
   if (!ret)
@@ -37,7 +37,7 @@ t_song		*song_from_db(t_mapstring *res, unsigned int it)
   return (ret);
 }
 
-int		song_delete(t_song *song, bool free_struct)
+int song_delete(t_song* song, bool free_struct)
 {
   free(song->title);
   song->title = 0;
@@ -52,12 +52,12 @@ int		song_delete(t_song *song, bool free_struct)
   return (0);
 }
 
-t_vector	*song_tab_from_db(t_mapstring *res)
+t_vector* song_tab_from_db(t_mapstring* res)
 {
-  t_vector	*ret;
-  t_song	*song;
-  size_t	len;
-  size_t	it;
+  t_vector* ret;
+  t_song* song;
+  size_t len;
+  size_t it;
 
   len = vector_size(mapstring_findcstr(res, "id"));
   ret = malloc(sizeof(t_vector));
@@ -66,22 +66,22 @@ t_vector	*song_tab_from_db(t_mapstring *res)
   it = 0;
   vector_new(ret);
   while (it < len)
+  {
+    song = song_from_db(res, it);
+    if (!song)
     {
-      song = song_from_db(res, it);
-      if (!song)
-	{
-	  vector_foreach(ret, &free);
-	  vector_delete(ret, true);
-	  return (NULL);
-	}
-      if (vector_push_back(ret, song))
-	{
-	  song_delete(song, true);
-	  vector_foreach(ret, &free);
-	  vector_delete(ret, true);
-	  return (NULL);
-	}
-      ++it;
+      vector_foreach(ret, &free);
+      vector_delete(ret, true);
+      return (NULL);
     }
+    if (vector_push_back(ret, song))
+    {
+      song_delete(song, true);
+      vector_foreach(ret, &free);
+      vector_delete(ret, true);
+      return (NULL);
+    }
+    ++it;
+  }
   return (ret);
 }

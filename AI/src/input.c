@@ -12,57 +12,65 @@
 
 // WARNING: Remove (debugging)
 #include <stdio.h>
-int		in_config(t_bot *bot, t_luneth *luneth)
+int in_config(t_bot* bot, t_luneth* luneth)
 {
-  unsigned int	i;
+  unsigned int i;
 
   (void)(bot);
   printf("Servers [%zu]\n", luneth->config.servers.len);
-  for (i = 0 ; i < luneth->config.servers.len ; ++i)
-    {
-      t_cfg_server	*server = luneth->config.servers.tab[i].value;
-      printf("%s\n", server->name);
-      printf("  onlog: %s.\n", str_safestr(&server->send_onlog));
-      printf("  host:  %s.\n", server->hostname);
-      printf("  nick:  %s.\n", server->nick);
-      printf("  port:  %hu.\n", server->port);
-      printf("  user:  %s.\n", server->username);
-      printf("  real:  %s.\n", server->realname);
-      printf("  pass:  %s.\n", server->password);
-    }
+  for (i = 0; i < luneth->config.servers.len; ++i)
+  {
+    t_cfg_server* server = luneth->config.servers.tab[i].value;
+    printf("%s\n", server->name);
+    printf("  onlog: %s.\n", str_safestr(&server->send_onlog));
+    printf("  host:  %s.\n", server->hostname);
+    printf("  nick:  %s.\n", server->nick);
+    printf("  port:  %hu.\n", server->port);
+    printf("  user:  %s.\n", server->username);
+    printf("  real:  %s.\n", server->realname);
+    printf("  pass:  %s.\n", server->password);
+  }
   return (0);
 }
 
-static const char	*cmds[] =
-{
-  "list", "connect", "disconnect", "reload", "join", "msg", "config", "raw",
-  NULL
-};
+static const char* cmds[] = {"list",
+                             "connect",
+                             "disconnect",
+                             "reload",
+                             "join",
+                             "msg",
+                             "config",
+                             "raw",
+                             NULL};
 
-static int	(* const fcts[])(t_bot *, t_luneth *) =
-{
-  &in_list, &in_connect, &in_disconnect, &in_reload, &in_join, &in_msg,
-    &in_config, &in_raw, NULL
-};
+static int (*const fcts[])(t_bot*, t_luneth*) = {&in_list,
+                                                 &in_connect,
+                                                 &in_disconnect,
+                                                 &in_reload,
+                                                 &in_join,
+                                                 &in_msg,
+                                                 &in_config,
+                                                 &in_raw,
+                                                 NULL};
 
-int		handle_input(t_bot *bot, char *cmd, t_luneth *luneth)
+int handle_input(t_bot* bot, char* cmd, t_luneth* luneth)
 {
-  unsigned int	i;
-  char		*cmdname;
+  unsigned int i;
+  char* cmdname;
 
   i = 0;
   if (*(cmd++) == '/')
+  {
+    cmdname = strtok(cmd, " ");
+    if (!*cmd)
+      return (0);
+    while (cmds[i])
     {
-      cmdname = strtok(cmd, " ");
-      if (!*cmd)
-	return (0);
-      while (cmds[i])
-	{
-	  if (!strcasecmp(cmdname, cmds[i]))
-	    return (fcts[i](bot, luneth));
-	  ++i;
-	}
-      printf("Unknown command: %s\n", cmd);
+      if (!strcasecmp(cmdname, cmds[i]))
+        return (fcts[i](bot, luneth));
+      ++i;
     }
+    printf("Unknown command: %s\n", cmd);
+  }
   return (0);
 }

@@ -8,14 +8,14 @@
 ** Last update Thu May  7 18:41:41 2015 Florian SABOURIN
 */
 
+#include "database.h"
 #include <stdlib.h>
 #include <string.h>
-#include "database.h"
 
-t_people	*ppl_from_db(t_mapstring *res, unsigned int it)
+t_people* ppl_from_db(t_mapstring* res, unsigned int it)
 {
-  t_vector	*curr;
-  t_people	*ret;
+  t_vector* curr;
+  t_people* ret;
 
   ret = malloc(sizeof(t_people));
   if (!ret)
@@ -33,7 +33,7 @@ t_people	*ppl_from_db(t_mapstring *res, unsigned int it)
   return (ret);
 }
 
-int		ppl_delete(t_people *ppl, bool free_struct)
+int ppl_delete(t_people* ppl, bool free_struct)
 {
   free(ppl->nick);
   ppl->nick = 0;
