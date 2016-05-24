@@ -42,6 +42,16 @@ void		*irc_data_get(int argc, char **argv)
       free(ret);
       return (NULL);
     }
+
+  // Load commands
+  ret->cmds = database_load_all_cmds(ret->db);
+  if (!ret->cmds)
+    {
+      config_clean(&ret->config);
+      free(ret);
+      database_delete(ret->db);
+      return (NULL);
+    }
   ret->speaks = true;
   return (ret);
 }
@@ -58,6 +68,13 @@ int		irc_stdin(t_bot *bot, char *input, void *luneth)
   return (handle_input(bot, input, luneth));
 }
 
+static int callback_mapstring_delete_cmd(const t_string *key, void *value)
+{
+  (void)(key);
+  cmd_delete((t_cmd *)(value), true);
+  return (0);
+}
+
 void		irc_data_delete(void *pluneth)
 {
   t_luneth	*luneth;
@@ -68,6 +85,11 @@ void		irc_data_delete(void *pluneth)
   config_clean(&luneth->config);
   curl_global_cleanup();
   database_delete(luneth->db);
+  if (luneth->cmds)
+    {
+      mapstring_foreach(luneth->cmds, &callback_mapstring_delete_cmd);
+      mapstring_delete(luneth->cmds);
+    }
   free(luneth);
 }
 

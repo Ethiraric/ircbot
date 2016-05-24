@@ -44,6 +44,7 @@ typedef struct	s_luneth
   t_db		*db;       // Handle to the database
   t_config	config;    // Various configuration options (c.f. config.h)
   bool		speaks;    // Controls whether the bot is allowed to speak
+  t_mapstring	*cmds;     // Bot commands. Automatic responses.
 }		t_luneth;
 
   /* Miscellaneous useful commands */

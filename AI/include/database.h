@@ -34,6 +34,7 @@ t_vector	*song_tab_from_db(t_mapstring *res);
 t_people	*ppl_from_db(t_mapstring *res, unsigned int it);
 int		ppl_delete(t_people *ppl, bool free_struct);
 
+t_cmd   *cmd_new(t_id id, char *cmd, char *text);
 t_cmd		*cmd_from_db(t_mapstring *res, unsigned int it);
 int		cmd_delete(t_cmd *cmd, bool free_struct);
 

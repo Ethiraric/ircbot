@@ -41,11 +41,10 @@ static int	check_cmd(t_ircconnection *co, t_luneth *luneth, char *cmd)
 
   if (strtok(NULL, " "))
     return (0);
-  dbcmd = database_get_cmd(luneth->db, cmd);
+  dbcmd = (t_cmd *)mapstring_findcstr(luneth->cmds, cmd);
   if (!dbcmd)
     return (0);
   ret = luneth_respond_msg(co, luneth, dbcmd->text);
-  cmd_delete(dbcmd, true);
   return (ret);
 }
 

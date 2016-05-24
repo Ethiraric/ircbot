@@ -12,8 +12,10 @@
 
 static int	cmd_add(t_ircconnection *co, t_luneth *luneth)
 {
+  t_cmd   *command;
   char		*cmd;
   char		*text;
+  t_id    id;
 
   cmd = strtok(NULL, " ");
   text = strtok(NULL, "");
@@ -22,23 +24,39 @@ static int	cmd_add(t_ircconnection *co, t_luneth *luneth)
   text += strspn(text, " ");
   if (!*text)
     return (0);
-  if (database_is_command(luneth->db, cmd))
+  if (!mapstring_findcstr(luneth->cmds, cmd))
     return (luneth_respond_msgf(co, luneth, "%s is already a command", cmd));
-  if (database_insert_command(luneth->db, cmd, text))
+  if ((id = database_insert_command(luneth->db, cmd, text)))
+  {
+    command = cmd_new(id, cmd, text);
+    if (!command)
+      return (1);
+    if (mapstring_insertcstr(luneth->cmds, cmd, command))
+    {
+      cmd_delete(command, true);
+      return (1);
+    }
     return (luneth_respond_msgf(co, luneth, "%s added to the commands", cmd));
+  }
   return (luneth_respond_msgf(co, luneth, "Failed to add command %s", cmd));
 }
 
 static int	cmd_rm(t_ircconnection *co, t_luneth *luneth)
 {
+  unsigned int cmd_pos;
   char		*cmd;
 
   cmd = strtok(NULL, " ");
   if (!cmd || strtok(NULL, ""))
     return (0);
-  if (!database_rm_cmd(luneth->db, cmd))
-    return (luneth_respond_msgf(co, luneth, "Removed command %s", cmd));
-  return (luneth_respond_msgf(co, luneth, "Failed to remove command %s", cmd));
+  cmd_pos = mapstring_findpos(luneth->cmds, cmd);
+  if (cmd_pos == (unsigned int)(-1))
+    return (luneth_respond_msgf(co, luneth, "Unknown command %s", cmd));
+  if (database_rm_cmd(luneth->db, cmd))
+    return (luneth_respond_msgf(co, luneth, "Failed to remove command %s", cmd));
+  cmd_delete(mapstring_at(luneth->cmds, cmd_pos), true);
+  mapstring_erase_idx(luneth->cmds, cmd_pos);
+ return (luneth_respond_msgf(co, luneth, "Removed command %s", cmd));
 }
 
 int		command_cmd(t_bot *bot, t_ircconnection *co, t_luneth *luneth)

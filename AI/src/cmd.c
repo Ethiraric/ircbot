@@ -9,6 +9,7 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
 #include "database.h"
 
 t_cmd		*cmd_from_db(t_mapstring *res, unsigned int it)
@@ -28,6 +29,30 @@ t_cmd		*cmd_from_db(t_mapstring *res, unsigned int it)
   if ((curr = mapstring_findcstr(res, "text")) && vector_at(curr, it))
     if (!(ret->text = strdup(vector_at(curr, it))))
       return (NULL + cmd_delete(ret, true));
+  return (ret);
+}
+
+t_cmd   *cmd_new(t_id id, char *cmd, char *text)
+{
+  t_cmd *ret;
+
+  ret = (t_cmd *)(malloc(sizeof(t_cmd)));
+  if (!ret)
+    return (NULL);
+  ret->id = id;
+  ret->cmd = strdup(cmd);
+  if (!ret->cmd)
+  {
+    free(ret);
+    return (NULL);
+  }
+  ret->text = strdup(text);
+  if (!ret->text)
+  {
+    free(ret->cmd);
+    free(ret);
+    return (NULL);
+  }
   return (ret);
 }
 
