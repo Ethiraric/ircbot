@@ -70,7 +70,7 @@ set(SRCS
 add_library(AI SHARED ${SRCS})
 
 #linking
-target_link_libraries(AI)
+target_link_libraries(AI curl sqlite3 z crypto ssl)
 
 set_property(TARGET AI PROPERTY C_STANDARD 99)
 set_property(TARGET AI PROPERTY C_STANDARD_REQUIRED ON)
