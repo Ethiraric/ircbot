@@ -37,6 +37,34 @@ t_song* song_from_db(t_mapstring* res, unsigned int it)
   return (ret);
 }
 
+t_song* song_from_datas(
+    t_id id, t_id authid, char* title, char* code, char const* category)
+
+{
+  t_song* ret;
+
+  ret = malloc(sizeof(t_song));
+  if (!ret)
+    return (NULL);
+  if (category)
+  {
+    ret->category = strdup(category);
+    if (!ret->category)
+    {
+      free(ret->title);
+      free(ret);
+      return (NULL);
+    }
+  }
+  else
+    ret->category = NULL;
+  ret->id = id;
+  ret->authid = authid;
+  ret->code = code;
+  ret->title = title;
+  return (ret);
+}
+
 int song_delete(t_song* song, bool free_struct)
 {
   free(song->title);
@@ -49,6 +77,24 @@ int song_delete(t_song* song, bool free_struct)
   song->authid = 0;
   if (free_struct)
     free(song);
+  return (0);
+}
+
+int song_edit_category(t_song* song, char const* newcategory)
+{
+  char* tmp;
+
+  if (!newcategory)
+  {
+    free(song->category);
+    song->category = NULL;
+    return (1);
+  }
+  tmp = strdup(newcategory);
+  if (!tmp)
+    return (1);
+  free(song->category);
+  song->category = tmp;
   return (0);
 }
 

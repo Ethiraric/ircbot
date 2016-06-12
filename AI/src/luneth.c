@@ -43,13 +43,12 @@ void* irc_data_get(int argc, char** argv)
     return (NULL);
   }
 
-  // Load commands
+  // Load commands and songs
   ret->cmds = database_load_all_cmds(ret->db);
-  if (!ret->cmds)
+  ret->songs = database_load_all_songs(ret->db);
+  if (!ret->cmds || !ret->cmds)
   {
-    config_clean(&ret->config);
-    free(ret);
-    database_delete(ret->db);
+    irc_data_delete(ret);
     return (NULL);
   }
   ret->speaks = true;
@@ -75,6 +74,11 @@ static int callback_mapstring_delete_cmd(const t_string* key, void* value)
   return (0);
 }
 
+static void callback_vector_delete_song(void* value)
+{
+  song_delete((t_song*)(value), true);
+}
+
 void irc_data_delete(void* pluneth)
 {
   t_luneth* luneth;
@@ -89,6 +93,11 @@ void irc_data_delete(void* pluneth)
   {
     mapstring_foreach(luneth->cmds, &callback_mapstring_delete_cmd);
     mapstring_delete(luneth->cmds);
+  }
+  if (luneth->songs)
+  {
+    vector_foreach(luneth->songs, &callback_vector_delete_song);
+    vector_delete(luneth->songs, true);
   }
   free(luneth);
 }

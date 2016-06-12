@@ -44,7 +44,8 @@ typedef struct s_luneth
   t_db* db;          // Handle to the database
   t_config config;   // Various configuration options (c.f. config.h)
   bool speaks;       // Controls whether the bot is allowed to speak
-  t_mapstring* cmds; // Bot commands. Automatic responses.
+  t_mapstring* cmds; // Bot commands. Automatic responses
+  t_vector* songs;   // Cache of the songs in database
 } t_luneth;
 
 /* Miscellaneous useful commands */
@@ -63,6 +64,9 @@ int luneth_respond_msgf(t_ircconnection* co,
                         t_luneth* luneth,
                         const char* fmt,
                         ...);
+
+/* executable callbacks */
+void irc_data_delete(void* pluneth);
 
 /* stdin handling */
 int in_list(t_bot* bot, t_luneth* luneth);

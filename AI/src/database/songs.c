@@ -252,3 +252,28 @@ t_vector* database_search_song(t_db* db, const char* pattern)
   database_select_free_res(res);
   return (songs);
 }
+
+t_vector* database_load_all_songs(t_db* db)
+{
+  t_mapstring* res;
+  t_vector* songs;
+  char* req;
+
+  req = "SELECT * FROM " TABLE_SONGS;
+  res = database_select_exec(db, req);
+  if (!res || !mapstring_size(res))
+  {
+    free(res);
+    return (NULL);
+  }
+  if (!mapstring_size(res))
+  {
+    songs = malloc(sizeof(t_vector));
+    if (songs)
+      vector_new(songs);
+    return (songs);
+  }
+  songs = song_tab_from_db(res);
+  database_select_free_res(res);
+  return (songs);
+}

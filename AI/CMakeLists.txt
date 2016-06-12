@@ -5,10 +5,6 @@ project("AI")
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin/)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib/)
 
-if (NOT DEFINED CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Debug)
-endif (NOT DEFINED CMAKE_BUILD_TYPE)
-
 add_definitions(-D_GNU_SOURCE)
 
 #dependencies
@@ -70,7 +66,7 @@ set(SRCS
 add_library(AI SHARED ${SRCS})
 
 #linking
-target_link_libraries(AI)
+target_link_libraries(AI sqlite3 curl z crypto ssl)
 
 set_property(TARGET AI PROPERTY C_STANDARD 99)
 set_property(TARGET AI PROPERTY C_STANDARD_REQUIRED ON)

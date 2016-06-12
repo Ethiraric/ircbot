@@ -95,6 +95,17 @@ static bool is_code(const char* link)
   return (true);
 }
 
+static t_song* find_song_from_code(t_vector* songs, char const* code)
+{
+  for (unsigned int i = 0; i < vector_size(songs); ++i)
+  {
+    t_song* song = (t_song*)(vector_at(songs, i));
+    if (!strcmp(song->code, code))
+      return (song);
+  }
+  return (NULL);
+}
+
 static char* cat_codes(t_vector* songs)
 {
   size_t len;
@@ -131,6 +142,7 @@ static int song_add(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
   t_song* song;
   t_id auth;
+  t_id songid;
   char* link;
   char* category;
   char* code;
@@ -150,16 +162,15 @@ static int song_add(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
   code = code_from_link(link);
   if (!code)
     return (luneth_respond_msgf(co, luneth, "Failed to get code for %s", link));
-  song = database_get_song_fromcode(luneth->db, code);
+  song = find_song_from_code(luneth->songs, code);
   if (song)
   {
-    song_delete(song, true);
     free(code);
     return (
         luneth_respond_msg(co, luneth, "This link is already in the database"));
   }
-  auth = database_insert_song(luneth->db, code, category, auth);
-  if (!auth)
+  songid = database_insert_song(luneth->db, code, category, auth);
+  if (!songid)
   {
     free(code);
     return (luneth_respond_msg(co, luneth, "Failed to insert in db"));
@@ -167,15 +178,28 @@ static int song_add(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
   title = youtube_title(code);
   if (!title)
     luneth_respond_msgf(
-        co, luneth, "Added %s in %s as %u", code, category, auth);
+        co, luneth, "Added %s in %s as %u", code, category, songid);
   else if (title)
   {
     database_edit_title(luneth->db, code, title);
     luneth_respond_msgf(
-        co, luneth, "Added %s in %s as %u : %s", code, category, auth, title);
-    free(title);
+        co, luneth, "Added %s in %s as %u : %s", code, category, songid, title);
   }
-  free(code);
+  song = song_from_datas(songid, auth, title, code, category);
+  if (song)
+  {
+    if (vector_push_back(luneth->songs, song))
+    {
+      song_delete(song, true);
+      return (1);
+    }
+  }
+  else
+  {
+    free(code);
+    free(title);
+    return (1);
+  }
   return (0);
 }
 
@@ -192,6 +216,7 @@ static int song_help(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 
 static int song_edit(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
+  t_song* song;
   char* code;
   char* category;
 
@@ -202,14 +227,20 @@ static int song_edit(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
     return (0);
   if (!is_code(code))
     return (luneth_respond_msgf(co, luneth, "Invalid code %s", code));
+  song = find_song_from_code(luneth->songs, code);
+  if (!song)
+    return (luneth_respond_msgf(co, luneth, "Unable to find song %s", code));
   if (database_edit_category(luneth->db, code, category))
     return (luneth_respond_msgf(co, luneth, "Failed to edit %s", code));
+  if (song_edit_category(song, category))
+    return (1);
   return (luneth_respond_msgf(co, luneth, "%s is now %s", code, category));
 }
 
 static int song_whois(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
   t_people* ppl;
+  t_song* song;
   char* code;
   int ret;
 
@@ -217,7 +248,10 @@ static int song_whois(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
   code = strtok(NULL, " ");
   if (!code || strtok(NULL, " ") || !is_code(code))
     return (0);
-  ppl = database_get_song_auth(luneth->db, code);
+  song = find_song_from_code(luneth->songs, code);
+  if (!song)
+    return (luneth_respond_msgf(co, luneth, "Unknown song: %s", code));
+  ppl = database_ppl_fromid(luneth->db, song->authid);
   if (!ppl)
     return (luneth_respond_msgf(co, luneth, "Unknown author for %s", code));
   ret = luneth_respond_msgf(co, luneth, "Author for %s is %s", code, ppl->nick);
@@ -227,6 +261,7 @@ static int song_whois(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 
 static int song_title(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
+  t_song* song;
   char* code;
   char* title;
   int ret;
@@ -235,6 +270,9 @@ static int song_title(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
   code = strtok(NULL, " ");
   if (!code || strtok(NULL, " "))
     return (0);
+  song = find_song_from_code(luneth->songs, code);
+  if (!song)
+    return (luneth_respond_msgf(co, luneth, "Failed to find song %s", code));
   title = youtube_title(code);
   if (!title)
     return (
@@ -246,8 +284,9 @@ static int song_title(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
     free(title);
     return (1);
   }
+  free(song->title);
+  song->title = title;
   ret = luneth_respond_msgf(co, luneth, "Title for %s is %s", code, title);
-  free(title);
   return (ret);
 }
 
