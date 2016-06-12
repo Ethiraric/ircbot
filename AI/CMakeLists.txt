@@ -59,6 +59,7 @@ set(SRCS
   src/PokemonDB.c
   src/say.c
   src/song.c
+  src/span.c
   src/youtube_title.c
 )
 
