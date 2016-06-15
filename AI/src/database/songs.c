@@ -253,10 +253,11 @@ t_vector* database_search_song(t_db* db, const char* pattern)
   return (songs);
 }
 
-t_vector* database_load_all_songs(t_db* db)
+int database_load_all_songs(t_span* dst, t_db* db)
 {
   t_mapstring* res;
-  t_vector* songs;
+  t_song song;
+  size_t nresults;
   char* req;
 
   req = "SELECT * FROM " TABLE_SONGS;
@@ -264,16 +265,28 @@ t_vector* database_load_all_songs(t_db* db)
   if (!res || !mapstring_size(res))
   {
     free(res);
-    return (NULL);
+    return (0);
   }
-  if (!mapstring_size(res))
+  nresults = vector_size((t_vector*)(mapstring_at(res, 0)));
+  if (span_reserve(dst, nresults))
   {
-    songs = malloc(sizeof(t_vector));
-    if (songs)
-      vector_new(songs);
-    return (songs);
+    database_select_free_res(res);
+    return (1);
   }
-  songs = song_tab_from_db(res);
+  for (unsigned int i = 0; i < nresults; ++i)
+  {
+    memset(&song, 0, sizeof(t_song));
+    if (song_assign_from_db(&song, res, i))
+    {
+      for (; i; --i)
+        song_delete(span_at(dst, i - 1), false);
+      span_destruct(dst);
+      span_init(dst, sizeof(t_song));
+      database_select_free_res(res);
+      return (1);
+    }
+    span_push_back(dst, &song);
+  }
   database_select_free_res(res);
-  return (songs);
+  return (0);
 }

@@ -14,55 +14,70 @@
 
 t_song* song_from_db(t_mapstring* res, unsigned int it)
 {
-  t_vector* curr;
   t_song* ret;
 
   ret = malloc(sizeof(t_song));
   if (!ret)
     return (NULL);
   memset(ret, 0, sizeof(t_song));
-  if ((curr = mapstring_findcstr(res, "id")))
-    ret->id = atoi(vector_at(curr, it));
-  if ((curr = mapstring_findcstr(res, "author")) && vector_at(curr, it))
-    ret->authid = atoi(vector_at(curr, it));
-  if ((curr = mapstring_findcstr(res, "code")) && vector_at(curr, it))
-    if (!(ret->code = strdup(vector_at(curr, it))))
-      return (NULL + song_delete(ret, true));
-  if ((curr = mapstring_findcstr(res, "title")) && vector_at(curr, it))
-    if (!(ret->title = strdup(vector_at(curr, it))))
-      return (NULL + song_delete(ret, true));
-  if ((curr = mapstring_findcstr(res, "category")) && vector_at(curr, it))
-    if (!(ret->category = strdup(vector_at(curr, it))))
-      return (NULL + song_delete(ret, true));
+  if (song_assign_from_db(ret, res, it))
+  {
+    free(ret);
+    return (NULL);
+  }
   return (ret);
 }
 
-t_song* song_from_datas(
-    t_id id, t_id authid, char* title, char* code, char const* category)
+int song_assign_from_db(t_song* song, t_mapstring* res, unsigned int it)
+{
+  t_vector* curr;
+
+  if ((curr = mapstring_findcstr(res, "id")))
+    song->id = atoi(vector_at(curr, it));
+  if ((curr = mapstring_findcstr(res, "author")) && vector_at(curr, it))
+    song->authid = atoi(vector_at(curr, it));
+  if ((curr = mapstring_findcstr(res, "code")) && vector_at(curr, it))
+    if (!(song->code = strdup(vector_at(curr, it))))
+      return (1);
+  if ((curr = mapstring_findcstr(res, "title")) && vector_at(curr, it))
+    if (!(song->title = strdup(vector_at(curr, it))))
+    {
+      song_delete(song, false);
+      return (1);
+    }
+  if ((curr = mapstring_findcstr(res, "category")) && vector_at(curr, it))
+    if (!(song->category = strdup(vector_at(curr, it))))
+    {
+      song_delete(song, false);
+      return (1);
+    }
+  return (0);
+}
+
+int song_from_datas(t_song* dst,
+                    t_id id,
+                    t_id authid,
+                    char* title,
+                    char* code,
+                    char const* category)
 
 {
-  t_song* ret;
-
-  ret = malloc(sizeof(t_song));
-  if (!ret)
-    return (NULL);
   if (category)
   {
-    ret->category = strdup(category);
-    if (!ret->category)
+    dst->category = strdup(category);
+    if (!dst->category)
     {
-      free(ret->title);
-      free(ret);
-      return (NULL);
+      free(dst->title);
+      return (1);
     }
   }
   else
-    ret->category = NULL;
-  ret->id = id;
-  ret->authid = authid;
-  ret->code = code;
-  ret->title = title;
-  return (ret);
+    dst->category = NULL;
+  dst->id = id;
+  dst->authid = authid;
+  dst->code = code;
+  dst->title = title;
+  return (0);
 }
 
 int song_delete(t_song* song, bool free_struct)

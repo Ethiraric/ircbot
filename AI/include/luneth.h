@@ -15,6 +15,7 @@
 #include "config.h"
 #include "database.h"
 #include "ircbot.h"
+#include "span.h"
 #include <time.h>
 
 // Time between two hint reveal
@@ -45,7 +46,7 @@ typedef struct s_luneth
   t_config config;   // Various configuration options (c.f. config.h)
   bool speaks;       // Controls whether the bot is allowed to speak
   t_mapstring* cmds; // Bot commands. Automatic responses
-  t_vector* songs;   // Cache of the songs in database
+  t_span songs;      // Cache of the songs in database
 } t_luneth;
 
 /* Miscellaneous useful commands */

@@ -23,6 +23,7 @@ void* irc_data_get(int argc, char** argv)
   if (!ret)
     return (NULL);
   memset(ret, 0, sizeof(t_luneth));
+  span_init(&ret->songs, sizeof(t_song));
 
   // Load configuration
   config_init(&ret->config);
@@ -45,8 +46,7 @@ void* irc_data_get(int argc, char** argv)
 
   // Load commands and songs
   ret->cmds = database_load_all_cmds(ret->db);
-  ret->songs = database_load_all_songs(ret->db);
-  if (!ret->cmds || !ret->cmds)
+  if (!ret->cmds || database_load_all_songs(&ret->songs, ret->db))
   {
     irc_data_delete(ret);
     return (NULL);
@@ -74,11 +74,6 @@ static int callback_mapstring_delete_cmd(const t_string* key, void* value)
   return (0);
 }
 
-static void callback_vector_delete_song(void* value)
-{
-  song_delete((t_song*)(value), true);
-}
-
 void irc_data_delete(void* pluneth)
 {
   t_luneth* luneth;
@@ -93,12 +88,13 @@ void irc_data_delete(void* pluneth)
   {
     mapstring_foreach(luneth->cmds, &callback_mapstring_delete_cmd);
     mapstring_delete(luneth->cmds);
+    free(luneth->cmds);
   }
-  if (luneth->songs)
-  {
-    vector_foreach(luneth->songs, &callback_vector_delete_song);
-    vector_delete(luneth->songs, true);
-  }
+
+  unsigned int const nsongs = span_size(&luneth->songs);
+  for (unsigned int i = 0; i < nsongs; ++i)
+    song_delete(span_at(&luneth->songs, i), false);
+  span_destruct(&luneth->songs);
   free(luneth);
 }
 
