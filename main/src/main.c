@@ -16,18 +16,14 @@
 #include <time.h>
 
 // Initializes the bot
-// select()'s timeout is set to 0.1 second by default
 static int init(t_bot* bot, int argc, char** argv)
 {
   memset(bot, 0, sizeof(t_bot));
-  bot->timeref.tv_sec = 0;
-  bot->timeref.tv_usec = 100000; // 0.1sec
   bot->timeptr = &(bot->timeout);
   vector_new(&bot->conns);
   bot->net.fdmax = 1;
   bot->handler_fct = &handler_fct_none;
   bot->handler_input_fct = &handler_input_fct_none;
-  bot->handler_nothing_fct = &handler_nothing_none;
   bot->argc = argc;
   bot->argv = argv;
   return (0);

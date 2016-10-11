@@ -1,16 +1,8 @@
-/*
-** select.c for  in /home/sabour_f/rendu/ircbot/main/src
-**
-** Made by Florian SABOURIN
-** Login   <sabour_f@epitech.net>
-**
-** Started on  Fri Apr 24 22:50:35 2015 Florian SABOURIN
-** Last update Fri Apr 24 22:50:36 2015 Florian SABOURIN
-*/
-
-#include "ircbot.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
+#include "ircbot.h"
 
 static int handle_stdin(t_bot* bot)
 {
@@ -123,22 +115,37 @@ static void set_fds(t_bot* bot)
   }
 }
 
+static void set_timeout(t_bot* bot)
+{
+  if (!bot->tasklist)
+    bot->timeptr = NULL;
+  else
+  {
+    time_t now = time(NULL);
+
+    bot->timeptr = &bot->timeout;
+    if (now < bot->tasklist->time)
+      bot->timeout.tv_sec = bot->tasklist->time - now;
+    else
+      bot->timeout.tv_sec = 0;
+  }
+}
+
 int bot_select(t_bot* bot)
 {
   int ret;
 
   set_fds(bot);
-  bot->timeout = bot->timeref;
+  set_timeout(bot);
   ret = select(
       bot->net.fdmax, &bot->net.rfds, &bot->net.wfds, NULL, bot->timeptr);
-  if (ret == -1 || handle_select(bot) ||
-      bot->handler_nothing_fct(bot, bot->handler_data))
-    return (1);
+  if (ret == -1 || handle_select(bot))
+    return 1;
   if (bot->so_name)
   {
     loadAI(bot, bot->so_name);
     free(bot->so_name);
     bot->so_name = NULL;
   }
-  return (0);
+  return tasklist_call_and_discard(&bot->tasklist, 0);
 }

@@ -1,17 +1,8 @@
-/*
-** luneth.c for  in /home/sabour_f/rendu/ircbot/AI/src
-**
-** Made by Florian SABOURIN
-** Login   <sabour_f@epitech.net>
-**
-** Started on  Tue Apr 28 09:25:14 2015 Florian SABOURIN
-** Last update Tue Apr 28 09:25:14 2015 Florian SABOURIN
-*/
-
-#include "luneth.h"
 #include <curl/curl.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "luneth.h"
 
 void* irc_data_get(int argc, char** argv)
 {
@@ -95,11 +86,13 @@ void irc_data_delete(void* pluneth)
   for (unsigned int i = 0; i < nsongs; ++i)
     song_delete(span_at(&luneth->songs, i), false);
   span_destruct(&luneth->songs);
+
   free(luneth);
 }
 
 int irc_nothing(t_bot* bot, void* pluneth)
 {
   (void)(bot);
-  return (pkq_check_hint(pluneth));
+  (void)(pluneth);
+  return 0;
 }

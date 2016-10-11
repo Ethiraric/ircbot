@@ -15,11 +15,12 @@ include_directories(../libIRC/include)
 
 #sources files
 set(SRCS
-  src/main.c
+  src/AI.c
   src/botutils.c
+  src/main.c
+  src/scheduler.c
   src/select.c
   src/vector.c
-  src/AI.c
 )
 
 #binary

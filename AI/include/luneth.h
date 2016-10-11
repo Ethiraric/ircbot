@@ -11,12 +11,13 @@
 #ifndef LUNETH_H_
 #define LUNETH_H_
 
+#include <time.h>
+
 #include "Pokemon.h"
 #include "config.h"
 #include "database.h"
 #include "ircbot.h"
 #include "span.h"
-#include <time.h>
 
 // Time between two hint reveal
 #define HINT_DELAY 15
@@ -99,8 +100,8 @@ int command_self_command(t_bot* bot, t_ircconnection* co, t_luneth* luneth);
 
 /* pokemon quizz */
 void pkq_terminate(t_luneth* luneth);
-int pkq_check_hint(t_luneth* luneth);
-int pkq_check_ans(t_luneth* luneth, t_ircconnection* co);
+int pkq_next_hint(void* pbot, time_t now);
+int pkq_check_ans(t_bot* bot, t_luneth* luneth, t_ircconnection* co);
 /* question getters */
 int pkq_pfrname(t_luneth* luneth);
 int pkq_penname(t_luneth* luneth);

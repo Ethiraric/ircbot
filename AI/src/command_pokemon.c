@@ -1,16 +1,7 @@
-/*
-** command_pokemon.c for  in /home/sabour_f/rendu/ircbot/AI/src
-**
-** Made by Florian SABOURIN
-** Login   <sabour_f@epitech.net>
-**
-** Started on  Tue May 12 13:48:11 2015 Florian SABOURIN
-** Last update Tue May 12 13:48:11 2015 Florian SABOURIN
-*/
-
-#include "luneth.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "luneth.h"
 
 void pkq_terminate(t_luneth* luneth)
 {
@@ -60,29 +51,30 @@ static int pkq_reveal_hint(t_luneth* luneth)
   return (pkq_show_hint(luneth));
 }
 
-int pkq_check_hint(t_luneth* luneth)
+int pkq_next_hint(void* pbot, time_t now)
 {
-  time_t now;
   int ret;
+  t_bot* bot;
+  t_luneth* luneth;
 
+  bot = (t_bot*)(pbot);
+  luneth = (t_luneth*)(bot->handler_data);
   if (!luneth->pk.on)
-    return (0);
-  now = time(NULL);
-  if (now >= luneth->pk.next_hint)
+    return 0;
+  if (pkq_reveal_hint(luneth))
   {
-    if (pkq_reveal_hint(luneth))
-    {
-      ret = luneth_msg(luneth->pk.co,
-                       luneth,
-                       luneth->pk.chan,
-                       "Terminating pokemon quizz due to inactivity");
-      pkq_terminate(luneth);
-      return (ret);
-    }
-    luneth->pk.next_hint = now + HINT_DELAY;
+    ret = luneth_msg(luneth->pk.co,
+                     luneth,
+                    luneth->pk.chan,
+                     "Terminating pokemon quizz due to inactivity");
+    pkq_terminate(luneth);
+    return (ret);
   }
-  return (0);
+  if (tasklist_insert(&bot->tasklist, pbot, &pkq_next_hint, now + HINT_DELAY))
+    return 1;
+  return 0;
 }
+
 
 static int (*const quizz_fct[])(t_luneth* luneth) = {&pkq_pfrname,
                                                      &pkq_penname,
@@ -92,7 +84,7 @@ static int (*const quizz_fct[])(t_luneth* luneth) = {&pkq_pfrname,
                                                      &pkq_atype,
                                                      &pkq_frnum};
 
-static int pkq_get_question(t_luneth* luneth)
+static int pkq_get_question(t_bot* bot, t_luneth* luneth)
 {
   unsigned int num;
 
@@ -100,22 +92,23 @@ static int pkq_get_question(t_luneth* luneth)
   if (quizz_fct[num](luneth))
     return (1);
   luneth->pk.hint = strdup(luneth->pk.ans);
-  if (luneth->pk.hint)
+  if (!luneth->pk.hint ||
+      tasklist_insert(
+          &bot->tasklist, bot, &pkq_next_hint, time(NULL) + HINT_DELAY))
   {
-    memset(luneth->pk.hint, '*', strlen(luneth->pk.ans));
-    luneth->pk.next_hint = time(NULL) + HINT_DELAY;
-    return (0);
+    pkq_terminate(luneth);
+    return (1);
   }
-  pkq_terminate(luneth);
-  return (1);
+  memset(luneth->pk.hint, '*', strlen(luneth->pk.ans));
+  return (0);
 }
 
-static int pkq_init(t_luneth* luneth, t_ircconnection* co)
+static int pkq_init(t_bot* bot, t_luneth* luneth, t_ircconnection* co)
 {
   luneth->pk.chan = strdup(co->cmd.args[0]);
   if (!luneth->pk.chan)
     return (1);
-  if (pkq_get_question(luneth))
+  if (pkq_get_question(bot, luneth))
   {
     free(luneth->pk.chan);
     return (1);
@@ -125,7 +118,7 @@ static int pkq_init(t_luneth* luneth, t_ircconnection* co)
   return (0);
 }
 
-int pkq_check_ans(t_luneth* luneth, t_ircconnection* co)
+int pkq_check_ans(t_bot* bot, t_luneth* luneth, t_ircconnection* co)
 {
   if (!luneth->pk.on || co != luneth->pk.co ||
       strcmp(co->cmd.args[0], luneth->pk.chan))
@@ -146,7 +139,7 @@ int pkq_check_ans(t_luneth* luneth, t_ircconnection* co)
     luneth->pk.ans2 = NULL;
     free(luneth->pk.hint);
     free(luneth->pk.question);
-    if (pkq_get_question(luneth) || pkq_show_question(luneth))
+    if (pkq_get_question(bot, luneth) || pkq_show_question(luneth))
       return (1);
     if (database_add_score(luneth->db,
                            co->cmd.prefixnick,
@@ -158,15 +151,13 @@ int pkq_check_ans(t_luneth* luneth, t_ircconnection* co)
   return (0);
 }
 
-/*
-** Commands
-*/
+// Commands
 
-static int pokemon_on(t_ircconnection* co, t_luneth* luneth)
+static int pokemon_on(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
   if (luneth->pk.on)
     return (luneth_respond_msg(co, luneth, "Pokemon quizz is already on"));
-  if (pkq_init(luneth, co))
+  if (pkq_init(bot, luneth, co))
     return (luneth_respond_msg(co, luneth, "Failed to init pokemon quizz"));
   return (pkq_show_question(luneth));
 }
@@ -192,12 +183,11 @@ int command_pokemon(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
 {
   char* command;
 
-  (void)(bot);
   command = strtok(NULL, " ");
   if (!command || strtok(NULL, " "))
     return (0);
   if (!strcasecmp(command, "on") || !strcasecmp(command, "go"))
-    return (pokemon_on(co, luneth));
+    return (pokemon_on(bot, co, luneth));
   if (!strcasecmp(command, "off") || !strcasecmp(command, "tg"))
     return (pokemon_off(co, luneth));
   if (!strcasecmp(command, "help"))
