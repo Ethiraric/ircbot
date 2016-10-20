@@ -17,17 +17,19 @@ include_directories(../libIRC/include)
 set(SRCS
   src/AI.c
   src/botutils.c
-  src/main.c
   src/scheduler.c
   src/select.c
   src/vector.c
 )
 
 #binary
-add_executable(IRCBot ${SRCS})
+add_library(IRCBotlib STATIC ${SRCS})
+add_executable(IRCBot src/main.c)
 
 #linking
-target_link_libraries(IRCBot IRC dl)
+target_link_libraries(IRCBot IRCBotlib IRC dl)
 
 set_property(TARGET IRCBot PROPERTY C_STANDARD 99)
 set_property(TARGET IRCBot PROPERTY C_STANDARD_REQUIRED ON)
+set_property(TARGET IRCBotlib PROPERTY C_STANDARD 99)
+set_property(TARGET IRCBotlib PROPERTY C_STANDARD_REQUIRED ON)

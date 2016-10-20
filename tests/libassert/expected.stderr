@@ -1,0 +1,8 @@
+assert.c:assert_run_test:71: assertion test_function() == expected_return_value failed
+test.c:bad_function:22: assertion 1 == 2 failed
+test.c:everything_wrong:55: assertion 2 == 3 failed
+file:function:42: assertion expr failed
+yolo
+
+test.c:bad_function:22: assertion 1 == 2 failed
+test.c:bad_function:22: assertion 1 == 2 failed

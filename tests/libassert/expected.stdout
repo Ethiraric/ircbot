@@ -1,0 +1,19 @@
+Testing: good_function
+Test passed: good_function
+
+Testing: good_function_fails
+Test failed: good_function_fails
+
+Testing: bad_function
+Test failed: bad_function
+
+Failed as expected
+
+Failed as expected
+
+
+Testing good
+Passed
+
+Testing bad
+Failed
