@@ -15,13 +15,12 @@ int command_ping(t_bot* bot, t_ircconnection* co, t_luneth* luneth)
   char* msg;
 
   (void)(bot);
-  (void)(luneth);
   msg = strtok(NULL, "");
   if (msg)
   {
     msg += strspn(msg, " ");
     if (*msg)
-      return (luneth_respond_msgf(co, luneth, co->cmd.prefixnick, msg));
+      return (luneth_respond_msgf(co, luneth, "%s %s", co->cmd.prefixnick, msg));
   }
   return (luneth_respond_msgf(co, luneth, "%s", co->cmd.prefixnick));
 }
