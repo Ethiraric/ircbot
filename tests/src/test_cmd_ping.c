@@ -12,7 +12,6 @@ typedef struct
   char const* testname;
   char const* command;
   char const* expected;
-  bool speaks;
 } test_contents;
 
 // Users in chan #channel
@@ -34,25 +33,21 @@ static test_contents const tests_set[] = {
     {&fake_co_data,
      "Ping in channel",
      ":nick!user@host PRIVMSG #channel :ping",
-     "PRIVMSG #channel :nick\r\n",
-     true},
+     "PRIVMSG #channel :nick\r\n"},
     {&fake_co_data,
      "Ping by PM",
      ":nick!user@host PRIVMSG Llyud :ping",
-     "PRIVMSG nick :nick\r\n",
-     true},
+     "PRIVMSG nick :nick\r\n"},
     {&fake_co_data,
      "Ping in channel with arg",
      ":xXxnick33xXx!user@host PRIVMSG #channel :ping "
      "with message",
      "PRIVMSG #channel :xXxnick33xXx with "
-     "message\r\n",
-     true},
+     "message\r\n"},
     {&fake_co_data,
      "Ping by PM with arg",
      ":thisisme!user@host PRIVMSG Llyud :ping plop",
-     "PRIVMSG thisisme :thisisme plop\r\n",
-     true},
+     "PRIVMSG thisisme :thisisme plop\r\n"},
 };
 
 static int do_test(test_contents const* contents)
@@ -62,7 +57,7 @@ static int do_test(test_contents const* contents)
   t_luneth luneth;
 
   printf("Running test '%s'.\n", contents->testname);
-  luneth.speaks = contents->speaks;
+  luneth.speaks = true;
   if (get_fake_connection(&co, contents->codata))
   {
     fprintf(stderr, "Error: Failed to setup fake connection.\n");
