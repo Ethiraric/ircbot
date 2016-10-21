@@ -51,20 +51,20 @@ typedef struct s_luneth
 } t_luneth;
 
 /* Miscellaneous useful commands */
-char* youtube_title(const char* code);
+char* youtube_title(char const* code);
 int luneth_msg(t_ircconnection* co,
                t_luneth* luneth,
-               const char* dst,
-               const char* msg);
+               char const* dst,
+               char const* msg);
 int luneth_msgf(t_ircconnection* co,
                 t_luneth* luneth,
-                const char* dst,
-                const char* fmt,
+                char const* dst,
+                char const* fmt,
                 ...);
-int luneth_respond_msg(t_ircconnection* co, t_luneth* luneth, const char* msg);
+int luneth_respond_msg(t_ircconnection* co, t_luneth* luneth, char const* msg);
 int luneth_respond_msgf(t_ircconnection* co,
                         t_luneth* luneth,
-                        const char* fmt,
+                        char const* fmt,
                         ...);
 
 /* executable callbacks */

@@ -56,72 +56,72 @@ typedef struct s_db
   sqlite3* handler;
 } t_db;
 
-t_db* database_new(const char* filename);
+t_db* database_new(char const* filename);
 void database_delete(t_db* db);
 
 // Helper database functions
-char* database_escape_quotes(const char* in);
-t_mapstring* database_select_exec(t_db* db, const char* statement);
+char* database_escape_quotes(char const* in);
+t_mapstring* database_select_exec(t_db* db, char const* statement);
 int database_select_free_res(t_mapstring* map);
 int database_callback_nothing(void*, int, char**, char**);
 
 // People
-t_people* database_get_ppl_fromnickchan(t_db* db, const char* nick, t_id chan);
-t_id database_insert_ppl(t_db* db, const char* nick, t_id chan);
+t_people* database_get_ppl_fromnickchan(t_db* db, char const* nick, t_id chan);
+t_id database_insert_ppl(t_db* db, char const* nick, t_id chan);
 t_people* database_ppl_fromid(t_db* db, t_id id);
 int database_add_score(t_db* db,
-                       const char* nickname,
-                       const char* channel,
-                       const char* server,
+                       char const* nickname,
+                       char const* channel,
+                       char const* server,
                        int modif);
 
 // Channel
 t_chan* database_get_chan_fromchanserv(t_db* db,
-                                       const char* serv,
-                                       const char* chan);
-t_id database_insert_chan(t_db* db, const char* serv, const char* chan);
+                                       char const* serv,
+                                       char const* chan);
+t_id database_insert_chan(t_db* db, char const* serv, char const* chan);
 
 // Song
-t_song* database_get_song_fromcode(t_db* db, const char* code);
+t_song* database_get_song_fromcode(t_db* db, char const* code);
 t_id database_insert_song(t_db* db,
-                          const char* code,
-                          const char* categ,
+                          char const* code,
+                          char const* categ,
                           t_id auth);
 t_song* database_get_song_fromid(t_db* db, unsigned int id);
 t_song* database_select_random_song(t_db* db);
-t_song* database_select_random_songcateg(t_db* db, const char* categ);
-int database_edit_category(t_db* db, const char* code, const char* categ);
-int database_edit_title(t_db* db, const char* code, const char* title);
-t_vector* database_search_song(t_db* db, const char* pattern);
+t_song* database_select_random_songcateg(t_db* db, char const* categ);
+int database_edit_category(t_db* db, char const* code, char const* categ);
+int database_edit_title(t_db* db, char const* code, char const* title);
+t_vector* database_search_song(t_db* db, char const* pattern);
 int database_load_all_songs(t_span* dst, t_db* db);
 
 // Message
 t_id database_insert_msg(t_db* db,
-                         const char* nick,
-                         const char* chan,
-                         const char* serv,
-                         const char* msg);
+                         char const* nick,
+                         char const* chan,
+                         char const* serv,
+                         char const* msg);
 
 // Commands
-bool database_is_command(t_db* db, const char* cmd);
-t_id database_insert_command(t_db* db, const char* cmd, const char* text);
-t_cmd* database_get_cmd(t_db* db, const char* cmd);
-int database_rm_cmd(t_db* db, const char* cmd);
+bool database_is_command(t_db* db, char const* cmd);
+t_id database_insert_command(t_db* db, char const* cmd, char const* text);
+t_cmd* database_get_cmd(t_db* db, char const* cmd);
+int database_rm_cmd(t_db* db, char const* cmd);
 t_mapstring* database_load_all_cmds(t_db* db);
 
 // Say
-t_id database_insert_say(t_db* db, t_id auth, t_id dest, const char* text);
+t_id database_insert_say(t_db* db, t_id auth, t_id dest, char const* text);
 t_vector* database_get_say(t_db* db, t_id dest);
 t_say* database_say_fromid(t_db* db, t_id id);
 int database_rm_say(t_db* db, t_id id);
 
 // DB helpers
 t_id database_pplid(t_db* db,
-                    const char* nick,
-                    const char* serv,
-                    const char* chan);
-t_id database_chanid(t_db* db, const char* serv, const char* chan);
-t_people* database_get_song_auth(t_db* db, const char* code);
+                    char const* nick,
+                    char const* serv,
+                    char const* chan);
+t_id database_chanid(t_db* db, char const* serv, char const* chan);
+t_people* database_get_song_auth(t_db* db, char const* code);
 t_vector* database_list_categories(t_db* db);
 
 #endif /* DATABASE_H_ */
